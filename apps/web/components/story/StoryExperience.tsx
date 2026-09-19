@@ -6,10 +6,10 @@ import {
   useEffect,
   useRef,
   useState,
-  type ReactNode,
 } from "react";
 import {
   motion,
+  AnimatePresence,
   useScroll,
   useSpring,
   useTransform,
@@ -23,6 +23,7 @@ import { useReducedMotion } from "@/lib/prefs";
 import { motionTokens } from "@/lib/motion";
 import { MetricCounter } from "./MetricCounter";
 import { StoryProgressRail } from "./StoryProgressRail";
+import { ActBanner, ClipReveal, StaggerBlock } from "./ScrollScene";
 import {
   ANSWER_PILLARS,
   BREAKS,
@@ -32,45 +33,6 @@ import {
   STORY_SECTIONS,
   type StorySectionId,
 } from "./story-copy";
-
-function SectionReveal({
-  children,
-  reduced,
-  className,
-  delay = 0,
-}: {
-  children: ReactNode;
-  reduced: boolean;
-  className?: string;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.25 });
-
-  if (reduced) {
-    return (
-      <div ref={ref} className={className}>
-        {children}
-      </div>
-    );
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      className={className}
-      initial={{ opacity: 0, y: 18 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-      transition={{
-        duration: motionTokens.duration.slow,
-        ease: motionTokens.ease.out,
-        delay,
-      }}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 export function StoryExperience() {
   const reduced = useReducedMotion();
@@ -114,6 +76,11 @@ export function StoryExperience() {
     [0, 0.2, 0.4, 0.6, 0.8, 1],
     [0, 1, 2, 3, 4, 4],
   );
+  const frameOpacity = useTransform(
+    howProgress,
+    [0, 0.08, 0.92, 1],
+    [0.85, 1, 1, 0.9],
+  );
   const [frame, setFrame] = useState(0);
   useEffect(() => {
     const unsub = frameIndex.on("change", (v) => setFrame(Math.round(v)));
@@ -141,7 +108,6 @@ export function StoryExperience() {
     [reduced],
   );
 
-  // Keyboard ←/→ when how-teams section is in view
   useEffect(() => {
     if (!howInView) return;
     const onKey = (e: KeyboardEvent) => {
@@ -217,99 +183,103 @@ export function StoryExperience() {
         onJump={jump}
       />
 
-      {/* 1 · Hero */}
+      {/* ——— ACT I · Blind spot ——— */}
       <section
         id="story-hero"
-        className="relative flex min-h-[min(88vh,900px)] flex-col justify-center overflow-hidden px-6 pb-16 pt-14 md:px-10 lg:px-16"
+        className="relative flex min-h-[min(92vh,960px)] flex-col justify-center overflow-hidden px-6 pb-20 pt-16 md:px-10 lg:px-16"
       >
-        <div className="tb-grid-atmosphere opacity-25" aria-hidden />
-        <SectionReveal
-          reduced={reduced}
-          className="relative z-[1] mx-auto grid w-full max-w-[1100px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center"
-        >
+        <div className="tb-grid-atmosphere opacity-[0.22]" aria-hidden />
+        <div className="relative z-[1] mx-auto grid w-full max-w-[1100px] gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <div className="mb-3 flex flex-wrap items-center gap-2">
+            <ActBanner act="Act I" title="Blind spot" reduced={reduced} />
+            <div className="mb-4 flex flex-wrap items-center gap-2">
               <p className="tb-section-label m-0">Business story</p>
               <Badge tone="accent">HITL · evals · audit</Badge>
             </div>
-            <h1 className="tb-display mb-4 mt-2 max-w-[820px] text-[clamp(34px,5.5vw,58px)] text-tb-text">
-              Ship agents that touch money — without flying blind.
-            </h1>
-            <p className="mb-3 max-w-[560px] text-[16px] leading-relaxed text-tb-text-muted">
-              Tracebench is the HITL control plane for tool-calling agents: timeline, risk-tiered
-              approvals, audit, cost, and eval gates. Chat is secondary. Governance is the product.
-            </p>
-            <p className="mb-6 text-[13px] text-tb-text-dim tabular-nums">
-              Demo Mode · zero API keys · risk-tiered gates · mock-jev release gate
-            </p>
-            <div className="mb-6 flex flex-wrap gap-3">
-              <MagneticCta>
-                <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
-                  <Button variant="primary" size="lg" data-testid="story-hero-demo">
-                    Open Demo Mode
+            <ClipReveal reduced={reduced}>
+              <h1 className="tb-display mb-0 max-w-[820px] text-[clamp(34px,5.5vw,58px)] text-tb-text">
+                Ship agents that touch money — without flying blind.
+              </h1>
+            </ClipReveal>
+            <StaggerBlock reduced={reduced} delay={0.08} className="mt-5">
+              <p className="mb-3 max-w-[560px] text-[16px] leading-relaxed text-tb-text-muted">
+                Tracebench is the HITL control plane for tool-calling agents: timeline, risk-tiered
+                approvals, audit, cost, and eval gates. Chat is secondary. Governance is the product.
+              </p>
+              <p className="mb-6 text-[13px] text-tb-text-dim tabular-nums">
+                Demo Mode · zero API keys · risk-tiered gates · mock-jev release gate
+              </p>
+              <div className="mb-6 flex flex-wrap gap-3">
+                <MagneticCta>
+                  <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
+                    <Button variant="primary" size="lg" data-testid="story-hero-demo">
+                      Open Demo Mode
+                    </Button>
+                  </Link>
+                </MagneticCta>
+                <button
+                  type="button"
+                  onClick={() => jump("blind-spot")}
+                  className="tb-interactive rounded-md border border-tb-border bg-tb-bg-elevated px-4 py-2.5 text-sm font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
+                >
+                  Read the story ↓
+                </button>
+                <Link href="/evals" className="no-underline hover:no-underline">
+                  <Button variant="ghost" size="lg">
+                    Eval gate
                   </Button>
                 </Link>
-              </MagneticCta>
-              <button
-                type="button"
-                onClick={() => jump("blind-spot")}
-                className="tb-interactive rounded-md border border-tb-border bg-tb-bg-elevated px-4 py-2.5 text-sm font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
-              >
-                Read the story ↓
-              </button>
-              <Link href="/evals" className="no-underline hover:no-underline">
-                <Button variant="ghost" size="lg">
-                  Eval gate
-                </Button>
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-2" aria-label="Proof">
-              {[
-                ["Timeline", "shape-of-run"],
-                ["HITL", "risk gates"],
-                ["Evals", "pre-ship"],
-              ].map(([k, v]) => (
-                <span
-                  key={k}
-                  className="inline-flex items-center gap-1.5 rounded-md border border-tb-border/80 bg-tb-bg-elevated/70 px-2.5 py-1 text-[12px] text-tb-text-muted"
-                >
-                  <span className="font-medium text-tb-text">{k}</span>
-                  <span className="text-tb-text-dim">·</span>
-                  <span>{v}</span>
-                </span>
-              ))}
-            </div>
+              </div>
+              <div className="flex flex-wrap gap-2" aria-label="Proof">
+                {[
+                  ["Timeline", "shape-of-run"],
+                  ["HITL", "risk gates"],
+                  ["Evals", "pre-ship"],
+                ].map(([k, v]) => (
+                  <span
+                    key={k}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-tb-border bg-tb-bg-elevated/80 px-2.5 py-1 text-[12px] text-tb-text-muted"
+                  >
+                    <span className="font-medium text-tb-text">{k}</span>
+                    <span className="text-tb-text-dim">·</span>
+                    <span>{v}</span>
+                  </span>
+                ))}
+              </div>
+            </StaggerBlock>
           </div>
-          <div>
+          <StaggerBlock reduced={reduced} delay={0.12}>
+            {/* CPA auto-assembles — NEVER driven by page scroll (bug 5c9593a) */}
             <ControlPlaneAssembly interactive />
             <p className="mt-2 text-[12px] text-tb-text-dim">
               Click layers to inspect roles — Replay re-runs the assemble.
             </p>
-          </div>
-        </SectionReveal>
+          </StaggerBlock>
+        </div>
       </section>
 
-      {/* 2 · Blind spot */}
       <section
         id="story-blind-spot"
-        className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
+        className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
-        <SectionReveal
+        <StaggerBlock
           reduced={reduced}
           className="mx-auto grid max-w-[980px] gap-10 md:grid-cols-[1.1fr_0.9fr]"
         >
           <div>
             <p className="tb-section-label m-0">01 · The blind spot</p>
-            <h2 className="mt-3 tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
-              Agents already touch money and config. Most teams still lack a control room.
-            </h2>
+            <ClipReveal reduced={reduced} delay={0.04}>
+              <h2 className="mt-3 tb-display-sm text-tb-text">
+                Agents already touch money and config. Most teams still lack a control room.
+              </h2>
+            </ClipReveal>
             <p className="mt-4 text-[15px] leading-relaxed text-tb-text-muted">
               Ops agents draft emails, move funds, deploy configs, and fan out into nested workers.
               The interface they get is usually a chat transcript — not a place to pause, approve,
               measure burn, or prove what happened.
             </p>
           </div>
-          <Card padding={20} className="border-tb-border/80 bg-tb-bg-elevated/60">
+          <Card padding={20} className="border-tb-border bg-tb-bg-elevated/70">
             <div className="mb-3 flex items-center gap-2">
               <Badge tone="danger">ungoverned</Badge>
               <span className="text-[11px] tracking-tight text-tb-text-dim">without a plane</span>
@@ -326,29 +296,30 @@ export function StoryExperience() {
               </li>
             </ul>
           </Card>
-        </SectionReveal>
+        </StaggerBlock>
       </section>
 
-      {/* 3 · What breaks — interactive select */}
       <section
         id="story-what-breaks"
-        className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
+        className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
-          <SectionReveal reduced={reduced}>
+          <StaggerBlock reduced={reduced}>
             <p className="tb-section-label m-0">02 · What breaks</p>
-            <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
-              The cost of ungoverned agents is not theoretical.
-            </h2>
+            <ClipReveal reduced={reduced} delay={0.04}>
+              <h2 className="mt-3 max-w-[640px] tb-display-sm text-tb-text">
+                The cost of ungoverned agents is not theoretical.
+              </h2>
+            </ClipReveal>
             <p className="mt-2 text-[13px] text-tb-text-dim">
               Select a failure mode to see how Tracebench answers it.
             </p>
-          </SectionReveal>
+          </StaggerBlock>
           <div className="mt-10 grid gap-3 sm:grid-cols-2" data-testid="story-breaks">
             {BREAKS.map((b, i) => {
               const open = activeBreak === b.id;
               return (
-                <SectionReveal key={b.id} reduced={reduced} delay={reduced ? 0 : i * 0.05}>
+                <StaggerBlock key={b.id} reduced={reduced} delay={reduced ? 0 : i * 0.05}>
                   <div
                     role="button"
                     tabIndex={0}
@@ -365,11 +336,11 @@ export function StoryExperience() {
                       "h-full w-full cursor-pointer rounded-md border p-[18px] text-left outline-none transition-[border-color,background-color,transform] duration-150",
                       open
                         ? "border-tb-accent/50 bg-tb-accent-soft/20"
-                        : "border-tb-border/80 bg-tb-bg-elevated hover:border-tb-border-strong hover:bg-tb-bg-hover",
+                        : "border-tb-border bg-tb-bg-elevated hover:border-tb-border-strong hover:bg-tb-bg-hover",
                       !reduced && "hover:-translate-y-0.5",
                     )}
                   >
-                    <h3 className="m-0 text-[15px] font-semibold">{b.title}</h3>
+                    <h3 className="m-0 text-[15px] font-semibold tracking-tight">{b.title}</h3>
                     <p className="mb-0 mt-2 text-[13px] leading-relaxed text-tb-text-muted">
                       {b.body}
                     </p>
@@ -394,24 +365,27 @@ export function StoryExperience() {
                       </div>
                     </div>
                   </div>
-                </SectionReveal>
+                </StaggerBlock>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* 4 · Answer — interactive pillars */}
+      {/* ——— ACT II · Answer ——— */}
       <section
         id="story-answer"
-        className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
+        className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
-          <SectionReveal reduced={reduced}>
+          <ActBanner act="Act II" title="The answer" reduced={reduced} />
+          <StaggerBlock reduced={reduced}>
             <p className="tb-section-label m-0 text-tb-accent">03 · The Tracebench answer</p>
-            <h2 className="mt-3 max-w-[720px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
-              A control plane — not another chat wrapper.
-            </h2>
+            <ClipReveal reduced={reduced} delay={0.04}>
+              <h2 className="mt-3 max-w-[720px] tb-display-sm text-tb-text">
+                A control plane — not another chat wrapper.
+              </h2>
+            </ClipReveal>
             <p className="mt-4 max-w-[560px] text-[15px] leading-relaxed text-tb-text-muted">
               Event log as truth. Jev for risk policy. HITL for irreversible tools. Evals before
               ship. A2A and boards so multi-agent work stays inspectable.
@@ -419,31 +393,31 @@ export function StoryExperience() {
             <p className="mt-2 text-[13px] text-tb-text-dim">
               Select one pillar — only one deep dive at a time.
             </p>
-          </SectionReveal>
+          </StaggerBlock>
           <div
-            className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+            className="mt-10 grid gap-px overflow-hidden rounded-lg border border-tb-border bg-tb-border sm:grid-cols-2 lg:grid-cols-3"
             data-testid="story-pillars"
           >
             {ANSWER_PILLARS.map((p, i) => {
               const open = activePillar === p.id;
               return (
-                <SectionReveal key={p.id} reduced={reduced} delay={reduced ? 0 : i * 0.04}>
+                <StaggerBlock key={p.id} reduced={reduced} delay={reduced ? 0 : i * 0.04}>
                   <button
                     type="button"
                     aria-expanded={open}
                     data-testid={`story-pillar-${p.id}`}
                     onClick={() => setActivePillar(open ? null : p.id)}
                     className={cn(
-                      "flex h-full w-full flex-col border p-4 text-left outline-none transition-colors duration-150",
+                      "flex h-full w-full flex-col p-4 text-left outline-none transition-colors duration-150",
                       open
-                        ? "border-tb-accent/50 bg-tb-accent-soft/15"
-                        : "border-tb-border bg-tb-bg-elevated hover:bg-tb-bg-hover",
+                        ? "bg-tb-accent-soft/20"
+                        : "bg-tb-bg-elevated hover:bg-tb-bg-hover",
                     )}
                   >
                     <div className="mb-2 font-mono text-[11px] text-tb-accent tabular-nums">
                       {String(i + 1).padStart(2, "0")}
                     </div>
-                    <h3 className="m-0 text-[14px] font-semibold">{p.title}</h3>
+                    <h3 className="m-0 text-[14px] font-semibold tracking-tight">{p.title}</h3>
                     <p className="mb-0 mt-2 text-[12px] leading-relaxed text-tb-text-muted">
                       {p.body}
                     </p>
@@ -461,40 +435,41 @@ export function StoryExperience() {
                       </div>
                     </div>
                   </button>
-                </SectionReveal>
+                </StaggerBlock>
               );
             })}
           </div>
-          <SectionReveal reduced={reduced} className="mt-10" delay={reduced ? 0 : 0.08}>
+          <StaggerBlock reduced={reduced} className="mt-10" delay={reduced ? 0 : 0.08}>
             <p className="tb-section-label mb-3">Control plane assembly</p>
             <ControlPlaneAssembly compact interactive />
-          </SectionReveal>
+          </StaggerBlock>
         </div>
       </section>
 
-      {/* 5 · Outcomes — metric definition on focus/hover */}
       <section
         id="story-outcomes"
-        className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
+        className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
-          <SectionReveal reduced={reduced}>
+          <StaggerBlock reduced={reduced}>
             <p className="tb-section-label m-0">04 · Business outcomes</p>
-            <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
-              What governance buys — in numbers teams recognize.
-            </h2>
+            <ClipReveal reduced={reduced} delay={0.04}>
+              <h2 className="mt-3 max-w-[640px] tb-display-sm text-tb-text">
+                What governance buys — in numbers teams recognize.
+              </h2>
+            </ClipReveal>
             <p className="mt-3 text-[13px] text-tb-text-dim" data-testid="story-metrics-footnote">
               * {ILLUSTRATIVE_FOOTNOTE}
             </p>
             <p className="mt-1 text-[13px] text-tb-text-dim">
               Focus or tap a metric to see what it means inside Tracebench.
             </p>
-          </SectionReveal>
+          </StaggerBlock>
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {METRICS.map((m, i) => {
               const open = activeMetric === m.id;
               return (
-                <SectionReveal key={m.id} reduced={reduced} delay={reduced ? 0 : i * 0.05}>
+                <StaggerBlock key={m.id} reduced={reduced} delay={reduced ? 0 : i * 0.05}>
                   <button
                     type="button"
                     aria-expanded={open}
@@ -508,7 +483,7 @@ export function StoryExperience() {
                         : "border-tb-border bg-tb-bg-elevated hover:border-tb-border-strong",
                     )}
                   >
-                    <div className="text-[clamp(28px,4vw,40px)] font-bold tracking-tight text-tb-text">
+                    <div className="text-[clamp(28px,4vw,40px)] font-semibold tracking-tight text-tb-text tabular-nums">
                       <MetricCounter
                         value={m.value}
                         prefix={"prefix" in m ? m.prefix : ""}
@@ -517,7 +492,7 @@ export function StoryExperience() {
                       />
                     </div>
                     <div className="mt-1 font-mono text-[11px] text-tb-accent">{m.range}</div>
-                    <div className="mt-3 text-[14px] font-semibold">{m.label}</div>
+                    <div className="mt-3 text-[14px] font-semibold tracking-tight">{m.label}</div>
                     <p className="mb-0 mt-2 text-[12px] leading-relaxed text-tb-text-muted">
                       {m.detail}
                     </p>
@@ -539,21 +514,24 @@ export function StoryExperience() {
                       Illustrative
                     </p>
                   </button>
-                </SectionReveal>
+                </StaggerBlock>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* 6 · How teams work — sticky + keyboard */}
-      <section id="story-how-teams" ref={howRef} className="relative border-t border-tb-border/60">
+      {/* ——— ACT III · How / Proof / Start ——— */}
+      <section id="story-how-teams" ref={howRef} className="relative border-t border-tb-border">
         <div className="mx-auto max-w-[1100px] px-6 md:px-10 lg:px-16">
           <div className="py-16 md:py-20">
+            <ActBanner act="Act III" title="Outcomes in practice" reduced={reduced} />
             <p className="tb-section-label m-0">05 · How teams work</p>
-            <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
-              Sticky ops loop — copy on the left, product on the right.
-            </h2>
+            <ClipReveal reduced={reduced} delay={0.04}>
+              <h2 className="mt-3 max-w-[640px] tb-display-sm text-tb-text">
+                Sticky ops loop — copy on the left, product on the right.
+              </h2>
+            </ClipReveal>
             <p className="mt-2 text-[13px] text-tb-text-dim">
               Click frames, or use ← → when this chapter is in view. Click the image to open the
               real Demo Mode route.
@@ -568,12 +546,13 @@ export function StoryExperience() {
                 : `calc(100vh + ${Math.max(1, PRODUCT_FRAMES.length - 1) * 70}vh)`,
             }}
           >
-            <div
+            <motion.div
               className={
                 reduced
                   ? "grid grid-cols-2 gap-10 pb-20"
                   : "sticky top-16 grid h-[calc(100vh-5rem)] grid-cols-2 gap-10 pb-8"
               }
+              style={reduced ? undefined : { opacity: frameOpacity }}
             >
               <div className="flex flex-col justify-center pr-4">
                 <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -582,12 +561,25 @@ export function StoryExperience() {
                   </Badge>
                   <span className="text-[11px] text-tb-text-dim">← → to scrub</span>
                 </div>
-                <h3 className="m-0 text-[22px] font-semibold tracking-tight leading-snug">
-                  {PRODUCT_FRAMES[frame]?.chapter}
-                </h3>
-                <p className="mt-4 text-[14px] leading-relaxed text-tb-text-muted">
-                  {PRODUCT_FRAMES[frame]?.caption}
-                </p>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={frame}
+                    initial={reduced ? false : { opacity: 0, y: 10, clipPath: "inset(8% 0 0 0)" }}
+                    animate={{ opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" }}
+                    exit={reduced ? undefined : { opacity: 0, y: -6 }}
+                    transition={{
+                      duration: reduced ? 0 : 0.28,
+                      ease: motionTokens.ease.out,
+                    }}
+                  >
+                    <h3 className="m-0 text-[22px] font-semibold tracking-tight leading-snug">
+                      {PRODUCT_FRAMES[frame]?.chapter}
+                    </h3>
+                    <p className="mt-4 text-[14px] leading-relaxed text-tb-text-muted">
+                      {PRODUCT_FRAMES[frame]?.caption}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
                 <ol className="mt-8 m-0 list-none space-y-2 p-0">
                   {PRODUCT_FRAMES.map((f, i) => (
                     <li key={f.src}>
@@ -595,7 +587,7 @@ export function StoryExperience() {
                         type="button"
                         onClick={() => jumpToFrame(i)}
                         className={cn(
-                          "block w-full rounded-sm border px-3 py-2 text-left text-[12px] transition-colors",
+                          "block w-full rounded-sm border px-3 py-2 text-left text-[12px] transition-colors duration-150",
                           i === frame
                             ? "border-tb-accent/50 bg-tb-accent-soft text-tb-text"
                             : "border-transparent text-tb-text-dim hover:border-tb-border hover:text-tb-text-muted",
@@ -635,14 +627,14 @@ export function StoryExperience() {
                   onOpen={() => setLightbox(PRODUCT_FRAMES[frame]!)}
                 />
               </div>
-            </div>
+            </motion.div>
             {!reduced && <div aria-hidden className="h-px" />}
           </div>
 
           <div className="flex flex-col gap-10 pb-20 md:hidden">
             {PRODUCT_FRAMES.map((f) => (
               <div key={f.src}>
-                <h3 className="m-0 text-[18px] font-semibold">{f.chapter}</h3>
+                <h3 className="m-0 text-[18px] font-semibold tracking-tight">{f.chapter}</h3>
                 <p className="mt-2 text-[13px] text-tb-text-muted">{f.caption}</p>
                 <div className="mt-4">
                   <ProductFrame frame={f} reduced onOpen={() => setLightbox(f)} />
@@ -653,20 +645,21 @@ export function StoryExperience() {
         </div>
       </section>
 
-      {/* 7 · Proof */}
       <section
         id="story-proof"
-        className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
+        className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
-        <SectionReveal
+        <StaggerBlock
           reduced={reduced}
           className="mx-auto flex max-w-[980px] flex-col gap-8 md:flex-row md:items-center md:justify-between"
         >
           <div className="max-w-[520px]">
             <p className="tb-section-label m-0 text-tb-success">06 · Proof strip</p>
-            <h2 className="mt-3 tb-display text-[clamp(24px,3.5vw,34px)] text-tb-text">
-              Demo Mode. Zero keys. Fixtures that fail honestly.
-            </h2>
+            <ClipReveal reduced={reduced} delay={0.04}>
+              <h2 className="mt-3 tb-display-sm text-tb-text">
+                Demo Mode. Zero keys. Fixtures that fail honestly.
+              </h2>
+            </ClipReveal>
             <p className="mt-4 text-[15px] leading-relaxed text-tb-text-muted">
               Defaults are <code className="font-mono text-[13px] text-tb-accent">fixture</code>{" "}
               transport + <code className="font-mono text-[13px] text-tb-accent">mock-jev</code>.
@@ -687,22 +680,23 @@ export function StoryExperience() {
               90s click path →
             </Link>
           </Card>
-        </SectionReveal>
+        </StaggerBlock>
       </section>
 
-      {/* 8 · Start (CTA chapter — must feel dense, not empty) */}
       <section
         id="story-cta"
-        className="relative overflow-hidden border-t border-tb-border/60 px-6 pb-16 pt-20 md:px-10 lg:px-16"
+        className="relative overflow-hidden border-t border-tb-border px-6 pb-16 pt-20 md:px-10 lg:px-16"
         data-testid="story-start"
       >
         <div className="tb-grid-atmosphere pointer-events-none absolute inset-0 opacity-20" aria-hidden />
-        <SectionReveal reduced={reduced} className="relative z-[1] mx-auto max-w-[1100px]">
+        <StaggerBlock reduced={reduced} className="relative z-[1] mx-auto max-w-[1100px]">
           <div className="mx-auto max-w-[640px] text-center">
             <p className="tb-section-label m-0">07 · Start</p>
-            <h2 className="tb-display mt-3 m-0 text-[clamp(28px,4vw,42px)] text-tb-text">
-              Open the control room.
-            </h2>
+            <ClipReveal reduced={reduced} className="mx-auto">
+              <h2 className="tb-display mt-3 m-0 text-[clamp(28px,4vw,42px)] text-tb-text">
+                Open the control room.
+              </h2>
+            </ClipReveal>
             <p className="mx-auto mt-4 max-w-[520px] text-[15px] leading-relaxed text-tb-text-muted">
               You&apos;ve seen the blind spot, the breaks, and the plane. Pick a door — each one is
               live Demo Mode, no keys.
@@ -725,7 +719,7 @@ export function StoryExperience() {
             </div>
           </div>
 
-          <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-tb-border bg-tb-border sm:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 href: "/runs/run_live_approve",
@@ -760,7 +754,7 @@ export function StoryExperience() {
                 key={card.href + card.title}
                 href={card.href}
                 data-testid={card.testid}
-                className="group flex flex-col rounded-md border border-tb-border bg-tb-bg-elevated/80 p-4 text-left no-underline transition-colors hover:border-tb-border-strong hover:bg-tb-bg-elevated"
+                className="group flex flex-col bg-tb-bg-elevated p-4 text-left no-underline transition-colors hover:bg-tb-bg-hover"
               >
                 <span className="text-[11px] font-medium tracking-tight text-tb-text-dim">
                   {card.kicker}
@@ -798,7 +792,7 @@ export function StoryExperience() {
           <p className="mx-auto mt-8 max-w-[640px] text-center text-[11px] leading-relaxed text-tb-text-dim">
             * {ILLUSTRATIVE_FOOTNOTE}
           </p>
-        </SectionReveal>
+        </StaggerBlock>
       </section>
 
       {lightbox && (
@@ -855,42 +849,50 @@ function ProductFrame({
   onOpen: () => void;
 }) {
   return (
-    <motion.figure
-      key={frame.src}
-      className="m-0 w-full overflow-hidden rounded-lg border border-tb-border-strong bg-tb-bg-elevated shadow-none"
-      initial={reduced ? false : { opacity: 0.4, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: reduced ? 0 : motionTokens.duration.base,
-        ease: motionTokens.ease.out,
-      }}
-    >
-      <button
-        type="button"
-        onClick={onOpen}
-        className="relative block aspect-[16/10] w-full cursor-zoom-in bg-tb-bg outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-tb-accent/50"
-        aria-label={`Enlarge: ${frame.alt}. Opens preview with link to ${frame.routeLabel}.`}
-        data-testid="story-product-frame"
+    <AnimatePresence mode="wait">
+      <motion.figure
+        key={frame.src}
+        className="tb-film-frame m-0 w-full shadow-none"
+        initial={
+          reduced
+            ? false
+            : { opacity: 0.35, y: 14, clipPath: "inset(12% 0 0 0)" }
+        }
+        animate={{ opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" }}
+        exit={reduced ? undefined : { opacity: 0.2, y: -8 }}
+        transition={{
+          duration: reduced ? 0 : 0.32,
+          ease: motionTokens.ease.out,
+        }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element -- static public/story assets */}
-        <img
-          src={frame.src}
-          alt={frame.alt}
-          className="absolute inset-0 h-full w-full object-cover object-top"
-          loading="lazy"
-          decoding="async"
-        />
-      </button>
-      <figcaption className="flex items-center justify-between gap-2 border-t border-tb-border px-3 py-2 text-[11px] text-tb-text-muted">
-        <span>{frame.caption}</span>
-        <Link
-          href={frame.href}
-          className="shrink-0 font-medium text-tb-accent no-underline hover:underline"
-          onClick={(e) => e.stopPropagation()}
+        <button
+          type="button"
+          onClick={onOpen}
+          className="relative block aspect-[16/10] w-full cursor-zoom-in bg-tb-bg outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-tb-accent/50"
+          aria-label={`Enlarge: ${frame.alt}. Opens preview with link to ${frame.routeLabel}.`}
+          data-testid="story-product-frame"
         >
-          {frame.routeLabel} →
-        </Link>
-      </figcaption>
-    </motion.figure>
+          {/* eslint-disable-next-line @next/next/no-img-element -- static public/story assets */}
+          <img
+            src={frame.src}
+            alt={frame.alt}
+            className="absolute inset-0 h-full w-full object-cover object-top"
+            loading="lazy"
+            decoding="async"
+          />
+        </button>
+        <figcaption className="flex items-center justify-between gap-2 border-t border-tb-border px-3 py-2 text-[11px] text-tb-text-muted">
+          <span>{frame.caption}</span>
+          <Link
+            href={frame.href}
+            className="shrink-0 font-medium text-tb-accent no-underline hover:underline"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {frame.routeLabel} →
+          </Link>
+        </figcaption>
+      </motion.figure>
+    </AnimatePresence>
   );
 }
+
