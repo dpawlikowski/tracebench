@@ -1,0 +1,31 @@
+{
+  "name": "@tracebench/agent-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "types": "wrangler types",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"worker smoke via wrangler / manual\"",
+    "lint": "echo \"no lint configured\"",
+    "build": "echo \"wrangler bundles on deploy\""
+  },
+  "dependencies": {
+    "@tracebench/agent-runtime": "workspace:*",
+    "@tracebench/domain": "workspace:*",
+    "@tracebench/fixtures": "workspace:*",
+    "@tracebench/schemas": "workspace:*",
+    "agents": "^0.22.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260919.1",
+    "typescript": "^5.8.2",
+    "wrangler": "^4.135.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

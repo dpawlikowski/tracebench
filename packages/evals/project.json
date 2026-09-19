@@ -1,0 +1,7 @@
+{
+  "name": "@tracebench/evals",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/evals/src",
+  "projectType": "library",
+  "tags": ["scope:evals", "type:lib"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@tracebench/agent-runtime",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/agent-runtime/src",
+  "projectType": "library",
+  "tags": ["scope:runtime", "type:lib"]
+}

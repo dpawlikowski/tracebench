@@ -1,0 +1,42 @@
+{
+  "name": "tracebench",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tracebench — Agent Ops Workbench (HITL control room for AI agents)",
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "dev": "pnpm --filter @tracebench/web dev",
+    "build": "pnpm -r --filter=./packages/* build && pnpm --filter @tracebench/web build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "test:e2e": "pnpm --filter @tracebench/web test:e2e",
+    "eval": "pnpm --filter @tracebench/evals eval",
+    "typecheck": "pnpm -r typecheck",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
+    "dev:agent": "pnpm --filter @tracebench/agent-worker dev",
+    "test:storybook": "pnpm --filter @tracebench/web test:storybook",
+    "storybook": "pnpm --filter @tracebench/web storybook",
+    "health": "curl -sS -i http://127.0.0.1:3000/api/health || true",
+    "checkly:test": "checkly test",
+    "demo:check": "node scripts/demo-check.mjs",
+    "test:contracts": "pnpm --filter @tracebench/web test:contracts",
+    "test:mutation": "stryker run"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "zod": "3"
+      },
+      "ignoreMissing": []
+    }
+  },
+  "devDependencies": {
+    "checkly": "6.9.10",
+    "@stryker-mutator/core": "9.2.0",
+    "@stryker-mutator/vitest-runner": "9.2.0",
+    "@stryker-mutator/typescript-checker": "9.2.0"
+  }
+}

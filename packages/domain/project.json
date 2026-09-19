@@ -1,0 +1,7 @@
+{
+  "name": "@tracebench/domain",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/domain/src",
+  "projectType": "library",
+  "tags": ["scope:domain", "type:lib"]
+}

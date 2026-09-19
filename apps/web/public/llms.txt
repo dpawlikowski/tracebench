@@ -1,0 +1,25 @@
+# Tracebench
+
+> Agent Ops Workbench — HITL control room for AI agents (Dominik Pawlikowski).
+
+Demo Mode (default): AGENT_TRANSPORT=fixture, JEV_ADAPTER=mock, EVAL_SCORER=mock-jev — ZERO API keys.
+
+## Surfaces
+
+- / — Landing
+- /runs — Seeded runs (incl. run_live_approve, run_pipeline_ops)
+- /runs/[id] — Timeline, HITL, audit, logs (A2A filter)
+- /runs/[id]/graph — Read-only xyflow observe graph
+- /evals — mock-jev release gate
+- /dashboards — Ops boards (localStorage layout)
+- /policy — Jev risk matrix
+- /help — Hub + demo-mode + failure-gallery
+- /architecture — Diagram + invariants
+- /api/health — Readiness; demoMode.kind=demo|hybrid|live; 503 on critical fail
+
+## Docs
+
+- docs/DEMO_SCRIPT.md — 90s click path
+- docs/PRODUCT_PLAN.md — roadmap
+- docs/testing.md — pyramid
+- docs/adr/ — events, Jev, multi-agent

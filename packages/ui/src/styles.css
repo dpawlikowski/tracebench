@@ -1,0 +1,36 @@
+/**
+ * @tracebench/ui tokens — kept for package consumers.
+ * apps/web also mirrors these in app/globals.css (@theme + :root) for Tailwind v4.
+ */
+:root {
+  --tb-bg: #0b0f14;
+  --tb-bg-elevated: #121821;
+  --tb-bg-hover: #1a2330;
+  --tb-border: #243044;
+  --tb-border-strong: #334155;
+  --tb-text: #e8eef7;
+  --tb-text-muted: #8b9bb4;
+  --tb-text-dim: #5c6b82;
+  --tb-accent: #5b9fd4;
+  --tb-accent-soft: rgba(91, 159, 212, 0.15);
+  --tb-success: #3dba7e;
+  --tb-success-soft: rgba(61, 186, 126, 0.15);
+  --tb-warning: #d4a017;
+  --tb-warning-soft: rgba(212, 160, 23, 0.15);
+  --tb-danger: #e05d5d;
+  --tb-danger-soft: rgba(224, 93, 93, 0.15);
+  --tb-risk-low: #5b9fd4;
+  --tb-risk-low-soft: rgba(91, 159, 212, 0.15);
+  --tb-risk-medium: #d4a017;
+  --tb-risk-medium-soft: rgba(212, 160, 23, 0.15);
+  --tb-risk-high: #e05d5d;
+  --tb-risk-high-soft: rgba(224, 93, 93, 0.15);
+  --tb-radius-sm: 6px;
+  --tb-radius-md: 10px;
+  --tb-radius-lg: 14px;
+  --tb-radius-full: 999px;
+  --tb-font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --tb-font-mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+  --tb-shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --tb-shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(36, 48, 68, 0.8);
+}

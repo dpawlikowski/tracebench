@@ -1,0 +1,7 @@
+{
+  "name": "@tracebench/agent-worker",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/agent-worker/src",
+  "projectType": "application",
+  "tags": ["scope:app", "type:app"]
+}
