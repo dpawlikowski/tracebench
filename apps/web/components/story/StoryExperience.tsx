@@ -23,7 +23,7 @@ import { useReducedMotion } from "@/lib/prefs";
 import { motionTokens } from "@/lib/motion";
 import { MetricCounter } from "./MetricCounter";
 import { StoryProgressRail } from "./StoryProgressRail";
-import { ActBanner, ClipReveal, StaggerBlock } from "./ScrollScene";
+import { ActBanner, ClipReveal, ParallaxLayer, ScrollScene, StaggerBlock } from "./ScrollScene";
 import {
   ANSWER_PILLARS,
   BREAKS,
@@ -258,15 +258,14 @@ export function StoryExperience() {
         </div>
       </section>
 
-      <section
+      <ScrollScene
         id="story-blind-spot"
+        reduced={reduced}
+        mode="scrub"
         className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
-        <StaggerBlock
-          reduced={reduced}
-          className="mx-auto grid max-w-[980px] gap-10 md:grid-cols-[1.1fr_0.9fr]"
-        >
-          <div>
+        <div className="mx-auto grid max-w-[980px] gap-10 md:grid-cols-[1.1fr_0.9fr]">
+          <ParallaxLayer reduced={reduced} speed={0.08}>
             <p className="tb-section-label m-0">01 · The blind spot</p>
             <ClipReveal reduced={reduced} delay={0.04}>
               <h2 className="mt-3 tb-display-sm text-tb-text">
@@ -278,29 +277,34 @@ export function StoryExperience() {
               The interface they get is usually a chat transcript — not a place to pause, approve,
               measure burn, or prove what happened.
             </p>
-          </div>
-          <Card padding={20} className="border-tb-border bg-tb-bg-elevated/70">
-            <div className="mb-3 flex items-center gap-2">
-              <Badge tone="danger">ungoverned</Badge>
-              <span className="text-[11px] tracking-tight text-tb-text-dim">without a plane</span>
-            </div>
-            <ul className="m-0 list-none space-y-3 p-0 text-[13px] leading-relaxed text-tb-text-muted">
-              <li className="border-l-2 border-risk-high/50 pl-3">
-                Payments and deploys fire from prompts with no risk tier.
-              </li>
-              <li className="border-l-2 border-risk-medium/50 pl-3">
-                Cost spikes show up in invoices, not beside the tool call.
-              </li>
-              <li className="border-l-2 border-tb-border-strong pl-3">
-                Audit prep means reconstructing intent from Slack threads.
-              </li>
-            </ul>
-          </Card>
-        </StaggerBlock>
-      </section>
+          </ParallaxLayer>
+          <ParallaxLayer reduced={reduced} speed={0.18}>
+            <Card padding={20} className="border-tb-border bg-tb-bg-elevated/70">
+              <div className="mb-3 flex items-center gap-2">
+                <Badge tone="danger">ungoverned</Badge>
+                <span className="text-[11px] tracking-tight text-tb-text-dim">without a plane</span>
+              </div>
+              <ul className="m-0 list-none space-y-3 p-0 text-[13px] leading-relaxed text-tb-text-muted">
+                <li className="border-l-2 border-risk-high/50 pl-3">
+                  Payments and deploys fire from prompts with no risk tier.
+                </li>
+                <li className="border-l-2 border-risk-medium/50 pl-3">
+                  Cost spikes show up in invoices, not beside the tool call.
+                </li>
+                <li className="border-l-2 border-tb-border-strong pl-3">
+                  Audit prep means reconstructing intent from Slack threads.
+                </li>
+              </ul>
+            </Card>
+          </ParallaxLayer>
+        </div>
+      </ScrollScene>
 
-      <section
+      <ScrollScene
         id="story-what-breaks"
+        reduced={reduced}
+        mode="scrub"
+        intensity="drama"
         className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
@@ -370,11 +374,13 @@ export function StoryExperience() {
             })}
           </div>
         </div>
-      </section>
+      </ScrollScene>
 
       {/* ——— ACT II · Answer ——— */}
-      <section
+      <ScrollScene
         id="story-answer"
+        reduced={reduced}
+        mode="scrub"
         className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
@@ -441,13 +447,17 @@ export function StoryExperience() {
           </div>
           <StaggerBlock reduced={reduced} className="mt-10" delay={reduced ? 0 : 0.08}>
             <p className="tb-section-label mb-3">Control plane assembly</p>
+            {/* CPA auto-assembles — NEVER page-scroll progress */}
             <ControlPlaneAssembly compact interactive />
           </StaggerBlock>
         </div>
-      </section>
+      </ScrollScene>
 
-      <section
+      <ScrollScene
         id="story-outcomes"
+        reduced={reduced}
+        mode="scrub"
+        intensity="drama"
         className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
@@ -519,7 +529,7 @@ export function StoryExperience() {
             })}
           </div>
         </div>
-      </section>
+      </ScrollScene>
 
       {/* ——— ACT III · How / Proof / Start ——— */}
       <section id="story-how-teams" ref={howRef} className="relative border-t border-tb-border">
@@ -645,15 +655,14 @@ export function StoryExperience() {
         </div>
       </section>
 
-      <section
+      <ScrollScene
         id="story-proof"
+        reduced={reduced}
+        mode="scrub"
         className="relative border-t border-tb-border px-6 py-24 md:px-10 lg:px-16"
       >
-        <StaggerBlock
-          reduced={reduced}
-          className="mx-auto flex max-w-[980px] flex-col gap-8 md:flex-row md:items-center md:justify-between"
-        >
-          <div className="max-w-[520px]">
+        <div className="mx-auto flex max-w-[980px] flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          <ParallaxLayer reduced={reduced} speed={0.1} className="max-w-[520px]">
             <p className="tb-section-label m-0 text-tb-success">06 · Proof strip</p>
             <ClipReveal reduced={reduced} delay={0.04}>
               <h2 className="mt-3 tb-display-sm text-tb-text">
@@ -665,26 +674,30 @@ export function StoryExperience() {
               transport + <code className="font-mono text-[13px] text-tb-accent">mock-jev</code>.
               Seeded HITL, denied high-risk, cost regression, and nested A2A — no empty happy path.
             </p>
-          </div>
-          <Card padding={20} className="min-w-[260px] border-tb-success/30 bg-tb-success-soft/10">
-            <ul className="m-0 list-none space-y-2 p-0 font-mono text-[12px] text-tb-text-muted">
-              <li>AGENT_TRANSPORT=fixture</li>
-              <li>JEV_ADAPTER=mock</li>
-              <li>EVAL_SCORER=mock-jev</li>
-              <li className="pt-2 text-tb-success">demoMode.kind=demo</li>
-            </ul>
-            <Link
-              href="/help/demo-mode"
-              className="mt-4 inline-block text-[13px] font-medium text-tb-accent no-underline hover:underline"
-            >
-              90s click path →
-            </Link>
-          </Card>
-        </StaggerBlock>
-      </section>
+          </ParallaxLayer>
+          <ParallaxLayer reduced={reduced} speed={0.2}>
+            <Card padding={20} className="min-w-[260px] border-tb-success/30 bg-tb-success-soft/10">
+              <ul className="m-0 list-none space-y-2 p-0 font-mono text-[12px] text-tb-text-muted">
+                <li>AGENT_TRANSPORT=fixture</li>
+                <li>JEV_ADAPTER=mock</li>
+                <li>EVAL_SCORER=mock-jev</li>
+                <li className="pt-2 text-tb-success">demoMode.kind=demo</li>
+              </ul>
+              <Link
+                href="/help/demo-mode"
+                className="mt-4 inline-block text-[13px] font-medium text-tb-accent no-underline hover:underline"
+              >
+                90s click path →
+              </Link>
+            </Card>
+          </ParallaxLayer>
+        </div>
+      </ScrollScene>
 
-      <section
+      <ScrollScene
         id="story-cta"
+        reduced={reduced}
+        mode="scrub"
         className="relative overflow-hidden border-t border-tb-border px-6 pb-16 pt-20 md:px-10 lg:px-16"
         data-testid="story-start"
       >
@@ -793,7 +806,7 @@ export function StoryExperience() {
             * {ILLUSTRATIVE_FOOTNOTE}
           </p>
         </StaggerBlock>
-      </section>
+      </ScrollScene>
 
       {lightbox && (
         <div

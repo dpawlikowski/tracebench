@@ -6,6 +6,7 @@ import {
   useScroll,
   useTransform,
   useInView,
+  type MotionValue,
 } from "motion/react";
 import { cn } from "@tracebench/ui";
 import { motionTokens } from "@/lib/motion";
@@ -18,6 +19,12 @@ type ScrollSceneProps = {
   id?: string;
   /** Entrance only (once) vs scrub opacity/y while in view */
   mode?: "enter" | "scrub";
+  /**
+   * Scrub intensity — how much y travel (px) at section edges.
+   * Keep modest to avoid empty voids / layout jumps.
+   */
+  intensity?: "calm" | "drama";
+  "data-testid"?: string;
 };
 
 /**
@@ -31,6 +38,8 @@ export function ScrollScene({
   className,
   id,
   mode = "enter",
+  intensity = "calm",
+  "data-testid": testId,
 }: ScrollSceneProps) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: mode === "enter", amount: 0.2 });
@@ -39,12 +48,22 @@ export function ScrollScene({
     offset: ["start end", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [0.35, 1, 1, 0.45]);
-  const y = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [28, 0, 0, -12]);
+  const yEnter = intensity === "drama" ? 36 : 24;
+  const yExit = intensity === "drama" ? -16 : -10;
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.16, 0.84, 1],
+    [0.42, 1, 1, 0.5],
+  );
+  const y = useTransform(
+    scrollYProgress,
+    [0, 0.16, 0.84, 1],
+    [yEnter, 0, 0, yExit],
+  );
 
   if (reduced) {
     return (
-      <section ref={ref} id={id} className={className}>
+      <section ref={ref} id={id} className={className} data-testid={testId}>
         {children}
       </section>
     );
@@ -57,6 +76,7 @@ export function ScrollScene({
         id={id}
         className={className}
         style={{ opacity, y }}
+        data-testid={testId}
       >
         {children}
       </motion.section>
@@ -68,6 +88,7 @@ export function ScrollScene({
       ref={ref}
       id={id}
       className={className}
+      data-testid={testId}
       initial={{ opacity: 0, y: 22 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
       transition={{
@@ -77,6 +98,51 @@ export function ScrollScene({
     >
       {children}
     </motion.section>
+  );
+}
+
+type ParallaxLayerProps = {
+  children: ReactNode;
+  reduced: boolean;
+  className?: string;
+  /** Positive = drifts slower (recedes); negative = advances */
+  speed?: number;
+  /** Optional shared progress from a parent section */
+  progress?: MotionValue<number>;
+};
+
+/**
+ * Lightweight parallax child — use inside a scrub chapter for depth
+ * without sticky tracks or empty voids. Honors prefers-reduced-motion.
+ */
+export function ParallaxLayer({
+  children,
+  reduced,
+  className,
+  speed = 0.12,
+  progress: externalProgress,
+}: ParallaxLayerProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: localProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const progress = externalProgress ?? localProgress;
+  const travel = Math.round(48 * speed);
+  const y = useTransform(progress, [0, 1], [travel, -travel]);
+
+  if (reduced) {
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <motion.div ref={ref} className={className} style={{ y }}>
+      {children}
+    </motion.div>
   );
 }
 
@@ -174,8 +240,9 @@ export function ActBanner({
     <StaggerBlock reduced={reduced} className="mb-8 flex items-center gap-4">
       <span className="tb-act-label">{act}</span>
       <span className="h-px flex-1 bg-tb-border" aria-hidden />
-      <span className="text-[11px] font-medium tracking-tight text-tb-text-dim">{title}</span>
+      <span className="text-[11px] font-medium tracking-tight text-tb-text-dim">
+        {title}
+      </span>
     </StaggerBlock>
   );
 }
-
