@@ -254,12 +254,9 @@ export function StoryExperience() {
             </div>
           </div>
           <div>
-            <ControlPlaneAssembly
-              progress={reduced ? 1 : Math.min(1, progress * 2.2)}
-              interactive
-            />
+            <ControlPlaneAssembly interactive />
             <p className="mt-2 text-[12px] text-tb-text-dim">
-              Click layers to inspect roles as the plane assembles.
+              Click layers to inspect roles — Replay re-runs the assemble.
             </p>
           </div>
         </SectionReveal>
@@ -666,58 +663,114 @@ export function StoryExperience() {
         </SectionReveal>
       </section>
 
-      {/* 8 · CTA */}
+      {/* 8 · Start (CTA chapter — must feel dense, not empty) */}
       <section
         id="story-cta"
-        className="relative border-t border-tb-border/60 px-6 pb-16 pt-24 md:px-10 lg:px-16"
+        className="relative overflow-hidden border-t border-tb-border/60 px-6 pb-16 pt-20 md:px-10 lg:px-16"
+        data-testid="story-start"
       >
-        <SectionReveal reduced={reduced} className="mx-auto max-w-[720px] text-center">
-          <h2 className="tb-display m-0 text-[clamp(28px,4vw,40px)] text-tb-text">
-            Open the control room.
-          </h2>
-          <p className="mx-auto mt-4 max-w-[480px] text-[15px] leading-relaxed text-tb-text-muted">
-            Start with the live approval demo, skim the FAQ, or read the architecture — then decide
-            if your agents deserve a plane.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <MagneticCta>
-              <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
-                <Button variant="primary" size="lg" data-testid="story-cta-demo">
-                  Open demo
-                </Button>
-              </Link>
-            </MagneticCta>
-            <MagneticCta strength={4}>
-              <Link href="/help" className="no-underline hover:no-underline">
-                <Button variant="secondary" size="lg" data-testid="story-cta-help">
-                  FAQ / Help
-                </Button>
-              </Link>
-            </MagneticCta>
-            <MagneticCta strength={4}>
-              <Link href="/architecture" className="no-underline hover:no-underline">
-                <Button variant="ghost" size="lg" data-testid="story-cta-arch">
-                  Architecture
-                </Button>
-              </Link>
-            </MagneticCta>
-            <MagneticCta strength={4}>
-              <Link href="/evals" className="no-underline hover:no-underline">
-                <Button variant="ghost" size="lg" data-testid="story-cta-evals">
-                  Eval gate
-                </Button>
-              </Link>
-            </MagneticCta>
+        <div className="tb-grid-atmosphere pointer-events-none absolute inset-0 opacity-20" aria-hidden />
+        <SectionReveal reduced={reduced} className="relative z-[1] mx-auto max-w-[1100px]">
+          <div className="mx-auto max-w-[640px] text-center">
+            <p className="tb-section-label m-0">07 · Start</p>
+            <h2 className="tb-display mt-3 m-0 text-[clamp(28px,4vw,42px)] text-tb-text">
+              Open the control room.
+            </h2>
+            <p className="mx-auto mt-4 max-w-[520px] text-[15px] leading-relaxed text-tb-text-muted">
+              You&apos;ve seen the blind spot, the breaks, and the plane. Pick a door — each one is
+              live Demo Mode, no keys.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+              <MagneticCta>
+                <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
+                  <Button variant="primary" size="lg" data-testid="story-cta-demo">
+                    Open live approval demo
+                  </Button>
+                </Link>
+              </MagneticCta>
+              <MagneticCta strength={4}>
+                <Link href="/" className="no-underline hover:no-underline">
+                  <Button variant="secondary" size="lg" data-testid="story-cta-overview">
+                    Product overview
+                  </Button>
+                </Link>
+              </MagneticCta>
+            </div>
           </div>
-          <p className="mt-10 text-[11px] leading-relaxed text-tb-text-dim">
+
+          <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                href: "/runs/run_live_approve",
+                kicker: "01 · Feel it",
+                title: "Live HITL gate",
+                body: "Approve or deny an irreversible tool. Keyboard-first, audit-ready.",
+                testid: "story-start-card-demo",
+              },
+              {
+                href: "/evals",
+                kicker: "02 · Gate it",
+                title: "Eval scorecard",
+                body: "See pass rate beside cost and latency before you ship a change.",
+                testid: "story-start-card-evals",
+              },
+              {
+                href: "/help",
+                kicker: "03 · Orient",
+                title: "FAQ & tour",
+                body: "90-second Demo Mode path, glossary, and product tour.",
+                testid: "story-cta-help",
+              },
+              {
+                href: "/architecture",
+                kicker: "04 · Dig in",
+                title: "Architecture",
+                body: "Transport, Jev tiers, fixtures — how the control plane is wired.",
+                testid: "story-cta-arch",
+              },
+            ].map((card) => (
+              <Link
+                key={card.href + card.title}
+                href={card.href}
+                data-testid={card.testid}
+                className="group flex flex-col rounded-md border border-tb-border bg-tb-bg-elevated/80 p-4 text-left no-underline transition-colors hover:border-tb-border-strong hover:bg-tb-bg-elevated"
+              >
+                <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-tb-text-dim">
+                  {card.kicker}
+                </span>
+                <span className="mt-2 text-[15px] font-semibold tracking-tight text-tb-text group-hover:text-tb-accent">
+                  {card.title}
+                </span>
+                <span className="mt-2 flex-1 text-[13px] leading-relaxed text-tb-text-muted">
+                  {card.body}
+                </span>
+                <span className="mt-4 text-[12px] font-medium text-tb-accent opacity-80 group-hover:opacity-100">
+                  Open →
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-2 text-[12px] text-tb-text-dim">
+            <Badge tone="accent" className="normal-case tracking-normal">
+              Demo Mode
+            </Badge>
+            <span>Zero API keys</span>
+            <span aria-hidden>·</span>
+            <span>Fixtures that fail honestly</span>
+            <span aria-hidden>·</span>
+            <Link
+              href="/evals"
+              className="text-tb-text-muted no-underline hover:text-tb-text"
+              data-testid="story-cta-evals"
+            >
+              Eval gate →
+            </Link>
+          </div>
+
+          <p className="mx-auto mt-8 max-w-[640px] text-center text-[11px] leading-relaxed text-tb-text-dim">
             * {ILLUSTRATIVE_FOOTNOTE}
           </p>
-          <Link
-            href="/"
-            className="mt-6 inline-block text-[13px] text-tb-text-muted no-underline hover:text-tb-text"
-          >
-            ← Back to product overview
-          </Link>
         </SectionReveal>
       </section>
 

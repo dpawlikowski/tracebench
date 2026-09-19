@@ -42,17 +42,17 @@ const LAYER_COPY: Record<LayerId, { title: string; body: string }> = {
 
 type Props = {
   className?: string;
-  /** Drive assemble 0→1 from scroll parent; omit = auto on mount */
+  /** Drive assemble 0→1 from parent; omit = auto-assemble on mount */
   progress?: number;
   compact?: boolean;
-  /** When true, layers are clickable with captions (landing / story teaching mode) */
+  /** When true, layers are clickable with captions */
   interactive?: boolean;
 };
 
 /**
  * Control Plane Assembly — flat 2D instrument.
- * Assemble via motion `animate(motionValue, 1)` (not React timers/rAF).
- * Interactive mode: click layers to learn roles; Replay re-runs assemble.
+ * Resting state is always a clean composed plane; chaos only during brief intro.
+ * Positions are % of stage so Story/Overview cards don't collide.
  */
 export function ControlPlaneAssembly({
   className,
@@ -91,7 +91,7 @@ export function ControlPlaneAssembly({
     aMv.set(0);
     setA(0);
     const ctrl = animate(aMv, 1, {
-      duration: 1.45,
+      duration: 1.2,
       ease: [0.16, 1, 0.3, 1],
       onComplete: () => {
         aMv.set(1);
@@ -124,25 +124,26 @@ export function ControlPlaneAssembly({
   const armed = a >= 0.72;
   const showLattice = !reduced && finePointer && !compact;
 
+  /** Resting slots as % of stage — composed diamond around HITL, no overlap */
   const nodes = useMemo(
     () =>
       [
-        { id: "ops" as const, label: "OpsAgent", x: -108, y: -42 },
-        { id: "pay" as const, label: "PayAgent", x: 100, y: -34 },
-        { id: "cfg" as const, label: "CfgAgent", x: -86, y: 48 },
-        { id: "audit" as const, label: "Audit", x: 92, y: 44 },
+        { id: "ops" as const, label: "OpsAgent", left: "12%", top: "22%" },
+        { id: "pay" as const, label: "PayAgent", left: "72%", top: "22%" },
+        { id: "cfg" as const, label: "CfgAgent", left: "14%", top: "58%" },
+        { id: "audit" as const, label: "Audit", left: "70%", top: "58%" },
       ] as const,
     [],
   );
 
   const layerBtn =
-    "absolute z-[2] rounded-md border px-2.5 py-1.5 text-[11px] transition-[border-color,background-color,box-shadow,opacity] duration-150 outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40";
+    "absolute z-[2] -translate-x-1/2 -translate-y-1/2 rounded-md border px-2.5 py-1.5 text-[11px] transition-[border-color,background-color,box-shadow,opacity] duration-150 outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40";
 
   return (
     <div
       className={cn(
         "relative isolate overflow-hidden rounded-lg border border-tb-border bg-tb-bg-sunken",
-        compact ? "h-[220px]" : "h-[min(400px,50vw)] min-h-[300px]",
+        compact ? "h-[220px]" : "aspect-[16/11] w-full min-h-[280px]",
         className,
       )}
       data-testid="control-plane-assembly"
@@ -152,24 +153,26 @@ export function ControlPlaneAssembly({
       <div className="tb-grid-atmosphere opacity-20" aria-hidden />
       {showLattice && <PhosphorLattice assemble={a} />}
 
-      <div className="absolute inset-0 z-[1] flex items-center justify-center px-4 pb-14 pt-6">
+      <div className="absolute inset-0 z-[1] px-3 pb-14 pt-4">
+        {/* Deck plate */}
         <motion.div
-          className="absolute h-[42%] w-[66%] rounded-md border border-tb-border-strong bg-tb-bg-elevated/95"
-          style={{ y: 22, scale: 0.95 + a * 0.05, opacity: 0.55 + a * 0.45 }}
+          className="absolute left-1/2 top-[46%] h-[38%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-md border border-tb-border-strong bg-tb-bg-elevated/95"
+          style={{ scale: 0.96 + a * 0.04, opacity: 0.55 + a * 0.45 }}
           aria-hidden
         />
 
+        {/* Spine */}
         <motion.div
-          className="absolute h-[2px] rounded-full"
+          className="absolute left-1/2 top-[42%] h-[2px] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
-            width: `${40 + a * 28}%`,
-            y: -4,
+            width: `${36 + a * 26}%`,
             backgroundColor: a > 0.55 ? "var(--tb-accent)" : "rgba(255,255,255,0.14)",
             opacity: 0.5 + a * 0.5,
           }}
           aria-hidden
         />
 
+        {/* HITL center */}
         <motion.button
           type="button"
           disabled={!interactive}
@@ -178,14 +181,14 @@ export function ControlPlaneAssembly({
           aria-label="HITL gate — risk-tiered approval"
           data-testid="cpa-layer-hitl"
           className={cn(
-            "absolute z-[3] flex min-w-[7.25rem] flex-col items-center gap-0.5 rounded-md border px-3.5 py-2 text-[12px] tracking-tight shadow-[0_10px_28px_rgba(0,0,0,0.4)] outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40",
+            "absolute left-1/2 top-[40%] z-[3] flex min-w-[7.25rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-0.5 rounded-md border px-3.5 py-2 text-[12px] tracking-tight shadow-[0_10px_28px_rgba(0,0,0,0.4)] outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40",
             interactive && "cursor-pointer",
             !interactive && "pointer-events-none",
           )}
           style={{
-            y: -22 + chaos * 28,
-            rotate: -chaos * 10,
-            scale: 0.96 + a * 0.04,
+            y: chaos * 18,
+            rotate: -chaos * 6,
+            scale: 0.97 + a * 0.03,
             borderColor:
               selected === "hitl"
                 ? "rgba(180,240,60,0.85)"
@@ -199,8 +202,7 @@ export function ControlPlaneAssembly({
                   ? "rgba(180,240,60,0.12)"
                   : "rgba(17,17,19,0.96)",
             color: armed || selected === "hitl" ? "var(--tb-accent)" : "#A1A1AA",
-            boxShadow:
-              selected === "hitl" ? "0 0 0 3px rgba(180,240,60,0.2)" : undefined,
+            boxShadow: selected === "hitl" ? "0 0 0 3px rgba(180,240,60,0.2)" : undefined,
           }}
         >
           <span className="text-[10px] font-medium text-tb-text-dim">HITL</span>
@@ -208,8 +210,8 @@ export function ControlPlaneAssembly({
         </motion.button>
 
         {nodes.map((n, i) => {
-          const sx = chaos * (i % 2 === 0 ? -48 : 52) * (1 + i * 0.04);
-          const sy = chaos * (i < 2 ? -32 : 34);
+          const sx = chaos * (i % 2 === 0 ? -28 : 28);
+          const sy = chaos * (i < 2 ? -20 : 20);
           const isSel = selected === n.id;
           return (
             <motion.button
@@ -226,10 +228,12 @@ export function ControlPlaneAssembly({
                 interactive ? "cursor-pointer" : "pointer-events-none",
               )}
               style={{
-                x: n.x + sx,
-                y: n.y + sy,
-                rotate: chaos * (i % 2 === 0 ? -8 : 9),
-                opacity: 0.4 + a * 0.6,
+                left: n.left,
+                top: n.top,
+                x: sx,
+                y: sy,
+                rotate: chaos * (i % 2 === 0 ? -5 : 5),
+                opacity: 0.55 + a * 0.45,
                 borderColor: isSel
                   ? "rgba(180,240,60,0.7)"
                   : a > 0.6
@@ -252,13 +256,12 @@ export function ControlPlaneAssembly({
           aria-label="Eval release gate"
           data-testid="cpa-layer-eval"
           className={cn(
-            "absolute z-[2] rounded-md border bg-tb-bg px-2 py-1 text-[10px] text-tb-text-dim outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40",
+            "absolute left-1/2 top-[72%] z-[2] -translate-x-1/2 -translate-y-1/2 rounded-md border bg-tb-bg px-2 py-1 text-[10px] text-tb-text-dim outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40",
             interactive ? "cursor-pointer" : "pointer-events-none",
           )}
           style={{
-            x: 28,
-            y: 86 - a * 8,
-            opacity: 0.45 + a * 0.55,
+            y: chaos * 10,
+            opacity: 0.5 + a * 0.5,
             borderColor:
               selected === "eval" ? "rgba(180,240,60,0.7)" : "rgba(255,255,255,0.1)",
             boxShadow:

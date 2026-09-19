@@ -187,3 +187,42 @@ export const PRODUCT_FRAMES = [
     routeLabel: "Explore runs",
   },
 ] as const;
+
+/** Closing chapter (#story-cta / rail "Start") — next steps after the narrative. */
+export const CTA_NEXT_STEPS = [
+  {
+    id: "demo",
+    title: "Live approval demo",
+    purpose: "Hit a high-risk tool gate in Demo Mode — Esc deny, ⌘Enter approve, audit append.",
+    href: "/runs/run_live_approve",
+    cta: "Open demo",
+    testId: "story-cta-demo",
+    primary: true,
+  },
+  {
+    id: "help",
+    title: "FAQ & 90s path",
+    purpose: "What Tracebench is, zero-key Demo Mode, and a captioned click path.",
+    href: "/help",
+    cta: "Open help",
+    testId: "story-cta-help",
+    primary: false,
+  },
+  {
+    id: "architecture",
+    title: "Architecture",
+    purpose: "Event log as truth, HITL commands, nested agents — how the plane is wired.",
+    href: "/architecture",
+    cta: "Read architecture",
+    testId: "story-cta-arch",
+    primary: false,
+  },
+] as const;
+
+export const CTA_JOURNEY = [
+  { n: "01", label: "Blind spot" },
+  { n: "02", label: "What breaks" },
+  { n: "03", label: "Control plane" },
+  { n: "04", label: "Outcomes" },
+  { n: "05", label: "Demo Mode" },
+] as const;
