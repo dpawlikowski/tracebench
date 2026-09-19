@@ -99,4 +99,4 @@ pnpm test:e2e     # critical path
 
 ### Stage E
 
-GitHub + Pages Storybook shipped. **Vercel deploy still pending.**
+GitHub + Pages Storybook + Vercel Demo Mode shipped (https://tracebench.vercel.app).

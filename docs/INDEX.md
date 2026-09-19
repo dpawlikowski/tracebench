@@ -7,7 +7,7 @@ Tracebench docs as of **2026-09-20**. Product default: **Portfolio Demo Mode** (
 | [README.md](../README.md) | Entry: what / why / Demo Mode / how to run / routes |
 | [ARCHITECTURE.md](../ARCHITECTURE.md) | Hexagonal lite, event-sourced domain, ports, stack |
 | [PRODUCT_PLAN.md](./PRODUCT_PLAN.md) | Thesis, roadmap, Stage A–E status |
-| [CASE_STUDY_DRAFT.md](./CASE_STUDY_DRAFT.md) | Paste-ready case study for the site |
+| [CASE_STUDY_DRAFT.md](./CASE_STUDY_DRAFT.md) · [CASE_STUDY_PUBLISH.md](./CASE_STUDY_PUBLISH.md) | Case study + site publish pack |
 | [DEMO_SCRIPT.md](./DEMO_SCRIPT.md) | 90s fixtures-only click path |
 | [DESIGN_SYSTEM_V2.md](./DESIGN_SYSTEM_V2.md) | Phosphor Instrument tokens & principles |
 | [MARKETING_MOTION_V2.md](./MARKETING_MOTION_V2.md) | `/` + `/story` boutique motion (Control Plane Assembly) |
@@ -17,7 +17,7 @@ Tracebench docs as of **2026-09-20**. Product default: **Portfolio Demo Mode** (
 | [cloudflare-agents.md](./cloudflare-agents.md) | Optional `AgentTransport=cloudflare` |
 | [ops-telemetry.md](./ops-telemetry.md) | OpsTelemetry port + Ops Trace UI |
 | [github-pages.md](./github-pages.md) | Storybook on GitHub Pages (not the full app) |
-| [perf-a11y-budget.md](./perf-a11y-budget.md) | Lighthouse / a11y actuals (do not invent new scores) |
+| [perf-a11y-budget.md](./perf-a11y-budget.md) | Lighthouse / a11y actuals (2026-09-20 re-measure) |
 | [perf-ux-audit.md](./perf-ux-audit.md) | Perf/UX fixes + residual risk |
 | [ux-audit.md](./ux-audit.md) | UX polish changelog (toasts, kbd, skeletons) |
 | [adr/0001–0004](./adr/) | Events, Jev, nested runs, OpsTelemetry |
@@ -32,7 +32,7 @@ Tracebench docs as of **2026-09-20**. Product default: **Portfolio Demo Mode** (
 |---------|-----|
 | GitHub (code on `main`) | https://github.com/dpawlikowski/tracebench |
 | GitHub Pages (Storybook only) | https://dpawlikowski.github.io/tracebench/ |
-| Full Demo Mode app | Local `pnpm dev` or **Vercel (Stage E — still pending)** |
+| Full Demo Mode app | https://tracebench.vercel.app (Demo Mode) · local `pnpm dev` |
 
 ## Honesty (portfolio)
 

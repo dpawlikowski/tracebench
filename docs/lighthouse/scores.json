@@ -1,19 +1,25 @@
 [
   {
     "route": "home",
-    "perf": 95,
+    "perf": 88,
+    "a11y": 98,
+    "bp": 96
+  },
+  {
+    "route": "runs",
+    "perf": 88,
     "a11y": 98,
     "bp": 96
   },
   {
     "route": "run_live_approve",
-    "perf": 82,
-    "a11y": 94,
+    "perf": 77,
+    "a11y": 95,
     "bp": 96
   },
   {
-    "route": "runs",
-    "perf": 100,
+    "route": "story",
+    "perf": 82,
     "a11y": 98,
     "bp": 96
   }

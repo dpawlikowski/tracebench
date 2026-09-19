@@ -126,13 +126,15 @@ describe("StreamFrameV1Schema", () => {
         ts: "2026-09-19T10:00:00.000Z",
       }).type,
     ).toBe("heartbeat");
-    expect(
-      StreamFrameV1Schema.parse({
-        v: 1,
-        type: "error",
-        code: "not_found",
-        message: "missing",
-      }).code,
-    ).toBe("not_found");
+    const err = StreamFrameV1Schema.parse({
+      v: 1,
+      type: "error",
+      code: "not_found",
+      message: "missing",
+    });
+    expect(err.type).toBe("error");
+    if (err.type === "error") {
+      expect(err.code).toBe("not_found");
+    }
   });
 });

@@ -1,7 +1,11 @@
-# Tracebench — case study draft (dpawlikowski.pl)
+# Tracebench — case study (dpawlikowski.pl)
 
-> Paste-ready draft. Tone: senior FE / agent-ops product craft. Demo Mode only — no keys.  
-> As of **2026-09-20**.
+> Publish-ready. Tone matches the site: calm, senior FE / product craft, English primary.  
+> As of **2026-09-20**. Full paste pack: [CASE_STUDY_PUBLISH.md](./CASE_STUDY_PUBLISH.md).
+
+## Short PL blurb (optional site lead-in)
+
+**Tracebench** — control plane dla agentów AI z narzędziami wysokiego ryzyka: timeline zdarzeń, zatwierdzenia HITL, audit i bramka ewaluacyjna. Demo Mode na fixture’ach — zero kluczy API. Live: [tracebench.vercel.app](https://tracebench.vercel.app); Storybook na Pages; kod na GitHubie.
 
 ## Problem
 
@@ -10,7 +14,7 @@ Teams shipping tool-calling agents (payments, deploys, remittances) need a **HIT
 ## Constraints
 
 - **Zero external agents** by default (`AGENT_TRANSPORT=fixture`, `JEV_ADAPTER=mock`, `EVAL_SCORER=mock-jev`, `OPS_TELEMETRY=fixture`)
-- Fixtures-only Demo Mode: recruiter runs `pnpm install && pnpm dev` and clicks through
+- Fixtures-only Demo Mode: open the Vercel URL or run `pnpm install && pnpm dev`
 - No multi-tenant/auth on the demo path
 - Strict monorepo boundaries (schemas → domain → fixtures/evals → web)
 - Portfolio timeline: ship judgment (evals, a11y, evidence) before platform sprawl
@@ -20,7 +24,7 @@ Teams shipping tool-calling agents (payments, deploys, remittances) need a **HIT
 1. **Event-sourced runs** — timeline of thoughts / tools / approvals / A2A; UI never invents edges
 2. **Risk-tiered approvals** — high-risk tools pause; keyboard modal (Esc / ⌘Enter); audit appends human decision
 3. **Eval release gate** — golden set (~40) scored by mock-jev; intentional `expect-fail` cost regressions
-4. **Observe graph + Ops Trace** — dumb presentational React Flow; OpsTelemetry projects OTel GenAI–shaped fixture spans; `useChildRuns` / `useRunsDetails` unwrap TanStack Query (UI does not unwrap Query)
+4. **Observe graph + Ops Trace** — dumb presentational React Flow; OpsTelemetry projects OTel GenAI–shaped fixture spans; `useChildRuns` / `useRunsDetails` unwrap TanStack Query
 5. **Phosphor Instrument + boutique marketing** — near-black + `#B8FF3D`; `/` + `/story` Control Plane Assembly (CSS 3D, no Three.js)
 6. **Contract layer** — Zod schemas + MSW handlers shared by Storybook and Vitest (no Pact broker)
 7. **Mutation testing** — Stryker on domain + schemas (report-only threshold for first ship)
@@ -49,7 +53,7 @@ Optional: Cloudflare Agents behind `AGENT_TRANSPORT=cloudflare`. UI observes; mu
 
 Artifact: `docs/screenshots/demo-mode.gif` (also `apps/web/public/demo-mode.gif`).
 
-## Results (local, Demo Mode)
+## Results (Demo Mode)
 
 | Signal | Result |
 |--------|--------|
@@ -58,7 +62,8 @@ Artifact: `docs/screenshots/demo-mode.gif` (also `apps/web/public/demo-mode.gif`
 | Storybook | Vitest browser stories + a11y addon; also on GitHub Pages |
 | Contracts | `pnpm test:contracts` — runs / approve / evals / health |
 | Health / demo:check | HTTP 200, `demoMode.kind=demo`, transport=fixture |
-| Lighthouse (mobile) | See `docs/perf-a11y-budget.md` actuals (do not invent new scores) |
+| Lighthouse (mobile, provided) | `/` 88/98/96 · `/runs` 88/98/96 · detail 77/95/96 · `/story` 82/98/96 — see `docs/perf-a11y-budget.md` |
+| CI | GitHub Actions: typecheck + unit + contracts (`.github/workflows/ci.yml`) |
 | Mutation | Stryker report-only (`thresholds.break: null`) |
 
 ## Public presence
@@ -66,9 +71,9 @@ Artifact: `docs/screenshots/demo-mode.gif` (also `apps/web/public/demo-mode.gif`
 | Surface | Status |
 |---------|--------|
 | GitHub `main` | https://github.com/dpawlikowski/tracebench |
+| Full Demo Mode app (Vercel) | https://tracebench.vercel.app |
 | Storybook (Pages) | https://dpawlikowski.github.io/tracebench/ |
-| Full app on Vercel | https://tracebench.vercel.app |
-| This case study on dpawlikowski.pl | Draft — link both ways when live |
+| This case study on dpawlikowski.pl | Ready to publish — link both ways when live |
 
 ## Limitations
 
@@ -76,13 +81,14 @@ Artifact: `docs/screenshots/demo-mode.gif` (also `apps/web/public/demo-mode.gif`
 - No OAuth / multiplayer / live LLM on the happy path
 - Worker is scaffold for persist/HITL/SSE — not LLM agent loops yet
 - Mutation break threshold deferred until score baseline exists
+- Lighthouse perf under ≥90 target after marketing v2; a11y clears the bar
 
-## Next (Stage E remainder)
+## Next
 
-Site case study both ways on dpawlikowski.pl · CI badges · Checkly against https://tracebench.vercel.app.
+Checkly account deploy against Vercel · site case study both ways on dpawlikowski.pl.
 
 ---
 
 *Dominik Pawlikowski — Tracebench portfolio MVP*
 
-Docs map: [INDEX.md](./INDEX.md)
+Docs map: [INDEX.md](./INDEX.md) · Publish pack: [CASE_STUDY_PUBLISH.md](./CASE_STUDY_PUBLISH.md)

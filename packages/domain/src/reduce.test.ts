@@ -292,7 +292,7 @@ describe("nested agent events", () => {
     ]);
 
     expect(folded.childRunIds).toEqual(["run_child_researcher"]);
-    expect(folded.agents.map((a) => a.id)).toContain("ag_researcher");
+    expect(folded.agents?.map((a) => a.id)).toContain("ag_researcher");
     expect(folded.timeline.map((e) => e.kind)).toEqual([
       "agent_spawn",
       "agent_message",

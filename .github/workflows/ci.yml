@@ -1,0 +1,42 @@
+# Typecheck + unit + contracts (Demo Mode defaults). E2E left out of required CI to avoid GHA flakes.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: typecheck · unit · contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      AGENT_TRANSPORT: fixture
+      JEV_ADAPTER: mock
+      EVAL_SCORER: mock-jev
+      OPS_TELEMETRY: fixture
+      CI: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Unit tests
+        run: pnpm test
+      - name: Contract tests (MSW + Zod)
+        run: pnpm test:contracts
+      - name: Package boundaries
+        run: pnpm check:boundaries

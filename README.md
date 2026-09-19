@@ -3,6 +3,9 @@
 **Agent Ops Workbench** — a HITL control room for AI agents.  
 Senior FE portfolio showpiece for **Dominik Pawlikowski**.
 
+[![CI](https://github.com/dpawlikowski/tracebench/actions/workflows/ci.yml/badge.svg)](https://github.com/dpawlikowski/tracebench/actions/workflows/ci.yml)
+[![GitHub Pages (Storybook)](https://github.com/dpawlikowski/tracebench/actions/workflows/github-pages.yml/badge.svg)](https://github.com/dpawlikowski/tracebench/actions/workflows/github-pages.yml)
+
 ![Demo Mode walkthrough](./docs/screenshots/demo-mode.gif)
 
 > **Portfolio Demo Mode (default):** `AGENT_TRANSPORT=fixture` · `JEV_ADAPTER=mock` · `EVAL_SCORER=mock-jev` · `OPS_TELEMETRY=fixture`  
@@ -61,7 +64,7 @@ Full index: **[docs/INDEX.md](./docs/INDEX.md)**.
 |-----|---------|
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Hexagonal lite, event-sourced domain, ports |
 | [docs/PRODUCT_PLAN.md](./docs/PRODUCT_PLAN.md) | Thesis + Stage A–E status |
-| [docs/CASE_STUDY_DRAFT.md](./docs/CASE_STUDY_DRAFT.md) | Site case-study draft |
+| [docs/CASE_STUDY_DRAFT.md](./docs/CASE_STUDY_DRAFT.md) · [CASE_STUDY_PUBLISH.md](./docs/CASE_STUDY_PUBLISH.md) | Site case study + publish pack |
 | [docs/DEMO_SCRIPT.md](./docs/DEMO_SCRIPT.md) | 90s fixtures click path |
 | [docs/DESIGN_SYSTEM_V2.md](./docs/DESIGN_SYSTEM_V2.md) | Phosphor Instrument tokens |
 | [docs/MARKETING_MOTION_V2.md](./docs/MARKETING_MOTION_V2.md) | `/` + `/story` boutique motion |
@@ -100,10 +103,10 @@ Supervising tool-calling agents in fintech/ops needs a calm control surface: see
 | **Contracts** | `pnpm test:contracts` | runs / approve / evals / health (MSW + Zod) |
 | **Health** | `pnpm health` | HTTP **200**, `demoMode.kind=demo`, transport=`fixture` |
 | **Demo smoke** | `pnpm demo:check` | OK — zero external agents |
-| **Lighthouse mobile** | [docs/perf-a11y-budget.md](./docs/perf-a11y-budget.md) | `/` 95/98/96 · `/runs` 100/98/96 · detail 82/94/96 |
+| **Lighthouse mobile** | [docs/perf-a11y-budget.md](./docs/perf-a11y-budget.md) | `/` 88/98/96 · `/runs` 88/98/96 · detail 77/95/96 · `/story` 82/98/96 |
 | **Mutation** | `pnpm test:mutation` | Stryker 9 — `thresholds.break: null` (first-run) |
 
-Walkthrough: [docs/DEMO_SCRIPT.md](./docs/DEMO_SCRIPT.md) · Case study: [docs/CASE_STUDY_DRAFT.md](./docs/CASE_STUDY_DRAFT.md)
+Walkthrough: [docs/DEMO_SCRIPT.md](./docs/DEMO_SCRIPT.md) · Case study: [docs/CASE_STUDY_DRAFT.md](./docs/CASE_STUDY_DRAFT.md) · Publish pack: [docs/CASE_STUDY_PUBLISH.md](./docs/CASE_STUDY_PUBLISH.md)
 
 ---
 
@@ -172,7 +175,7 @@ API: `GET /api/runs`, `GET /api/runs/[id]`, `GET /api/runs/[id]/stream`, `POST /
 - Approval store is in-memory (fixture); worker DO SQLite is opt-in
 - Mutation break threshold deferred until a baseline score exists
 - Worker: DO persist / HITL / SSE scaffold — **not** LLM agent loops yet
-- **Stage E (partial):** GitHub + Pages Storybook + **Vercel Demo Mode live** (https://tracebench.vercel.app); site case study on dpawlikowski.pl + CI badges still open
+- **Stage E (partial):** GitHub + Pages Storybook + **Vercel Demo Mode live** (https://tracebench.vercel.app) + CI badges + case-study publish pack; site paste on dpawlikowski.pl still open; Checkly deploy optional
 
 ---
 

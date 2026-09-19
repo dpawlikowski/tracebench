@@ -47,7 +47,7 @@ Tracebench is the **control plane for irreversible agent work**: see the event l
 | Dashboards + A2A logs | ✅ | Stage C |
 | Testing / health / help / FAQ | ✅ | Storybook, MSW contracts, Joyride, `/help/faq` |
 | GitHub + Pages Storybook | ✅ | https://github.com/dpawlikowski/tracebench · Pages UI kit only |
-| Vercel prod deploy | ⬜ | **Stage E — still pending** |
+| Vercel prod deploy | ✅ | https://tracebench.vercel.app |
 
 ---
 
@@ -161,10 +161,11 @@ OPS_TELEMETRY=fixture
 |-------|-------------|--------|
 | **E1 — GitHub** | `dpawlikowski/tracebench` on `main` | ✅ |
 | **E1b — Pages** | Storybook only at `dpawlikowski.github.io/tracebench/` | ✅ |
-| **E2 — Deploy** | Vercel app (fixture default) | ⬜ **Still pending** |
-| **E3 — Synthetics** | Checkly against prod | ⬜ After E2 |
-| **E4 — Case study** | dpawlikowski.pl page | ⬜ Draft in `CASE_STUDY_DRAFT.md` |
-| **E5 — CI badges** | test · eval · e2e · lighthouse · health | ⬜ Open |
+| **E1c — Evidence gates** | Re-Lighthouse actuals + CI workflow badges | ✅ `docs/perf-a11y-budget.md` · `.github/workflows/ci.yml` |
+| **E2 — Deploy** | Vercel app (fixture default) | ✅ https://tracebench.vercel.app |
+| **E3 — Synthetics** | Checkly against prod | 🔄 MaC ready — point `ENVIRONMENT_URL` at Vercel; account deploy optional |
+| **E4 — Case study** | dpawlikowski.pl page | ✅ Publish pack `CASE_STUDY_PUBLISH.md` (site paste pending) |
+| **E5 — CI badges** | typecheck · unit · contracts | ✅ README badges → Actions |
 
 **Stage E anti-goals:** Blocking on M4 CF sub-agents, multi-tenant, real LLM spend for demo.
 
@@ -180,8 +181,10 @@ OPS_TELEMETRY=fixture
 - [x] ADR set: events, Jev, multi-agent, OpsTelemetry
 - [x] README + ARCHITECTURE + PRODUCT_PLAN consistent (this refresh)
 - [x] GitHub + Pages Storybook
-- [ ] Vercel public Demo Mode URL
-- [ ] Site case study both ways + CI badges
+- [x] Vercel public Demo Mode URL (https://tracebench.vercel.app)
+- [x] CI badges (typecheck / unit / contracts)
+- [x] Case study publish pack (`CASE_STUDY_PUBLISH.md`) — site paste both ways still open
+- [ ] Checkly account deploy against Vercel (scaffold ready; `ENVIRONMENT_URL`)
 
 ---
 

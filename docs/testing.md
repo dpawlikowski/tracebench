@@ -27,6 +27,12 @@
          └─────────────────────────────────────┘
 ```
 
+## GitHub Actions CI
+
+Workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — **typecheck**, **unit** (`pnpm test`), **contracts** (`pnpm test:contracts`), **boundaries**. Node 22 + pnpm. Demo Mode env defaults. Playwright e2e is **not** in required CI (avoid GHA flakes); run locally with `pnpm test:e2e`.
+
+Badge: https://github.com/dpawlikowski/tracebench/actions/workflows/ci.yml/badge.svg
+
 Demo Mode defaults for all CI-local paths: `AGENT_TRANSPORT=fixture`, `JEV_ADAPTER=mock`, `EVAL_SCORER=mock-jev`, `OPS_TELEMETRY=fixture`.
 
 ## Commands
