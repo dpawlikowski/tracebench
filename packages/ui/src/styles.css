@@ -1,31 +1,32 @@
 /**
- * @tracebench/ui tokens — Phosphor Instrument (premium calm).
+ * @tracebench/ui tokens — Phosphor Instrument (Awwwards pass v2).
  * apps/web mirrors these in app/globals.css (@theme + :root) for Tailwind v4.
+ * 4px grid · hairline zinc borders · phosphor accent sparingly · Geist-class type.
  */
 :root {
   --tb-bg: #09090b;
   --tb-bg-elevated: #111113;
   --tb-bg-hover: #18181b;
   --tb-bg-sunken: #050506;
-  --tb-border: rgba(255, 255, 255, 0.08);
-  --tb-border-strong: rgba(255, 255, 255, 0.14);
-  --tb-text: #FAFAFA;
-  --tb-text-muted: #A1A1AA;
-  --tb-text-dim: #71717A;
-  --tb-accent: #B4F03C;
+  --tb-border: #27272a;
+  --tb-border-strong: #3f3f46;
+  --tb-text: #fafafa;
+  --tb-text-muted: #a1a1aa;
+  --tb-text-dim: #71717a;
+  --tb-accent: #b4f03c;
   --tb-accent-fg: #09090b;
   --tb-accent-soft: rgba(180, 240, 60, 0.14);
-  --tb-success: #4ADE80;
+  --tb-success: #4ade80;
   --tb-success-soft: rgba(74, 222, 128, 0.15);
-  --tb-warning: #FBBF24;
+  --tb-warning: #fbbf24;
   --tb-warning-soft: rgba(251, 191, 36, 0.15);
-  --tb-danger: #FF5C5C;
+  --tb-danger: #ff5c5c;
   --tb-danger-soft: rgba(255, 92, 92, 0.15);
-  --tb-risk-low: #B4F03C;
+  --tb-risk-low: #b4f03c;
   --tb-risk-low-soft: rgba(180, 240, 60, 0.14);
-  --tb-risk-medium: #FBBF24;
+  --tb-risk-medium: #fbbf24;
   --tb-risk-medium-soft: rgba(251, 191, 36, 0.15);
-  --tb-risk-high: #FF5C5C;
+  --tb-risk-high: #ff5c5c;
   --tb-risk-high-soft: rgba(255, 92, 92, 0.15);
   --tb-radius-sm: 4px;
   --tb-radius-md: 6px;
@@ -34,7 +35,27 @@
   --tb-font-sans: "Geist", "Inter", system-ui, sans-serif;
   --tb-font-mono: "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
   --tb-shadow-panel: none;
-  --tb-shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.14);
+  --tb-shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px #3f3f46;
   --tb-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --tb-duration: 160ms;
+  --tb-duration-enter: 420ms;
+  /* 4px base scale */
+  --tb-space-1: 0.25rem;
+  --tb-space-2: 0.5rem;
+  --tb-space-3: 0.75rem;
+  --tb-space-4: 1rem;
+  --tb-space-5: 1.25rem;
+  --tb-space-6: 1.5rem;
+  --tb-space-8: 2rem;
+  --tb-space-10: 2.5rem;
+  --tb-space-12: 3rem;
+  --tb-space-16: 4rem;
+  --tb-space-24: 6rem;
+  --tb-type-display: clamp(2.125rem, 4.5vw, 3.75rem);
+  --tb-type-display-sm: clamp(1.5rem, 3vw, 2.25rem);
+  --tb-type-title: 1.375rem;
+  --tb-type-body: 0.9375rem;
+  --tb-type-body-sm: 0.8125rem;
+  --tb-type-meta: 0.75rem;
+  --tb-type-mono: 0.8125rem;
 }

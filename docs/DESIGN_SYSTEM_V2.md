@@ -2,7 +2,7 @@
 
 **Status:** Shipped (2026-09-20). Ops + marketing chrome use these tokens.
 
-**Shipped summary:** Near-black canvas, phosphor accent `#B8FF3D`, Geist / Geist Mono, hairline borders, radius 2–6px, shared-edge tile grids. No soft-blue shadcn default, no glass panels, no diffuse card shadows. Marketing motion lives in [MARKETING_MOTION_V2.md](./MARKETING_MOTION_V2.md) — this doc owns tokens and ops chrome principles only.
+**Shipped summary:** Near-black canvas, phosphor accent `#B4F03C`, Geist / Geist Mono, hairline borders, radius 2–6px, shared-edge tile grids. No soft-blue shadcn default, no glass panels, no diffuse card shadows. Marketing motion lives in [MARKETING_MOTION_V2.md](./MARKETING_MOTION_V2.md) — this doc owns tokens and ops chrome principles only.
 
 ## Problem (solved)
 
@@ -28,18 +28,18 @@ DNA: Finout (Awwwards HM) + Factory war-room + Linear/Vercel craft + editorial m
 
 | Token | Value | Use |
 |-------|-------|-----|
-| `--tb-bg` | `#070708` | App canvas |
+| `--tb-bg` | `#09090b` | App canvas |
 | `--tb-bg-elevated` | `#0E0E10` | Panels / tiles |
 | `--tb-bg-hover` | `#141416` | Hover / selected |
 | `--tb-bg-sunken` | `#050505` | Inset wells, code |
-| `--tb-border` | `rgba(255,255,255,0.06)` | Hairline |
-| `--tb-border-strong` | `rgba(255,255,255,0.12)` | Active / focus ring base |
+| `--tb-border` | `#27272a` | Hairline |
+| `--tb-border-strong` | `#3f3f46` | Active / focus ring base |
 | `--tb-text` | `#F4F4F5` | Primary |
 | `--tb-text-muted` | `#A1A1AA` | Secondary |
 | `--tb-text-dim` | `#63636B` | Tertiary / labels |
-| `--tb-accent` | `#B8FF3D` | Phosphor — CTA, live, focus |
+| `--tb-accent` | `#B4F03C` | Phosphor — CTA, live, focus |
 | `--tb-accent-fg` | `#0A0A0A` | Text on accent fills |
-| `--tb-accent-soft` | `rgba(184,255,61,0.12)` | Soft chip / glow wash |
+| `--tb-accent-soft` | `rgba(180,240,60,0.14)` | Soft chip / glow wash |
 | `--tb-success` | `#4ADE80` | Pass |
 | `--tb-warning` | `#FBBF24` | Warn |
 | `--tb-danger` | `#FF5C5C` | Fail / high risk |
@@ -60,9 +60,9 @@ Load via `next/font` (geist) — self-host, no layout flash.
 
 | Token | Value |
 |-------|-------|
-| sm | `2px` |
-| md | `4px` |
-| lg | `6px` |
+| sm | `4px` |
+| md | `6px` |
+| lg | `8px` |
 | full | pills for status only |
 
 ### Spacing (8pt)

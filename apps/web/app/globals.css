@@ -9,8 +9,8 @@
   --color-tb-bg-elevated: #111113;
   --color-tb-bg-hover: #18181b;
   --color-tb-bg-sunken: #050506;
-  --color-tb-border: rgba(255, 255, 255, 0.08);
-  --color-tb-border-strong: rgba(255, 255, 255, 0.14);
+  --color-tb-border: #27272a;
+  --color-tb-border-strong: #3f3f46;
   --color-tb-text: #FAFAFA;
   --color-tb-text-muted: #A1A1AA;
   --color-tb-text-dim: #71717A;
@@ -35,7 +35,7 @@
   --radius-md: 6px;
   --radius-lg: 8px;
   --shadow-panel: none;
-  --shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.14);
+  --shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px #3f3f46;
 }
 
 :root {
@@ -44,8 +44,8 @@
   --tb-bg-elevated: #111113;
   --tb-bg-hover: #18181b;
   --tb-bg-sunken: #050506;
-  --tb-border: rgba(255, 255, 255, 0.08);
-  --tb-border-strong: rgba(255, 255, 255, 0.14);
+  --tb-border: #27272a;
+  --tb-border-strong: #3f3f46;
   --tb-text: #FAFAFA;
   --tb-text-muted: #A1A1AA;
   --tb-text-dim: #71717A;
@@ -71,9 +71,28 @@
   --tb-font-sans: "Geist", "Inter", system-ui, sans-serif;
   --tb-font-mono: "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
   --tb-shadow-panel: none;
-  --tb-shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.14);
+  --tb-shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px #3f3f46;
   --tb-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --tb-duration: 160ms;
+  --tb-duration-enter: 420ms;
+  --tb-space-1: 0.25rem;
+  --tb-space-2: 0.5rem;
+  --tb-space-3: 0.75rem;
+  --tb-space-4: 1rem;
+  --tb-space-5: 1.25rem;
+  --tb-space-6: 1.5rem;
+  --tb-space-8: 2rem;
+  --tb-space-10: 2.5rem;
+  --tb-space-12: 3rem;
+  --tb-space-16: 4rem;
+  --tb-space-24: 6rem;
+  --tb-type-display: clamp(2.125rem, 4.5vw, 3.75rem);
+  --tb-type-display-sm: clamp(1.5rem, 3vw, 2.25rem);
+  --tb-type-title: 1.375rem;
+  --tb-type-body: 0.9375rem;
+  --tb-type-body-sm: 0.8125rem;
+  --tb-type-meta: 0.75rem;
+  --tb-type-mono: 0.8125rem;
   --tb-space: 1;
   --tb-pad-y: 1rem;
   --tb-pad-x: 1rem;
@@ -338,15 +357,22 @@ button {
 
 /* Display type (marketing) */
 .tb-display {
+  font-size: var(--tb-type-display);
   font-weight: 550;
   letter-spacing: -0.04em;
   line-height: 1.05;
+}
+.tb-display-sm {
+  font-size: var(--tb-type-display-sm);
+  font-weight: 550;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 .tb-section-label {
   font-family: var(--tb-font-sans);
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   text-transform: none;
   color: var(--tb-text-dim);
 }
@@ -398,6 +424,47 @@ button {
   background: transparent;
 }
 
+
+/* Cinematic scroll — Story film language */
+.tb-clip-mask {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+.tb-section-pad {
+  padding-block: var(--tb-space-16);
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) {
+  .tb-section-pad {
+    padding-inline: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .tb-section-pad {
+    padding-inline: 4rem;
+  }
+}
+.tb-act-label {
+  font-family: var(--tb-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tb-text-dim);
+}
+.tb-film-frame {
+  border: 1px solid var(--tb-border-strong);
+  border-radius: var(--tb-radius-lg);
+  background: var(--tb-bg-elevated);
+  overflow: hidden;
+}
+.tb-pathfinder {
+  border: 1px solid var(--tb-border);
+  background: color-mix(in srgb, var(--tb-bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+}
+
 /* Control Plane Assembly is flat 2D (motion/react) — no preserve-3d */
 
 @media (prefers-reduced-motion: reduce) {
@@ -445,7 +512,7 @@ button {
   margin-inline: auto;
   max-width: 1100px;
   padding-inline: 1.5rem;
-  padding-bottom: 4rem;
+  padding-bottom: var(--tb-space-16);
   padding-top: var(--tb-pad-y, 1rem);
 }
 .tb-page-header {
