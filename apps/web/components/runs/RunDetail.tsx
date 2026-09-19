@@ -119,19 +119,20 @@ export function RunDetail({ initialRun }: { initialRun: AgentRun }) {
       data-tour={run.id === "run_live_approve" ? "run-live" : undefined}
     >
       <div
-        className="mb-5 flex flex-wrap items-start justify-between gap-4"
+        className="sticky top-0 z-10 -mx-1 mb-5 flex flex-wrap items-start justify-between gap-4 border-b border-tb-border bg-tb-bg/95 px-1 py-3 backdrop-blur-sm"
         data-testid="run-decision-header"
       >
         <div>
+          <p className="tb-section-label m-0 mb-1.5">Run detail</p>
           <div className="mb-1.5 flex flex-wrap items-center gap-2.5">
-            <h1 className="m-0 text-[22px] tracking-tight">{run.title}</h1>
+            <h1 className="tb-title m-0">{run.title}</h1>
             <Badge tone={statusTone(run.status)}>{run.status.replaceAll("_", " ")}</Badge>
             {pendingCount > 0 && <Badge tone="warning">{pendingCount} pending</Badge>}
             <Badge tone="neutral" className="normal-case tracking-normal">
               flow · {flowLabel}
             </Badge>
           </div>
-          <p className="m-0 max-w-[720px] text-tb-text-muted">{run.goal}</p>
+          <p className="tb-subtitle m-0 mt-1.5 max-w-[720px]">{run.goal}</p>
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-tb-text-dim">
             <span>
               {run.agentName} · {formatTime(run.createdAt)} · <code>{run.id}</code>

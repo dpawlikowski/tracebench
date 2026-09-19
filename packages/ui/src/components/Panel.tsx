@@ -24,7 +24,7 @@ export function Panel({
     >
       {(title || action) && (
         <header
-          className="flex items-center justify-between gap-2 border-b border-tb-border px-4"
+          className="sticky top-0 z-[1] flex items-center justify-between gap-2 border-b border-tb-border bg-tb-bg-elevated/95 px-4 backdrop-blur-[2px]"
           style={{ paddingBlock: "var(--tb-panel-head-py, 0.625rem)" }}
         >
           <h2 className="m-0 text-[12px] font-medium tracking-tight text-tb-text-dim">

@@ -388,12 +388,28 @@ button {
   z-index: 1;
   background: color-mix(in srgb, var(--tb-bg-elevated) 92%, var(--tb-bg-hover));
   box-shadow: 0 1px 0 var(--tb-border);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
 }
 .tb-table-wrap tbody tr {
   transition: background-color 120ms ease-out;
 }
 .tb-table-wrap tbody tr:hover {
   background: color-mix(in srgb, var(--tb-bg-hover) 55%, transparent);
+}
+
+/* Instrument list row — command/policy/eval family */
+.tb-instrument-row {
+  border: 1px solid transparent;
+  border-radius: var(--tb-radius-md);
+  transition: background-color 120ms var(--tb-ease-out), border-color 120ms var(--tb-ease-out);
+}
+.tb-instrument-row:hover,
+.tb-instrument-row[data-selected="true"],
+.tb-instrument-row[aria-selected="true"] {
+  background: var(--tb-bg-hover);
+  border-color: var(--tb-border);
 }
 
 .tb-mono-trunc {

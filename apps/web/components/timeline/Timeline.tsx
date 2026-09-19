@@ -13,7 +13,7 @@ const ShapeOfRun = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="mb-3 h-10 animate-pulse rounded-sm border border-tb-border bg-tb-bg" />
+      <div className="mb-4 h-11 animate-pulse rounded-md border border-tb-border bg-tb-bg-sunken" />
     ),
   },
 );
@@ -42,7 +42,7 @@ export function Timeline({
     <div data-testid="timeline" className="flex flex-col gap-0">
       <ShapeOfRun run={run} visibleEventIds={visibleEventIds} onSelectEvent={onSelectEvent} />
       {events.length === 0 && (
-        <div className="px-2 py-6 text-tb-text-muted" data-testid="timeline-empty">
+        <div className="px-1 py-8 text-[13px] text-tb-text-muted" data-testid="timeline-empty">
           {isReplaying ? "Waiting for first event…" : "Press Replay to stream the timeline."}
         </div>
       )}
@@ -59,7 +59,7 @@ export function Timeline({
       })}
       {isReplaying && (
         <div
-          className="px-2 py-3 font-mono text-xs text-tb-accent"
+          className="px-1 py-3 font-mono text-[11px] text-tb-accent"
           data-testid="timeline-streaming"
         >
           ● streaming…
@@ -96,7 +96,7 @@ const TimelineRow = memo(function TimelineRow({
         />
         {!isLast && <span className="mt-1 w-0.5 flex-1 bg-tb-border" />}
       </div>
-      <div style={{ paddingBottom: "var(--tb-row-py, 0.875rem)" }}>
+      <div style={{ paddingBottom: "var(--tb-row-py, 1rem)" }}>
         <EventBody event={event} run={run} />
       </div>
     </div>
@@ -133,7 +133,7 @@ function EventBody({ event, run }: { event: TimelineEvent; run: AgentRun }) {
   if (event.kind === "thought") {
     return (
       <div>
-        <div className="mb-1 text-[11px] uppercase tracking-wide text-tb-text-dim">Thought</div>
+        <div className="mb-1 text-[11px] font-medium tracking-tight text-tb-text-dim">Thought</div>
         <div className="italic text-tb-text-muted">{event.text}</div>
       </div>
     );
@@ -149,7 +149,7 @@ function EventBody({ event, run }: { event: TimelineEvent; run: AgentRun }) {
   if (event.kind === "agent_spawn") {
     return (
       <div data-testid={`agent-spawn-${event.childRunId}`}>
-        <div className="mb-1 text-[11px] uppercase tracking-wide text-tb-accent">Agent spawn</div>
+        <div className="mb-1 text-[11px] font-medium tracking-tight text-tb-accent">Agent spawn</div>
         <div className="font-medium">
           Spawned <code className="font-mono text-[13px]">{event.agent.name}</code>{" "}
           <Badge tone="neutral">{event.agent.role}</Badge>
@@ -161,7 +161,7 @@ function EventBody({ event, run }: { event: TimelineEvent; run: AgentRun }) {
   if (event.kind === "agent_message") {
     return (
       <div data-testid={`agent-message-${event.id}`}>
-        <div className="mb-1 text-[11px] uppercase tracking-wide text-tb-success">Agent message</div>
+        <div className="mb-1 text-[11px] font-medium tracking-tight text-tb-success">Agent message</div>
         <div className="font-mono text-[12px]">
           <span className="text-tb-accent">{event.fromAgentId}</span>
           <span className="text-tb-text-dim"> → </span>
@@ -177,7 +177,7 @@ function EventBody({ event, run }: { event: TimelineEvent; run: AgentRun }) {
   if (event.kind === "agent_await") {
     return (
       <div>
-        <div className="mb-1 text-[11px] uppercase tracking-wide text-tb-warning">Agent await</div>
+        <div className="mb-1 text-[11px] font-medium tracking-tight text-tb-warning">Agent await</div>
         <div className="text-[13px]">
           Waiting on <code className="font-mono">{event.awaitedRunId}</code>
         </div>
@@ -188,7 +188,7 @@ function EventBody({ event, run }: { event: TimelineEvent; run: AgentRun }) {
     return (
       <div>
         <div className="mb-1 flex items-center gap-2">
-          <span className="text-[11px] uppercase tracking-wide text-tb-text-dim">Agent join</span>
+          <span className="text-[11px] font-medium tracking-tight text-tb-text-dim">Agent join</span>
           <Badge tone={statusTone(event.outcome)}>{event.outcome}</Badge>
         </div>
         <div className="font-mono text-[12px] text-tb-text-muted">{event.childRunId}</div>
@@ -200,7 +200,7 @@ function EventBody({ event, run }: { event: TimelineEvent; run: AgentRun }) {
     return (
       <div>
         <div className="mb-1 flex items-center gap-2">
-          <span className="text-[11px] uppercase tracking-wide text-tb-text-dim">Outcome</span>
+          <span className="text-[11px] font-medium tracking-tight text-tb-text-dim">Outcome</span>
           <Badge tone={statusTone(event.status)}>{event.status.replaceAll("_", " ")}</Badge>
         </div>
         <div className="font-medium">{event.summary}</div>
@@ -219,7 +219,7 @@ const ToolCard = memo(function ToolCard({ tool }: { tool: ToolCall }) {
         : "border-tb-border";
   return (
     <div
-      className={`rounded-sm border bg-tb-bg p-3 ${riskBorder}`}
+      className={`rounded-md border bg-tb-bg-sunken p-3.5 ${riskBorder}`}
       data-testid={`tool-card-${tool.id}`}
       data-risk={tool.risk}
     >
@@ -277,7 +277,7 @@ function MonoExpandable({ value }: { value: unknown }) {
 const ApprovalCard = memo(function ApprovalCard({ approval }: { approval: Approval }) {
   return (
     <div
-      className="rounded-sm border border-tb-warning bg-tb-warning-soft p-3"
+      className="rounded-md border border-tb-warning/40 bg-tb-warning-soft/50 p-3.5"
       data-testid={`approval-card-${approval.id}`}
       data-risk={approval.risk}
     >

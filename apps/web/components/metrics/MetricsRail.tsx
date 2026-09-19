@@ -15,7 +15,7 @@ const Sparkline = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-12 rounded-sm border border-dashed border-tb-border bg-tb-bg/40" />
+      <div className="h-12 rounded-md border border-dashed border-tb-border bg-tb-bg-sunken/50" />
     ),
   },
 );

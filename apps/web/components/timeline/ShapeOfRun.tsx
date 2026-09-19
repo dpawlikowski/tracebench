@@ -82,7 +82,7 @@ export function ShapeOfRun({
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, cssW, cssH);
 
-    ctx.fillStyle = "#18181b";
+    ctx.fillStyle = "#27272a";
     ctx.fillRect(0, cssH / 2 - 1, cssW, 2);
 
     const viewSpan = 1 / zoom;
@@ -121,7 +121,7 @@ export function ShapeOfRun({
       }
     }
 
-    ctx.strokeStyle = "rgba(91,159,212,0.35)";
+    ctx.strokeStyle = "rgba(63,63,70,0.9)";
     ctx.strokeRect(0.5, 0.5, cssW - 1, cssH - 1);
   }, [points, zoom, pan, playheadX]);
 
@@ -169,9 +169,9 @@ export function ShapeOfRun({
   }
 
   return (
-    <div className="mb-3" data-testid="shape-of-run">
-      <div className="mb-1.5 flex items-center justify-between gap-2">
-        <span className="text-[11px] uppercase tracking-wider text-tb-text-dim">
+    <div className="mb-4" data-testid="shape-of-run">
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <span className="text-[11px] font-medium tracking-tight text-tb-text-dim">
           Shape of run
         </span>
         <span className="font-mono text-[11px] text-tb-text-dim tabular-nums">
@@ -180,7 +180,7 @@ export function ShapeOfRun({
       </div>
       <canvas
         ref={canvasRef}
-        className="h-10 w-full cursor-ew-resize rounded-sm border border-tb-border bg-tb-bg touch-none"
+        className="h-11 w-full cursor-ew-resize rounded-md border border-tb-border bg-tb-bg-sunken touch-none"
         role="img"
         aria-label="Timeline shape overview. Drag to pan, scroll to zoom, click to select."
         onWheel={(e) => {

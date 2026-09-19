@@ -153,7 +153,7 @@ export function DashboardBoard() {
       const title = WIDGET_META[id]?.title ?? id;
       return (
         <div
-          className="flex h-full items-center rounded-md border border-tb-border bg-tb-bg-elevated px-3"
+          className="flex h-full items-center rounded-lg border border-tb-border bg-tb-bg-elevated px-3"
           data-testid={`widget-${id}-minimized`}
         >
           <span className="truncate text-[12px] font-medium tracking-tight text-tb-text">
@@ -361,12 +361,12 @@ export function DashboardBoard() {
             draggableHandle=".tb-dash-drag"
           >
             {layout.map((item) => (
-              <div key={item.i} className="relative overflow-hidden rounded-md">
+              <div key={item.i} className="relative overflow-hidden rounded-lg">
                 {editing && (
                   <div className="absolute right-1.5 top-1.5 z-20 flex items-center gap-0.5">
                     <button
                       type="button"
-                      className="tb-dash-drag cursor-move rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text"
+                      className="tb-dash-drag cursor-move rounded border border-tb-border bg-tb-bg-elevated px-1.5 py-0.5 text-[10px] font-medium tracking-tight text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text"
                       aria-label={`Drag ${item.i}`}
                       data-testid={`dash-drag-${item.i}`}
                     >
@@ -376,7 +376,7 @@ export function DashboardBoard() {
                       <>
                         <button
                           type="button"
-                          className="rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim hover:text-tb-text"
+                          className="rounded border border-tb-border bg-tb-bg-elevated px-1.5 py-0.5 text-[10px] font-medium text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text"
                           onClick={() => shrink(item.i)}
                           aria-label="Shrink widget"
                           data-testid={`dash-shrink-${item.i}`}
@@ -385,7 +385,7 @@ export function DashboardBoard() {
                         </button>
                         <button
                           type="button"
-                          className="rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim hover:text-tb-text"
+                          className="rounded border border-tb-border bg-tb-bg-elevated px-1.5 py-0.5 text-[10px] font-medium text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text"
                           onClick={() => grow(item.i)}
                           aria-label="Enlarge widget"
                           data-testid={`dash-grow-${item.i}`}
@@ -396,7 +396,7 @@ export function DashboardBoard() {
                     )}
                     <button
                       type="button"
-                      className="rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim hover:text-tb-text"
+                      className="rounded border border-tb-border bg-tb-bg-elevated px-1.5 py-0.5 text-[10px] font-medium text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text"
                       onClick={() => toggleMinimize(item.i)}
                       aria-label={item.minimized ? "Restore widget" : "Minimize widget"}
                       data-testid={`dash-min-${item.i}`}

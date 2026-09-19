@@ -31,12 +31,20 @@ export function ApprovalGate({
   return (
     <div
       data-testid="approval-gate"
-      className="mb-4 rounded-md border border-tb-warning bg-tb-warning-soft p-3.5 shadow-[0_0_0_1px_rgba(212,160,23,0.12)]"
+      className="mb-5 overflow-hidden rounded-lg border border-tb-warning/45 bg-tb-warning-soft/40"
     >
-      <div className="mb-2 flex items-center justify-between gap-2 font-semibold">
-        <div className="flex items-center gap-2">
-          <span className="inline-block h-2 w-2 rounded-full bg-tb-warning motion-safe:animate-pulse" />
-          Pending human approvals
+      <div className="flex items-center justify-between gap-2 border-b border-tb-warning/25 px-4 py-2.5">
+        <div className="flex items-center gap-2.5">
+          <span
+            className="inline-block h-1.5 w-1.5 rounded-full bg-tb-warning motion-safe:animate-pulse"
+            aria-hidden
+          />
+          <span className="text-[12px] font-medium tracking-tight text-tb-text">
+            Pending human approvals
+          </span>
+          <Badge tone="warning" className="normal-case tracking-normal">
+            {pending.length}
+          </Badge>
         </div>
         <HelpTip
           title="HITL approvals"
@@ -44,18 +52,22 @@ export function ApprovalGate({
           href="/help/hitl-jev"
         />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 p-3">
         {pending.map((a) => (
           <div
             key={a.id}
-            className="flex flex-wrap items-center justify-between gap-3 rounded-sm border border-tb-warning/30 bg-tb-bg/50 px-3 py-2"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-tb-border bg-tb-bg-elevated/80 px-3 py-2.5 transition-colors hover:border-tb-border-strong hover:bg-tb-bg-hover/50"
           >
-            <div>
-              <div className="flex items-center gap-2">
-                <code className="font-mono text-[13px]">{a.toolName}</code>
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <code className="font-mono text-[13px] font-medium text-tb-text">
+                  {a.toolName}
+                </code>
                 <Badge tone={riskTone(a.risk)}>{a.risk}</Badge>
               </div>
-              <div className="text-[13px] text-tb-text-muted">{a.reason}</div>
+              <div className="mt-0.5 text-[13px] leading-snug text-tb-text-muted">
+                {a.reason}
+              </div>
             </div>
             <Button
               variant="primary"
@@ -69,7 +81,7 @@ export function ApprovalGate({
         ))}
       </div>
       {error && (
-        <div role="alert" className="mt-2 text-[13px] text-tb-danger">
+        <div role="alert" className="border-t border-tb-danger/30 px-4 py-2 text-[13px] text-tb-danger">
           {error}
         </div>
       )}
@@ -87,13 +99,16 @@ export function ApprovalGate({
       >
         {active && (
           <div>
-            <p className="mt-0">{active.reason}</p>
-            <pre className="overflow-auto rounded-md border border-tb-border bg-tb-bg p-3 font-mono text-xs text-tb-text">
+            <p className="mt-0 text-[14px] leading-relaxed text-tb-text-muted">
+              {active.reason}
+            </p>
+            <pre className="overflow-auto rounded-md border border-tb-border bg-tb-bg-sunken p-3 font-mono text-xs text-tb-text">
               {JSON.stringify(active.argsPreview, null, 2)}
             </pre>
             {active.risk === "high" && (
               <p className="text-[13px] text-tb-danger">
-                High risk · irreversible tool. Confirm only if dual-control is satisfied.{" "}<Kbd className="ml-1">⌘↵</Kbd>
+                High risk · irreversible tool. Confirm only if dual-control is
+                satisfied. <Kbd className="ml-1">⌘↵</Kbd>
               </p>
             )}
           </div>

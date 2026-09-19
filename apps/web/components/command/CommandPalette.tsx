@@ -96,24 +96,24 @@ export function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-[1100] grid place-items-start bg-black/65 pt-[12vh] px-4"
+      className="fixed inset-0 z-[1100] grid place-items-start bg-tb-bg/80 pt-[12vh] px-4 backdrop-blur-[2px]"
       role="presentation"
       onClick={close}
       data-testid="command-palette-backdrop"
     >
       <Command
         label="Command palette"
-        className="tb-modal-panel mx-auto w-full max-w-[520px] overflow-hidden rounded-lg border border-tb-border-strong bg-tb-bg-elevated shadow-[var(--tb-shadow-modal)]"
+        className="tb-modal-panel mx-auto w-full max-w-[540px] overflow-hidden rounded-lg border border-tb-border-strong bg-tb-bg-elevated shadow-[var(--tb-shadow-modal)]"
         onClick={(e) => e.stopPropagation()}
         data-testid="command-palette"
       >
         <Command.Input
           placeholder="Jump to run, evals, help…"
-          className="w-full border-0 border-b border-tb-border bg-transparent px-4 py-3 text-sm text-tb-text outline-none placeholder:text-tb-text-dim"
+          className="w-full border-0 border-b border-tb-border bg-transparent px-4 py-3.5 text-[14px] tracking-tight text-tb-text outline-none placeholder:text-tb-text-dim focus:border-tb-border-strong"
           autoFocus
         />
-        <Command.List className="max-h-[360px] overflow-y-auto p-2">
-          <Command.Empty className="px-3 py-6 text-center text-[13px] text-tb-text-muted">
+        <Command.List className="max-h-[380px] overflow-y-auto p-1.5">
+          <Command.Empty className="px-3 py-8 text-center text-[13px] text-tb-text-muted">
             No matches
           </Command.Empty>
 
@@ -229,9 +229,9 @@ export function CommandPalette() {
             </Item>
           </Group>
         </Command.List>
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-tb-border px-3 py-2 text-[11px] text-tb-text-dim">
-          <span>↑↓ navigate · ↵ select · Esc close · ⌘Enter approve in modal · R replay</span>
-          <kbd className="rounded-md border border-tb-border bg-tb-bg px-1.5 py-0.5 font-mono text-[10px]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-tb-border bg-tb-bg-sunken/60 px-3 py-2 text-[11px] text-tb-text-dim">
+          <span>↑↓ navigate · ↵ select · Esc close · ⌘Enter approve · R replay</span>
+          <kbd className="rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 font-mono text-[10px] text-tb-text-muted">
             ⌘K
           </kbd>
         </div>
@@ -244,7 +244,7 @@ function Group({ heading, children }: { heading: string; children: React.ReactNo
   return (
     <Command.Group
       heading={heading}
-      className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[12px] [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:tracking-tight [&_[cmdk-group-heading]]:text-tb-text-dim"
+      className="[&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:pt-2.5 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:tracking-tight [&_[cmdk-group-heading]]:text-tb-text-dim"
     >
       {children}
     </Command.Group>
@@ -263,7 +263,7 @@ function Item({
   return (
     <Command.Item
       onSelect={onSelect}
-      className="flex cursor-pointer items-center justify-between gap-2 rounded-md px-2 py-2 text-[13px] text-tb-text aria-selected:bg-tb-bg-hover data-[selected=true]:bg-tb-bg-hover"
+      className="flex cursor-pointer items-center justify-between gap-2 rounded-md border border-transparent px-2.5 py-2 text-[13px] tracking-tight text-tb-text outline-none transition-colors aria-selected:border-tb-border aria-selected:bg-tb-bg-hover data-[selected=true]:border-tb-border data-[selected=true]:bg-tb-bg-hover data-[selected=true]:text-tb-text"
     >
       <span className="min-w-0 truncate">{children}</span>
       {hint && (

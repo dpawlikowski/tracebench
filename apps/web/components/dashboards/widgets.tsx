@@ -44,7 +44,7 @@ export function WidgetShell({
   if (!meta) {
     return (
       <div
-        className="flex h-full min-h-0 flex-col overflow-hidden rounded-md border border-tb-border bg-tb-bg-elevated p-3"
+        className="flex h-full min-h-0 flex-col overflow-hidden rounded-lg border border-tb-border bg-tb-bg-elevated p-3.5"
         data-testid={`widget-${id}`}
       >
         <EmptyState title="Unknown widget" description={String(id)} className="py-4" />
@@ -53,10 +53,10 @@ export function WidgetShell({
   }
   return (
     <div
-      className="flex h-full min-h-0 flex-col overflow-hidden rounded-md border border-tb-border bg-tb-bg-elevated p-3"
+      className="flex h-full min-h-0 flex-col overflow-hidden rounded-lg border border-tb-border bg-tb-bg-elevated p-3.5"
       data-testid={`widget-${id}`}
     >
-      <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-tb-text-dim">
+      <div className="mb-2.5 text-[11px] font-medium tracking-tight text-tb-text-dim">
         {meta.title}
       </div>
       {loading ? (
@@ -173,7 +173,7 @@ export function ToolMixWidget({
           />
           <YAxis tick={{ fill: "#71717A", fontSize: 10 }} width={28} allowDecimals={false} />
           <Tooltip
-            contentStyle={{ background: "#111113", border: "1px solid rgba(255,255,255,0.12)", fontSize: 12 }}
+            contentStyle={{ background: "#111113", border: "1px solid #27272a", fontSize: 12, borderRadius: 6 }}
           />
           <Bar dataKey="count" fill="#B4F03C" radius={[3, 3, 0, 0]} />
         </BarChart>

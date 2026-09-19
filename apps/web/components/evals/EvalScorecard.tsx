@@ -102,25 +102,25 @@ export function EvalScorecard({
             <table data-testid="eval-table" className="w-full border-collapse text-[13px]">
               <thead>
                 <tr className="text-left text-tb-text-dim">
-                  <th className="px-2.5 py-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="px-3 py-2.5 text-[11px] font-medium tracking-tight">
                     ID
                   </th>
-                  <th className="px-2.5 py-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="px-3 py-2.5 text-[11px] font-medium tracking-tight">
                     Name
                   </th>
-                  <th className="px-2.5 py-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="px-3 py-2.5 text-[11px] font-medium tracking-tight">
                     Category
                   </th>
-                  <th className="px-2.5 py-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="px-3 py-2.5 text-[11px] font-medium tracking-tight">
                     Severity
                   </th>
-                  <th className="px-2.5 py-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="px-3 py-2.5 text-[11px] font-medium tracking-tight">
                     Result
                   </th>
-                  <th className="px-2.5 py-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="px-3 py-2.5 text-[11px] font-medium tracking-tight">
                     Score
                   </th>
-                  <th className="px-2.5 py-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="px-3 py-2.5 text-[11px] font-medium tracking-tight">
                     Notes
                   </th>
                 </tr>
@@ -134,13 +134,16 @@ export function EvalScorecard({
                     r.failures[0] ??
                     (expectFail && !r.passed ? "intentional regression" : null);
                   return (
-                    <tr key={r.caseId} className="border-t border-tb-border">
-                      <td className="px-2.5 py-2.5 align-top">
-                        <code className="font-mono text-[11px]">{r.caseId}</code>
+                    <tr
+                      key={r.caseId}
+                      className="border-t border-tb-border transition-colors hover:bg-tb-bg-hover/40"
+                    >
+                      <td className="px-3 py-2.5 align-top">
+                        <code className="font-mono text-[11px] text-tb-text-muted">{r.caseId}</code>
                       </td>
-                      <td className="px-2.5 py-2.5 align-top">{c?.name ?? r.caseId}</td>
-                      <td className="px-2.5 py-2.5 align-top">{c?.category}</td>
-                      <td className="px-2.5 py-2.5 align-top">
+                      <td className="px-3 py-2.5 align-top font-medium tracking-tight">{c?.name ?? r.caseId}</td>
+                      <td className="px-3 py-2.5 align-top text-tb-text-muted">{c?.category}</td>
+                      <td className="px-3 py-2.5 align-top">
                         <Badge
                           tone={
                             c?.severity === "blocker"
@@ -153,7 +156,7 @@ export function EvalScorecard({
                           {c?.severity ?? "—"}
                         </Badge>
                       </td>
-                      <td className="px-2.5 py-2.5 align-top">
+                      <td className="px-3 py-2.5 align-top">
                         <Badge tone={r.passed ? "success" : expectFail ? "warning" : "danger"}>
                           {r.passed ? "pass" : expectFail ? "fail (expected)" : "fail"}
                         </Badge>
@@ -161,7 +164,7 @@ export function EvalScorecard({
                       <td className="px-2.5 py-2.5 align-top font-mono tabular-nums">
                         {r.score.toFixed(2)}
                       </td>
-                      <td className="max-w-[280px] px-2.5 py-2.5 align-top text-tb-text-muted">
+                      <td className="max-w-[280px] px-3 py-2.5 align-top text-tb-text-muted">
                         <div>{note ?? "—"}</div>
                         {jevHint && (
                           <div className="mt-0.5 font-mono text-[11px] text-tb-text-dim">

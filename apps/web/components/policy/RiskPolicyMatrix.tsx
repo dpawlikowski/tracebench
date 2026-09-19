@@ -97,18 +97,22 @@ export function RiskPolicyMatrix() {
             <div className="tb-table-wrap">
             <table className="w-full min-w-[720px] border-collapse text-left text-[13px]" data-testid="policy-table">
               <thead>
-                <tr className="border-b border-tb-border text-[11px] uppercase tracking-wide text-tb-text-dim">
-                  <th className="px-4 py-3 font-semibold">Tool</th>
-                  <th className="px-4 py-3 font-semibold">Catalog risk</th>
-                  <th className="px-4 py-3 font-semibold">Jev risk</th>
-                  <th className="px-4 py-3 font-semibold">Confidence</th>
-                  <th className="px-4 py-3 font-semibold">Gate</th>
-                  <th className="px-4 py-3 font-semibold">Reason</th>
+                <tr className="border-b border-tb-border text-[11px] text-tb-text-dim">
+                  <th className="px-4 py-2.5 font-medium tracking-tight">Tool</th>
+                  <th className="px-4 py-2.5 font-medium tracking-tight">Catalog risk</th>
+                  <th className="px-4 py-2.5 font-medium tracking-tight">Jev risk</th>
+                  <th className="px-4 py-2.5 font-medium tracking-tight">Confidence</th>
+                  <th className="px-4 py-2.5 font-medium tracking-tight">Gate</th>
+                  <th className="px-4 py-2.5 font-medium tracking-tight">Reason</th>
                 </tr>
               </thead>
               <tbody>
                 {data.rows.map((row) => (
-                  <tr key={row.tool.name} className="border-b border-tb-border/70 align-top transition-colors hover:bg-tb-bg-hover/40">
+                  <tr
+                    key={row.tool.name}
+                    tabIndex={0}
+                    className="border-b border-tb-border/70 align-top outline-none transition-colors hover:bg-tb-bg-hover/50 focus-visible:bg-tb-bg-hover/60 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-tb-accent/40"
+                  >
                     <td className="px-4 py-3">
                       <div className="font-semibold text-tb-text">{row.tool.name}</div>
                       <div className="mt-0.5 text-[12px] text-tb-text-muted">

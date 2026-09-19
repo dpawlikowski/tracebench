@@ -37,7 +37,7 @@ export function ChildRunsPanelView({
             return (
               <li
                 key={id}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-sm border border-tb-border bg-tb-bg/40 px-3 py-2"
+                className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-tb-border bg-tb-bg-sunken/60 px-3 py-2.5 transition-colors hover:border-tb-border-strong"
                 data-testid={`child-run-${id}`}
               >
                 <div className="min-w-0">
