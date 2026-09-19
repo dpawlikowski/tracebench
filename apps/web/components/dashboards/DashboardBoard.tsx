@@ -11,6 +11,7 @@ import { useRunsDetails } from "@/lib/hooks/use-runs-details";
 import {
   PRESET_FLEET,
   PRESET_LIVE_RUN,
+  WIDGET_META,
   loadLayout,
   saveLayout,
   type DashItem,
@@ -34,6 +35,19 @@ import {
 import { HelpTip } from "@/components/help/HelpTip";
 
 const AutoGrid = WidthProvider(GridLayout);
+
+const MAX_W = 12;
+const MAX_H = 6;
+
+function clampSize(item: DashItem, dw: number, dh: number): DashItem {
+  const minW = item.minimized ? 2 : (item.minW ?? 2);
+  const minH = item.minimized ? 1 : (item.minH ?? 2);
+  return {
+    ...item,
+    w: Math.min(MAX_W, Math.max(minW, item.w + dw)),
+    h: Math.min(MAX_H, Math.max(minH, item.h + dh)),
+  };
+}
 
 export function DashboardBoard() {
   const [mounted, setMounted] = useState(false);
@@ -71,19 +85,57 @@ export function DashboardBoard() {
   const onLayoutChange = useCallback(
     (next: Layout[]) => {
       if (!editing) return;
-      const mapped: DashItem[] = next.map((n) => ({
-        i: n.i as WidgetId,
-        x: n.x,
-        y: n.y,
-        w: n.w,
-        h: n.h,
-        minW: 2,
-        minH: 2,
-      }));
-      setLayout(mapped);
+      setLayout((prev) => {
+        const byId = new Map(prev.map((p) => [p.i, p]));
+        return next.map((n) => {
+          const old = byId.get(n.i as WidgetId);
+          const minimized = old?.minimized ?? false;
+          return {
+            i: n.i as WidgetId,
+            x: n.x,
+            y: n.y,
+            w: n.w,
+            h: minimized ? 1 : n.h,
+            minW: 2,
+            minH: minimized ? 1 : 2,
+            minimized,
+            prevH: old?.prevH,
+          };
+        });
+      });
     },
     [editing],
   );
+
+  const patchItem = useCallback((id: WidgetId, fn: (item: DashItem) => DashItem) => {
+    setLayout((prev) => prev.map((it) => (it.i === id ? fn(it) : it)));
+  }, []);
+
+  const grow = (id: WidgetId) =>
+    patchItem(id, (it) => clampSize(it, it.minimized ? 0 : 1, it.minimized ? 0 : 1));
+  const shrink = (id: WidgetId) =>
+    patchItem(id, (it) => clampSize(it, it.minimized ? 0 : -1, it.minimized ? 0 : -1));
+
+  const toggleMinimize = (id: WidgetId) =>
+    patchItem(id, (it) => {
+      if (it.minimized) {
+        const restored = it.prevH ?? 2;
+        return {
+          ...it,
+          minimized: false,
+          h: Math.max(2, restored),
+          minH: 2,
+          prevH: undefined,
+        };
+      }
+      return {
+        ...it,
+        minimized: true,
+        prevH: it.h,
+        h: 1,
+        minH: 1,
+      };
+    });
 
   const save = () => {
     saveLayout(preset, layout);
@@ -96,7 +148,20 @@ export function DashboardBoard() {
     saveLayout(preset, base);
   };
 
-  const renderWidget = (id: WidgetId) => {
+  const renderWidget = (id: WidgetId, minimized?: boolean) => {
+    if (minimized) {
+      const title = WIDGET_META[id]?.title ?? id;
+      return (
+        <div
+          className="flex h-full items-center rounded-md border border-tb-border bg-tb-bg-elevated px-3"
+          data-testid={`widget-${id}-minimized`}
+        >
+          <span className="truncate text-[12px] font-medium tracking-tight text-tb-text">
+            {title}
+          </span>
+        </div>
+      );
+    }
     switch (id) {
       case "cost_burn":
         return (
@@ -193,6 +258,17 @@ export function DashboardBoard() {
 
   const scopeLabel = preset === "fleet_release" ? "Fleet scope" : "Live run scope";
 
+  const gridLayout: Layout[] = layout.map((item) => ({
+    i: item.i,
+    x: item.x,
+    y: item.y,
+    w: item.w,
+    h: item.minimized ? 1 : item.h,
+    minW: 2,
+    minH: item.minimized ? 1 : 2,
+    isResizable: editing && !item.minimized,
+  }));
+
   return (
     <div className="mx-auto max-w-[1280px] px-5 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
       <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
@@ -209,15 +285,14 @@ export function DashboardBoard() {
             </span>
           </div>
           <p className="mt-1.5 max-w-[640px] text-tb-text-muted">
-            Layout preferences over the same fixture projections — not a second source of truth.
-            Edit mode persists to <code className="font-mono text-[12px]">localStorage</code>.
-            KPI tiles deep-link into runs, evals, and A2A.
+            Drag, resize, and minimize widgets. Edit mode saves to{" "}
+            <code className="font-mono text-[12px]">localStorage</code>.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <HelpTip
             title="Dashboards"
-            body="Widgets read /api/runs and /api/evals. Presets: Live Run (HITL) and Fleet/Release (evals). Zero external agents. Drag handle only in edit mode — KPI links stay clickable."
+            body="In Edit layout: drag handle to move, corner handle or −/+ to resize, ▢/— to minimize to title. Save persists the board."
             href="/help/getting-started"
           />
           <Button
@@ -262,19 +337,19 @@ export function DashboardBoard() {
         </div>
       </div>
 
-      <div data-testid="dashboard-board">
+      <div data-testid="dashboard-board" className="tb-dash-board">
         {!mounted ? (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {layout.map((item) => (
-              <div key={item.i} className="min-h-[156px]">
-                {renderWidget(item.i)}
+              <div key={item.i} className="min-h-[156px] overflow-hidden">
+                {renderWidget(item.i, item.minimized)}
               </div>
             ))}
           </div>
         ) : (
           <AutoGrid
             className="layout"
-            layout={layout}
+            layout={gridLayout}
             cols={12}
             rowHeight={72}
             margin={[12, 12]}
@@ -285,13 +360,52 @@ export function DashboardBoard() {
             draggableHandle=".tb-dash-drag"
           >
             {layout.map((item) => (
-              <div key={item.i} className="relative">
+              <div key={item.i} className="relative overflow-hidden rounded-md">
                 {editing && (
-                  <div className="tb-dash-drag absolute right-2 top-2 z-10 cursor-move rounded-sm border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim">
-                    drag
+                  <div className="absolute right-1.5 top-1.5 z-20 flex items-center gap-0.5">
+                    <button
+                      type="button"
+                      className="tb-dash-drag cursor-move rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text"
+                      aria-label={`Drag ${item.i}`}
+                      data-testid={`dash-drag-${item.i}`}
+                    >
+                      drag
+                    </button>
+                    {!item.minimized && (
+                      <>
+                        <button
+                          type="button"
+                          className="rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim hover:text-tb-text"
+                          onClick={() => shrink(item.i)}
+                          aria-label="Shrink widget"
+                          data-testid={`dash-shrink-${item.i}`}
+                        >
+                          −
+                        </button>
+                        <button
+                          type="button"
+                          className="rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim hover:text-tb-text"
+                          onClick={() => grow(item.i)}
+                          aria-label="Enlarge widget"
+                          data-testid={`dash-grow-${item.i}`}
+                        >
+                          +
+                        </button>
+                      </>
+                    )}
+                    <button
+                      type="button"
+                      className="rounded border border-tb-border bg-tb-bg px-1.5 py-0.5 text-[10px] text-tb-text-dim hover:text-tb-text"
+                      onClick={() => toggleMinimize(item.i)}
+                      aria-label={item.minimized ? "Restore widget" : "Minimize widget"}
+                      data-testid={`dash-min-${item.i}`}
+                      title={item.minimized ? "Restore" : "Minimize to title"}
+                    >
+                      {item.minimized ? "▢" : "—"}
+                    </button>
                   </div>
                 )}
-                {renderWidget(item.i)}
+                {renderWidget(item.i, item.minimized)}
               </div>
             ))}
           </AutoGrid>

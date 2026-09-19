@@ -17,6 +17,10 @@ export type DashItem = {
   h: number;
   minW?: number;
   minH?: number;
+  /** Collapsed to title bar only */
+  minimized?: boolean;
+  /** Height before minimize (restore) */
+  prevH?: number;
 };
 
 export type DashPreset = "live_run" | "fleet_release";
@@ -82,7 +86,9 @@ function sanitizeLayout(layout: unknown, fallback: DashItem[]): DashItem[] {
       w,
       h,
       minW: 2,
-      minH: 2,
+      minH: rec.minimized ? 1 : 2,
+      minimized: Boolean(rec.minimized),
+      prevH: Number.isFinite(Number(rec.prevH)) ? Number(rec.prevH) : undefined,
     });
   }
   return cleaned.length ? cleaned : fallback;

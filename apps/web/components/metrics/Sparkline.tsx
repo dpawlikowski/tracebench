@@ -51,9 +51,11 @@ export function Sparkline({
     }
 
     seriesKeyRef.current = key;
+    const w = Math.max(1, host.clientWidth || 240);
     const opts: uPlot.Options = {
-      width: host.clientWidth || 240,
+      width: w,
       height,
+      padding: [4, 4, 4, 4],
       legend: { show: false },
       cursor: { show: !reduced, x: false, y: false },
       scales: { x: { time: false }, y: { auto: true } },
@@ -103,11 +105,18 @@ export function Sparkline({
   }
 
   return (
-    <div data-testid={`spark-${label || "tile"}`}>
+    <div
+      data-testid={`spark-${label || "tile"}`}
+      className="h-full w-full max-w-full overflow-hidden"
+      style={{ height }}
+    >
       {label ? (
         <div className="mb-0.5 text-[11px] uppercase tracking-wider text-tb-text-dim">{label}</div>
       ) : null}
-      <div ref={hostRef} className="w-full overflow-hidden" />
+      <div
+        ref={hostRef}
+        className="h-full w-full max-w-full overflow-hidden [&_.uplot]:!max-w-full [&_canvas]:!max-w-full"
+      />
     </div>
   );
 }

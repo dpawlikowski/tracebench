@@ -44,7 +44,7 @@ export function WidgetShell({
   if (!meta) {
     return (
       <div
-        className="flex h-full flex-col rounded-md border border-tb-border bg-tb-bg-elevated p-3"
+        className="flex h-full min-h-0 flex-col overflow-hidden rounded-md border border-tb-border bg-tb-bg-elevated p-3"
         data-testid={`widget-${id}`}
       >
         <EmptyState title="Unknown widget" description={String(id)} className="py-4" />
@@ -53,7 +53,7 @@ export function WidgetShell({
   }
   return (
     <div
-      className="flex h-full flex-col rounded-md border border-tb-border bg-tb-bg-elevated p-3"
+      className="flex h-full min-h-0 flex-col overflow-hidden rounded-md border border-tb-border bg-tb-bg-elevated p-3"
       data-testid={`widget-${id}`}
     >
       <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-tb-text-dim">
@@ -144,7 +144,7 @@ export function SparkKpiWidget({
     <WidgetShell id={id} loading={loading}>
       <div className="flex h-full flex-col gap-2">
         <KpiBody label={label} value={value} hint={hint} href={href} />
-        <div className="mt-auto min-h-[40px]">
+        <div className="mt-auto h-10 min-h-[40px] max-h-10 w-full overflow-hidden">
           <Sparkline series={series} label="" color={color} height={40} />
         </div>
       </div>

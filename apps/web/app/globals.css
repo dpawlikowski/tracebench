@@ -421,3 +421,17 @@ button {
     animation: none !important;
   }
 }
+
+/* Dashboard board */
+.tb-dash-board .react-grid-item {
+  overflow: hidden;
+}
+.tb-dash-board .react-grid-item > .react-resizable-handle {
+  opacity: 0.55;
+}
+.tb-dash-board .react-grid-item > .react-resizable-handle::after {
+  border-color: rgba(180, 240, 60, 0.55) !important;
+}
+.tb-dash-board .react-grid-item:hover > .react-resizable-handle {
+  opacity: 1;
+}
