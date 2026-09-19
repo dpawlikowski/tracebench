@@ -62,8 +62,9 @@ export function ControlPlaneAssembly({
 }: Props) {
   const reduced = useReducedMotion();
   const [finePointer, setFinePointer] = useState(false);
-  const [a, setA] = useState(() => (reduced || progress !== undefined ? 1 : 0));
-  const aMv = useMotionValue(reduced || progress !== undefined ? 1 : 0);
+  // Intro starts mostly composed — never a scattered "broken" first paint
+  const [a, setA] = useState(() => (reduced || progress !== undefined ? 1 : 0.78));
+  const aMv = useMotionValue(reduced || progress !== undefined ? 1 : 0.78);
   const [selected, setSelected] = useState<LayerId | null>(null);
   const [replayKey, setReplayKey] = useState(0);
 
@@ -78,7 +79,9 @@ export function ControlPlaneAssembly({
 
   useEffect(() => {
     if (progress !== undefined) {
-      const v = Math.min(1, Math.max(0, progress));
+      // Floor so scroll-driven usage never renders full chaos
+      const raw = Math.min(1, Math.max(0, progress));
+      const v = Math.max(0.82, raw);
       aMv.set(v);
       setA(v);
       return;
@@ -88,10 +91,10 @@ export function ControlPlaneAssembly({
       setA(1);
       return;
     }
-    aMv.set(0);
-    setA(0);
+    aMv.set(0.78);
+    setA(0.78);
     const ctrl = animate(aMv, 1, {
-      duration: 1.2,
+      duration: 0.9,
       ease: [0.16, 1, 0.3, 1],
       onComplete: () => {
         aMv.set(1);
@@ -125,16 +128,22 @@ export function ControlPlaneAssembly({
   const showLattice = !reduced && finePointer && !compact;
 
   /** Resting slots as % of stage — composed diamond around HITL, no overlap */
-  const nodes = useMemo(
-    () =>
-      [
-        { id: "ops" as const, label: "OpsAgent", left: "12%", top: "22%" },
-        { id: "pay" as const, label: "PayAgent", left: "72%", top: "22%" },
-        { id: "cfg" as const, label: "CfgAgent", left: "14%", top: "58%" },
-        { id: "audit" as const, label: "Audit", left: "70%", top: "58%" },
-      ] as const,
-    [],
-  );
+  const nodes = useMemo(() => {
+    if (compact) {
+      return [
+        { id: "ops" as const, label: "OpsAgent", left: "18%", top: "20%" },
+        { id: "pay" as const, label: "PayAgent", left: "82%", top: "20%" },
+        { id: "cfg" as const, label: "CfgAgent", left: "20%", top: "60%" },
+        { id: "audit" as const, label: "Audit", left: "80%", top: "60%" },
+      ] as const;
+    }
+    return [
+      { id: "ops" as const, label: "OpsAgent", left: "14%", top: "20%" },
+      { id: "pay" as const, label: "PayAgent", left: "86%", top: "20%" },
+      { id: "cfg" as const, label: "CfgAgent", left: "16%", top: "62%" },
+      { id: "audit" as const, label: "Audit", left: "84%", top: "62%" },
+    ] as const;
+  }, [compact]);
 
   const layerBtn =
     "absolute z-[2] -translate-x-1/2 -translate-y-1/2 rounded-md border px-2.5 py-1.5 text-[11px] transition-[border-color,background-color,box-shadow,opacity] duration-150 outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40";
@@ -143,7 +152,7 @@ export function ControlPlaneAssembly({
     <div
       className={cn(
         "relative isolate overflow-hidden rounded-lg border border-tb-border bg-tb-bg-sunken",
-        compact ? "h-[220px]" : "aspect-[16/11] w-full min-h-[280px]",
+        compact ? "h-[260px]" : "aspect-[16/11] w-full min-h-[300px] max-h-[420px]",
         className,
       )}
       data-testid="control-plane-assembly"
@@ -181,13 +190,13 @@ export function ControlPlaneAssembly({
           aria-label="HITL gate — risk-tiered approval"
           data-testid="cpa-layer-hitl"
           className={cn(
-            "absolute left-1/2 top-[40%] z-[3] flex min-w-[7.25rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-0.5 rounded-md border px-3.5 py-2 text-[12px] tracking-tight shadow-[0_10px_28px_rgba(0,0,0,0.4)] outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40",
+            "absolute left-1/2 top-[40%] z-[3] flex min-w-[7.25rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-0.5 whitespace-nowrap rounded-md border px-3.5 py-2 text-[12px] tracking-tight shadow-[0_10px_28px_rgba(0,0,0,0.4)] outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40",
             interactive && "cursor-pointer",
             !interactive && "pointer-events-none",
           )}
           style={{
-            y: chaos * 18,
-            rotate: -chaos * 6,
+            y: chaos * (compact ? 6 : 10),
+            rotate: -chaos * 3,
             scale: 0.97 + a * 0.03,
             borderColor:
               selected === "hitl"
@@ -210,8 +219,9 @@ export function ControlPlaneAssembly({
         </motion.button>
 
         {nodes.map((n, i) => {
-          const sx = chaos * (i % 2 === 0 ? -28 : 28);
-          const sy = chaos * (i < 2 ? -20 : 20);
+          const amp = compact ? 8 : 12;
+          const sx = chaos * (i % 2 === 0 ? -amp : amp);
+          const sy = chaos * (i < 2 ? -amp * 0.7 : amp * 0.7);
           const isSel = selected === n.id;
           return (
             <motion.button
@@ -224,7 +234,7 @@ export function ControlPlaneAssembly({
               data-testid={`cpa-layer-${n.id}`}
               className={cn(
                 layerBtn,
-                "bg-tb-bg-elevated text-tb-text-muted",
+                "whitespace-nowrap bg-tb-bg-elevated text-tb-text-muted",
                 interactive ? "cursor-pointer" : "pointer-events-none",
               )}
               style={{
@@ -232,7 +242,7 @@ export function ControlPlaneAssembly({
                 top: n.top,
                 x: sx,
                 y: sy,
-                rotate: chaos * (i % 2 === 0 ? -5 : 5),
+                rotate: chaos * (i % 2 === 0 ? -3 : 3),
                 opacity: 0.55 + a * 0.45,
                 borderColor: isSel
                   ? "rgba(180,240,60,0.7)"
@@ -256,11 +266,11 @@ export function ControlPlaneAssembly({
           aria-label="Eval release gate"
           data-testid="cpa-layer-eval"
           className={cn(
-            "absolute left-1/2 top-[72%] z-[2] -translate-x-1/2 -translate-y-1/2 rounded-md border bg-tb-bg px-2 py-1 text-[10px] text-tb-text-dim outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40",
+            "absolute left-1/2 top-[76%] z-[2] -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-md border bg-tb-bg px-2 py-1 text-[10px] text-tb-text-dim outline-none focus-visible:ring-2 focus-visible:ring-tb-accent/40",
             interactive ? "cursor-pointer" : "pointer-events-none",
           )}
           style={{
-            y: chaos * 10,
+            y: chaos * 4,
             opacity: 0.5 + a * 0.5,
             borderColor:
               selected === "eval" ? "rgba(180,240,60,0.7)" : "rgba(255,255,255,0.1)",
