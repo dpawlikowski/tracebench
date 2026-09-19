@@ -18,6 +18,8 @@ import {
 } from "motion/react";
 import { Button, Badge, Card } from "@tracebench/ui";
 import { GrainOverlay } from "@/components/landing/GrainOverlay";
+import { ControlPlaneAssembly } from "@/components/landing/ControlPlaneAssembly";
+import { MagneticCta } from "@/components/landing/MagneticCta";
 import { useReducedMotion } from "@/lib/prefs";
 import { motionTokens } from "@/lib/motion";
 import { MetricCounter } from "./MetricCounter";
@@ -109,9 +111,6 @@ export function StoryExperience() {
     return unsub;
   }, [frameIndex]);
 
-  const parallaxY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, -40]);
-  const parallaxY2 = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, 30]);
-
   useEffect(() => {
     const nodes = STORY_SECTIONS.map((s) => document.getElementById(`story-${s.id}`)).filter(
       Boolean,
@@ -158,41 +157,35 @@ export function StoryExperience() {
         id="story-hero"
         className="relative flex min-h-[88vh] flex-col justify-center overflow-hidden px-6 pb-20 pt-16 md:px-10 lg:px-16"
       >
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute -left-32 top-10 h-80 w-80 rounded-full bg-tb-accent/12 blur-3xl"
-          style={{ y: parallaxY }}
-        />
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-risk-high/10 blur-3xl"
-          style={{ y: parallaxY2 }}
-        />
-        <SectionReveal reduced={reduced} className="relative z-[1] mx-auto w-full max-w-[980px]">
-          <p className="m-0 text-xs font-semibold uppercase tracking-[0.14em] text-tb-accent">
-            Business story · Tracebench
-          </p>
-          <h1 className="mb-5 mt-4 max-w-[820px] text-[clamp(32px,6vw,56px)] font-bold leading-[1.08] tracking-tight">
-            Ship agents that touch money — without flying blind.
-          </h1>
-          <p className="mb-8 max-w-[560px] text-lg leading-relaxed text-tb-text-muted">
-            Tracebench is the HITL control plane for tool-calling agents: timeline, risk-tiered
-            approvals, audit, cost, and eval gates. Chat is secondary. Governance is the product.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
-              <Button variant="primary" size="lg" data-testid="story-hero-demo">
-                Open Demo Mode
-              </Button>
-            </Link>
-            <button
-              type="button"
-              onClick={() => jump("blind-spot")}
-              className="tb-interactive rounded-md border border-tb-border bg-transparent px-4 py-2.5 text-sm font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
-            >
-              Read the story ↓
-            </button>
+        <div className="tb-grid-atmosphere opacity-70" aria-hidden />
+        <SectionReveal reduced={reduced} className="relative z-[1] mx-auto grid w-full max-w-[1100px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
+            <p className="tb-section-label m-0 text-tb-accent">Business story · Tracebench</p>
+            <h1 className="tb-display mb-5 mt-4 max-w-[820px] text-[clamp(34px,5.5vw,58px)] text-tb-text">
+              Ship agents that touch money — without flying blind.
+            </h1>
+            <p className="mb-8 max-w-[560px] text-[16px] leading-relaxed text-tb-text-muted">
+              Tracebench is the HITL control plane for tool-calling agents: timeline, risk-tiered
+              approvals, audit, cost, and eval gates. Chat is secondary. Governance is the product.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <MagneticCta>
+                <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
+                  <Button variant="primary" size="lg" data-testid="story-hero-demo">
+                    Open Demo Mode
+                  </Button>
+                </Link>
+              </MagneticCta>
+              <button
+                type="button"
+                onClick={() => jump("blind-spot")}
+                className="tb-interactive rounded-sm border border-tb-border bg-transparent px-4 py-2.5 text-sm font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
+              >
+                Read the story ↓
+              </button>
+            </div>
           </div>
+          <ControlPlaneAssembly progress={reduced ? 1 : Math.min(1, progress * 2.2)} />
         </SectionReveal>
       </section>
 
@@ -203,10 +196,10 @@ export function StoryExperience() {
       >
         <SectionReveal reduced={reduced} className="mx-auto grid max-w-[980px] gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tb-text-dim">
+            <p className="tb-section-label m-0">
               01 · The blind spot
             </p>
-            <h2 className="mt-3 text-[clamp(24px,3.5vw,36px)] font-bold tracking-tight leading-tight">
+            <h2 className="mt-3 tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               Agents already touch money and config. Most teams still lack a control room.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-tb-text-muted">
@@ -244,10 +237,10 @@ export function StoryExperience() {
       >
         <div className="mx-auto max-w-[980px]">
           <SectionReveal reduced={reduced}>
-            <p className="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tb-text-dim">
+            <p className="tb-section-label m-0">
               02 · What breaks
             </p>
-            <h2 className="mt-3 max-w-[640px] text-[clamp(24px,3.5vw,36px)] font-bold tracking-tight leading-tight">
+            <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               The cost of ungoverned agents is not theoretical.
             </h2>
           </SectionReveal>
@@ -271,10 +264,10 @@ export function StoryExperience() {
       >
         <div className="mx-auto max-w-[980px]">
           <SectionReveal reduced={reduced}>
-            <p className="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tb-accent">
+            <p className="tb-section-label m-0 text-tb-accent">
               03 · The Tracebench answer
             </p>
-            <h2 className="mt-3 max-w-[720px] text-[clamp(24px,3.5vw,36px)] font-bold tracking-tight leading-tight">
+            <h2 className="mt-3 max-w-[720px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               A control plane — not another chat wrapper.
             </h2>
             <p className="mt-4 max-w-[560px] text-[15px] leading-relaxed text-tb-text-muted">
@@ -285,7 +278,7 @@ export function StoryExperience() {
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {ANSWER_PILLARS.map((p, i) => (
               <SectionReveal key={p.title} reduced={reduced} delay={reduced ? 0 : i * 0.04}>
-                <div className="h-full rounded-md border border-tb-border/80 bg-tb-bg-elevated/40 p-4">
+                <div className="h-full border border-tb-border bg-tb-bg-elevated p-4 transition-colors duration-150 hover:bg-tb-bg-hover">
                   <div className="mb-2 font-mono text-[11px] text-tb-accent tabular-nums">
                     {String(i + 1).padStart(2, "0")}
                   </div>
@@ -295,6 +288,10 @@ export function StoryExperience() {
               </SectionReveal>
             ))}
           </div>
+          <SectionReveal reduced={reduced} className="mt-10" delay={reduced ? 0 : 0.08}>
+            <p className="tb-section-label mb-3">Control plane assembly</p>
+            <ControlPlaneAssembly compact />
+          </SectionReveal>
         </div>
       </section>
 
@@ -305,10 +302,10 @@ export function StoryExperience() {
       >
         <div className="mx-auto max-w-[980px]">
           <SectionReveal reduced={reduced}>
-            <p className="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tb-text-dim">
+            <p className="tb-section-label m-0">
               04 · Business outcomes
             </p>
-            <h2 className="mt-3 max-w-[640px] text-[clamp(24px,3.5vw,36px)] font-bold tracking-tight leading-tight">
+            <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               What governance buys — in numbers teams recognize.
             </h2>
             <p className="mt-3 text-[13px] text-tb-text-dim" data-testid="story-metrics-footnote">
@@ -321,7 +318,7 @@ export function StoryExperience() {
                 <div data-testid={`story-metric-${m.id}`} className="h-full">
                 <Card
                   padding={20}
-                  className="h-full border-tb-border/80 bg-gradient-to-b from-tb-bg-elevated/80 to-tb-bg"
+                  className="h-full border-tb-border bg-tb-bg-elevated shadow-none"
                 >
                   <div className="text-[clamp(28px,4vw,40px)] font-bold tracking-tight text-tb-text">
                     <MetricCounter
@@ -353,10 +350,10 @@ export function StoryExperience() {
       >
         <div className="mx-auto max-w-[1100px] px-6 md:px-10 lg:px-16">
           <div className="py-16 md:py-20">
-            <p className="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tb-text-dim">
+            <p className="tb-section-label m-0">
               05 · How teams work
             </p>
-            <h2 className="mt-3 max-w-[640px] text-[clamp(24px,3.5vw,36px)] font-bold tracking-tight leading-tight">
+            <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               Sticky ops loop — copy on the left, product on the right.
             </h2>
           </div>
@@ -480,7 +477,7 @@ export function StoryExperience() {
         className="relative border-t border-tb-border/60 px-6 py-28 md:px-10 lg:px-16"
       >
         <SectionReveal reduced={reduced} className="mx-auto max-w-[720px] text-center">
-          <h2 className="m-0 text-[clamp(28px,4vw,40px)] font-bold tracking-tight leading-tight">
+          <h2 className="tb-display m-0 text-[clamp(28px,4vw,40px)] text-tb-text">
             Open the control room.
           </h2>
           <p className="mx-auto mt-4 max-w-[480px] text-[15px] leading-relaxed text-tb-text-muted">
@@ -488,11 +485,13 @@ export function StoryExperience() {
             decide if your agents deserve a plane.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
-              <Button variant="primary" size="lg" data-testid="story-cta-demo">
-                Open demo
-              </Button>
-            </Link>
+            <MagneticCta>
+              <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
+                <Button variant="primary" size="lg" data-testid="story-cta-demo">
+                  Open demo
+                </Button>
+              </Link>
+            </MagneticCta>
             <Link href="/help" className="no-underline hover:no-underline">
               <Button variant="secondary" size="lg">
                 FAQ / Help
@@ -529,7 +528,7 @@ function ProductFrame({
   return (
     <motion.figure
       key={frame.src}
-      className="m-0 w-full overflow-hidden rounded-lg border border-tb-border-strong bg-tb-bg-elevated shadow-[var(--tb-shadow-panel)]"
+      className="m-0 w-full overflow-hidden rounded-lg border border-tb-border-strong bg-tb-bg-elevated shadow-none"
       initial={reduced ? false : { opacity: 0.4, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{

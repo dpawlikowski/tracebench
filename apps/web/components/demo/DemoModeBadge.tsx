@@ -63,7 +63,7 @@ export function DemoModeBadge() {
           role="dialog"
           aria-label="Demo mode details"
           data-testid="demo-mode-panel"
-          className="absolute right-0 top-[calc(100%+8px)] z-50 w-[320px] rounded-md border border-tb-border-strong bg-tb-bg-elevated p-3 shadow-[var(--tb-shadow-panel)]"
+          className="absolute right-0 top-[calc(100%+8px)] z-50 w-[320px] rounded-md border border-tb-border-strong bg-tb-bg-elevated p-3 shadow-none"
         >
           <div className="mb-2 text-[13px] font-semibold text-tb-text">{label}</div>
           <ul className="m-0 mb-3 list-none space-y-1 p-0 font-mono text-[11px] text-tb-text-muted">

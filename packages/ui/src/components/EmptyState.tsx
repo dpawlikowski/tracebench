@@ -18,15 +18,15 @@ export function EmptyState({
     <div
       role={tone === "error" ? "alert" : "status"}
       className={cn(
-        "flex flex-col items-start gap-2 rounded-md border border-dashed border-tb-border px-4 py-8",
+        "flex flex-col items-start gap-2 rounded-md border border-dashed border-tb-border bg-tb-bg-sunken/40 px-4 py-8",
         tone === "error" && "border-tb-danger/40 bg-tb-danger-soft/30",
         tone === "permission" && "border-tb-warning/40 bg-tb-warning-soft/30",
         className,
       )}
       data-testid="empty-state"
     >
-      <div className="text-sm font-semibold text-tb-text">{title}</div>
-      {description && <div className="max-w-md text-[13px] text-tb-text-muted">{description}</div>}
+      <div className="text-sm font-semibold tracking-tight text-tb-text">{title}</div>
+      {description && <div className="max-w-md text-[13px] leading-relaxed text-tb-text-muted">{description}</div>}
       {action}
     </div>
   );

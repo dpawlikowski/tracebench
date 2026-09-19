@@ -61,7 +61,7 @@ export function RunGraphView({
         label: e.label,
         markerEnd: { type: MarkerType.ArrowClosed, width: 16, height: 16 },
         style: { stroke: edgeStroke(e.data.kind) },
-        labelStyle: { fill: "#8b9bb4", fontSize: 10 },
+        labelStyle: { fill: "#A1A1AA", fontSize: 10 },
         animated: e.data.kind === "message",
       })),
     [built],
@@ -150,16 +150,16 @@ export function RunGraphView({
             minZoom={0.4}
             maxZoom={1.5}
           >
-            <Background color="#243044" gap={20} />
+            <Background color="rgba(255,255,255,0.06)" gap={20} />
             <Controls showInteractive={false} />
             <MiniMap
               nodeColor={(n) => {
                 const k = (n.data as GraphNodeData)?.kind;
-                if (k === "agent") return "#5b9fd4";
-                if (k === "event") return "#3dba7e";
-                return "#8b9bb4";
+                if (k === "agent") return "#B8FF3D";
+                if (k === "event") return "#4ADE80";
+                return "#A1A1AA";
               }}
-              maskColor="rgba(11,15,20,0.7)"
+              maskColor="rgba(7,7,8,0.75)"
             />
           </ReactFlow>
         </div>
@@ -170,23 +170,23 @@ export function RunGraphView({
 
 function nodeStyle(kind: GraphNodeData["kind"]): React.CSSProperties {
   const base: React.CSSProperties = {
-    background: "#121821",
-    color: "#e8eef7",
-    border: "1px solid #334155",
-    borderRadius: 8,
+    background: "#0E0E10",
+    color: "#F4F4F5",
+    border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: 4,
     padding: "8px 12px",
     fontSize: 12,
     minWidth: 140,
   };
-  if (kind === "agent") return { ...base, borderColor: "#5b9fd4" };
-  if (kind === "event") return { ...base, borderColor: "#3dba7e", minWidth: 100 };
+  if (kind === "agent") return { ...base, borderColor: "#B8FF3D" };
+  if (kind === "event") return { ...base, borderColor: "#4ADE80", minWidth: 100 };
   return base;
 }
 
 function edgeStroke(kind: string): string {
-  if (kind === "message") return "#3dba7e";
-  if (kind === "await") return "#d4a017";
-  if (kind === "join") return "#5b9fd4";
-  if (kind === "spawn") return "#7c9cff";
-  return "#5c6b82";
+  if (kind === "message") return "#4ADE80";
+  if (kind === "await") return "#FBBF24";
+  if (kind === "join") return "#B8FF3D";
+  if (kind === "spawn") return "#A1A1AA";
+  return "#63636B";
 }

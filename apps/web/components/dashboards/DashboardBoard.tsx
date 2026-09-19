@@ -107,7 +107,7 @@ export function DashboardBoard() {
             value={formatUsd(metrics.totalCost)}
             hint={`${metrics.runCount} runs`}
             series={sparks.cost}
-            color="#5b9fd4"
+            color="#B8FF3D"
             href="/runs"
           />
         );
@@ -119,7 +119,7 @@ export function DashboardBoard() {
             label="p95 tool"
             value={formatMs(metrics.p95)}
             series={sparks.latency}
-            color="#3dba7e"
+            color="#4ADE80"
             href="/runs"
           />
         );

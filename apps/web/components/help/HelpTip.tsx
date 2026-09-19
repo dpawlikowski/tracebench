@@ -53,7 +53,7 @@ export function HelpTip({
           id={id}
           role="dialog"
           aria-label={title}
-          className="absolute right-0 top-[calc(100%+8px)] z-40 w-[280px] rounded-md border border-tb-border-strong bg-tb-bg-elevated p-3 shadow-[var(--tb-shadow-panel)]"
+          className="absolute right-0 top-[calc(100%+8px)] z-40 w-[280px] rounded-md border border-tb-border-strong bg-tb-bg-elevated p-3 shadow-none"
         >
           <div className="mb-1 text-[13px] font-semibold text-tb-text">{title}</div>
           <p className="m-0 mb-2 text-[12px] leading-relaxed text-tb-text-muted">{body}</p>

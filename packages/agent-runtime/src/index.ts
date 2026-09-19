@@ -35,3 +35,24 @@ export {
   type JevEvalAnswers,
   type JevEvalEvaluation,
 } from "./jev";
+
+export {
+  FixtureOpsTelemetry,
+  getFixtureOpsTelemetry,
+  resetFixtureOpsTelemetry,
+  createOpsTelemetry,
+  getOpsTelemetry,
+  resetOpsTelemetry,
+  projectSpansFromRun,
+  projectSpansFromEvents,
+  countByName,
+  summarizeRun,
+  type OpsTelemetry,
+  type OpsTelemetryKind,
+  type OpsSpan,
+  type OpsSpanName,
+  type OpsSpanStatus,
+  type OpsSpanAttributes,
+  type OpsRunSpanSummary,
+  type CreateOpsTelemetryConfig,
+} from "./ops-telemetry";

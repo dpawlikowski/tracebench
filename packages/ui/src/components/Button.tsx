@@ -5,15 +5,16 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/cn";
 
 const buttonVariants = cva(
-  "tb-interactive inline-flex items-center gap-1.5 rounded-sm font-semibold transition-[background-color,border-color,filter,color,transform] duration-120 ease-out disabled:cursor-not-allowed disabled:opacity-50 active:brightness-95 active:scale-[0.98]",
+  "tb-interactive inline-flex items-center justify-center gap-1.5 rounded-sm font-semibold transition-[background-color,border-color,filter,color,transform] duration-150 ease-out disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.98]",
   {
     variants: {
       variant: {
-        primary: "border border-transparent bg-tb-accent text-tb-bg hover:brightness-110",
+        primary:
+          "border border-transparent bg-tb-accent text-tb-accent-fg hover:brightness-110",
         secondary:
-          "border border-tb-border-strong bg-tb-bg-hover text-tb-text hover:border-tb-accent/40",
+          "border border-tb-border-strong bg-tb-bg-hover text-tb-text hover:border-tb-accent/40 hover:bg-tb-bg-hover",
         ghost:
-          "border border-transparent bg-transparent text-tb-text-muted hover:bg-tb-bg-hover hover:text-tb-text",
+          "border border-tb-border bg-transparent text-tb-text-muted hover:border-tb-border-strong hover:bg-tb-bg-hover hover:text-tb-text",
         danger: "border border-tb-danger bg-tb-danger-soft text-tb-danger hover:brightness-110",
         success: "border border-tb-success bg-tb-success-soft text-tb-success hover:brightness-110",
       },

@@ -17,7 +17,7 @@ export function Panel({
   return (
     <section
       className={cn(
-        "tb-glow-panel flex min-h-0 flex-col rounded-md border border-tb-border bg-tb-bg-elevated",
+        "flex min-h-0 flex-col rounded-md border border-tb-border bg-tb-bg-elevated shadow-none",
         className,
       )}
       style={style}
@@ -27,7 +27,7 @@ export function Panel({
           className="flex items-center justify-between gap-2 border-b border-tb-border px-3.5"
           style={{ paddingBlock: "var(--tb-panel-head-py, 0.625rem)" }}
         >
-          <h2 className="m-0 text-xs font-semibold uppercase tracking-wider text-tb-text-muted">
+          <h2 className="m-0 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-tb-text-dim">
             {title}
           </h2>
           {action}
@@ -35,7 +35,7 @@ export function Panel({
       )}
       <div
         className="min-h-0 flex-1 overflow-auto px-3.5"
-        style={{ paddingBlock: "var(--tb-panel-pad, 0.875rem)" }}
+        style={{ paddingBlock: "var(--tb-panel-pad, 1rem)" }}
       >
         {children}
       </div>

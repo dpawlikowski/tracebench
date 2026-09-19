@@ -17,10 +17,10 @@ export function AppToaster() {
       toastOptions={{
         classNames: {
           toast:
-            "tb-toast group border border-tb-border-strong bg-tb-bg-elevated text-tb-text shadow-[var(--tb-shadow-panel)]",
+            "tb-toast group border border-tb-border-strong bg-tb-bg-elevated text-tb-text shadow-[var(--tb-shadow-modal)]",
           title: "text-[13px] font-semibold",
           description: "text-[12px] text-tb-text-muted",
-          actionButton: "bg-tb-accent text-tb-bg text-xs font-semibold",
+          actionButton: "bg-tb-accent text-tb-accent-fg text-xs font-semibold",
           cancelButton: "bg-tb-bg-hover text-tb-text-muted text-xs",
           error: "border-tb-danger/50",
           success: "border-tb-success/40",
@@ -28,7 +28,7 @@ export function AppToaster() {
       }}
       style={
         reduced
-          ? ({ ["--normal-bg" as string]: "#121821" } as React.CSSProperties)
+          ? ({ ["--normal-bg" as string]: "#0E0E10" } as React.CSSProperties)
           : undefined
       }
     />

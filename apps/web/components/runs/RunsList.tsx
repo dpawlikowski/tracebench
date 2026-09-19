@@ -35,7 +35,7 @@ export function RunsList() {
   return (
     <div className="mx-auto max-w-[1100px] px-6 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
       <div className="mb-5">
-        <h1 className="m-0 text-[22px] tracking-tight">Agent runs</h1>
+        <h1 className="m-0 text-[22px] font-semibold tracking-tight">Agent runs</h1>
         <p className="mt-1.5 text-tb-text-muted">
           Seeded OpsAgent sessions — open any run to replay the timeline. Filter via URL for
           shareable recruiter links.
@@ -140,7 +140,7 @@ const RunRow = memo(function RunRow({ run }: { run: RunSummary }) {
 
   return (
     <tr
-      className="border-t border-tb-border"
+      className="border-t border-tb-border transition-colors duration-150 hover:bg-tb-bg-hover/40"
       data-tour={run.id === "run_live_approve" ? "run-live" : undefined}
     >
       <td className="px-3 align-top" style={{ paddingBlock: "var(--tb-row-py)" }}>

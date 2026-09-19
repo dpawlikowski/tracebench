@@ -102,9 +102,9 @@ export function ProductTour() {
         }
       }}
       options={{
-        primaryColor: "#5b9fd4",
-        backgroundColor: "#121821",
-        textColor: "#e8eef7",
+        primaryColor: "#B8FF3D",
+        backgroundColor: "#0E0E10",
+        textColor: "#F4F4F5",
         overlayColor: "rgba(0,0,0,0.55)",
         zIndex: 12000,
         skipBeacon: true,

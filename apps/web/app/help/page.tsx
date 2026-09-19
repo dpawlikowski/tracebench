@@ -59,7 +59,7 @@ export default function HelpHubPage() {
             className="text-inherit no-underline hover:no-underline"
             data-testid={`help-card-${a.slug}`}
           >
-            <Card padding={16} className="h-full transition-colors hover:border-tb-accent/40">
+            <Card padding={16} className="tb-interactive h-full transition-[border-color,background-color] duration-150 ease-out hover:border-tb-accent/40">
               <div className="mb-1 font-semibold">{a.title}</div>
               <div className="text-[13px] text-tb-text-muted">{a.summary}</div>
             </Card>

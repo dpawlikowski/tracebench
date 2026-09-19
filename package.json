@@ -20,7 +20,10 @@
     "checkly:test": "checkly test",
     "demo:check": "node scripts/demo-check.mjs",
     "test:contracts": "pnpm --filter @tracebench/web test:contracts",
-    "test:mutation": "stryker run"
+    "test:mutation": "stryker run",
+    "build:storybook": "pnpm --filter @tracebench/web build-storybook",
+    "pages:build": "STORYBOOK_BASE_PATH=/tracebench/ pnpm build:storybook",
+    "pages:preview": "pnpm --filter @tracebench/web exec -- npx --yes serve storybook-static -p 4173"
   },
   "engines": {
     "node": ">=20"

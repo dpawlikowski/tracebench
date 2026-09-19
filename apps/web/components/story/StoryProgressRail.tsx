@@ -54,7 +54,7 @@ export function StoryProgressRail({ active, progress, reduced, onJump }: Props) 
               <span
                 className={cn(
                   "h-1.5 w-1.5 rounded-full border border-tb-border-strong transition-all",
-                  isActive && "h-2 w-2 border-tb-accent bg-tb-accent shadow-[0_0_0_3px_rgba(91,159,212,0.25)]",
+                  isActive && "h-2 w-2 border-tb-accent bg-tb-accent shadow-[0_0_0_3px_rgba(184,255,61,0.2)]",
                 )}
               />
             </button>

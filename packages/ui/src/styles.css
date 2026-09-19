@@ -1,36 +1,40 @@
 /**
- * @tracebench/ui tokens — kept for package consumers.
- * apps/web also mirrors these in app/globals.css (@theme + :root) for Tailwind v4.
+ * @tracebench/ui tokens — Phosphor Instrument v2.
+ * apps/web mirrors these in app/globals.css (@theme + :root) for Tailwind v4.
  */
 :root {
-  --tb-bg: #0b0f14;
-  --tb-bg-elevated: #121821;
-  --tb-bg-hover: #1a2330;
-  --tb-border: #243044;
-  --tb-border-strong: #334155;
-  --tb-text: #e8eef7;
-  --tb-text-muted: #8b9bb4;
-  --tb-text-dim: #5c6b82;
-  --tb-accent: #5b9fd4;
-  --tb-accent-soft: rgba(91, 159, 212, 0.15);
-  --tb-success: #3dba7e;
-  --tb-success-soft: rgba(61, 186, 126, 0.15);
-  --tb-warning: #d4a017;
-  --tb-warning-soft: rgba(212, 160, 23, 0.15);
-  --tb-danger: #e05d5d;
-  --tb-danger-soft: rgba(224, 93, 93, 0.15);
-  --tb-risk-low: #5b9fd4;
-  --tb-risk-low-soft: rgba(91, 159, 212, 0.15);
-  --tb-risk-medium: #d4a017;
-  --tb-risk-medium-soft: rgba(212, 160, 23, 0.15);
-  --tb-risk-high: #e05d5d;
-  --tb-risk-high-soft: rgba(224, 93, 93, 0.15);
-  --tb-radius-sm: 6px;
-  --tb-radius-md: 10px;
-  --tb-radius-lg: 14px;
+  --tb-bg: #070708;
+  --tb-bg-elevated: #0E0E10;
+  --tb-bg-hover: #141416;
+  --tb-bg-sunken: #050505;
+  --tb-border: rgba(255, 255, 255, 0.06);
+  --tb-border-strong: rgba(255, 255, 255, 0.12);
+  --tb-text: #F4F4F5;
+  --tb-text-muted: #A1A1AA;
+  --tb-text-dim: #63636B;
+  --tb-accent: #B8FF3D;
+  --tb-accent-fg: #0A0A0A;
+  --tb-accent-soft: rgba(184, 255, 61, 0.12);
+  --tb-success: #4ADE80;
+  --tb-success-soft: rgba(74, 222, 128, 0.15);
+  --tb-warning: #FBBF24;
+  --tb-warning-soft: rgba(251, 191, 36, 0.15);
+  --tb-danger: #FF5C5C;
+  --tb-danger-soft: rgba(255, 92, 92, 0.15);
+  --tb-risk-low: #B8FF3D;
+  --tb-risk-low-soft: rgba(184, 255, 61, 0.12);
+  --tb-risk-medium: #FBBF24;
+  --tb-risk-medium-soft: rgba(251, 191, 36, 0.15);
+  --tb-risk-high: #FF5C5C;
+  --tb-risk-high-soft: rgba(255, 92, 92, 0.15);
+  --tb-radius-sm: 2px;
+  --tb-radius-md: 4px;
+  --tb-radius-lg: 6px;
   --tb-radius-full: 999px;
-  --tb-font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-  --tb-font-mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
-  --tb-shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.35);
-  --tb-shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(36, 48, 68, 0.8);
+  --tb-font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --tb-font-mono: "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --tb-shadow-panel: none;
+  --tb-shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  --tb-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --tb-duration: 160ms;
 }

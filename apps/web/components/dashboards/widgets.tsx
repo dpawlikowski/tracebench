@@ -27,7 +27,7 @@ const Sparkline = dynamic(
   },
 );
 
-const COLORS = ["#5b9fd4", "#3dba7e", "#d4a017", "#e05d5d", "#7c9cff", "#8b9bb4"];
+const COLORS = ["#B8FF3D", "#4ADE80", "#FBBF24", "#FF5C5C", "#A1A1AA", "#A1A1AA"];
 
 export function WidgetShell({
   id,
@@ -127,7 +127,7 @@ export function SparkKpiWidget({
   value,
   hint,
   series,
-  color = "#5b9fd4",
+  color = "#B8FF3D",
   loading,
   href,
 }: {
@@ -165,17 +165,17 @@ export function ToolMixWidget({
         <BarChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
           <XAxis
             dataKey="name"
-            tick={{ fill: "#5c6b82", fontSize: 10 }}
+            tick={{ fill: "#63636B", fontSize: 10 }}
             interval={0}
             angle={-20}
             textAnchor="end"
             height={48}
           />
-          <YAxis tick={{ fill: "#5c6b82", fontSize: 10 }} width={28} allowDecimals={false} />
+          <YAxis tick={{ fill: "#63636B", fontSize: 10 }} width={28} allowDecimals={false} />
           <Tooltip
-            contentStyle={{ background: "#121821", border: "1px solid #334155", fontSize: 12 }}
+            contentStyle={{ background: "#0E0E10", border: "1px solid rgba(255,255,255,0.12)", fontSize: 12 }}
           />
-          <Bar dataKey="count" fill="#5b9fd4" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="count" fill="#B8FF3D" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </WidgetShell>
@@ -208,7 +208,7 @@ export function DonutWidget({
           <PieChart>
             <Pie data={data} dataKey="value" innerRadius={28} outerRadius={42} stroke="none">
               {data.map((_, i) => (
-                <Cell key={i} fill={i === 0 ? COLORS[1] : "#243044"} />
+                <Cell key={i} fill={i === 0 ? COLORS[1] : "rgba(255,255,255,0.06)"} />
               ))}
             </Pie>
           </PieChart>

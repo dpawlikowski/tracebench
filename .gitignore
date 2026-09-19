@@ -16,3 +16,4 @@ reports
 apps/**/.wrangler
 **/.wrangler/**
 tsconfig.tsbuildinfo
+storybook-static

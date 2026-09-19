@@ -103,7 +103,7 @@ export function CommandPalette() {
     >
       <Command
         label="Command palette"
-        className="mx-auto w-full max-w-[520px] overflow-hidden rounded-md border border-tb-border-strong bg-tb-bg-elevated shadow-[var(--tb-shadow-modal)]"
+        className="tb-modal-panel mx-auto w-full max-w-[520px] overflow-hidden rounded-md border border-tb-border-strong bg-tb-bg-elevated shadow-[var(--tb-shadow-modal)]"
         onClick={(e) => e.stopPropagation()}
         data-testid="command-palette"
       >
@@ -141,6 +141,9 @@ export function CommandPalette() {
             </Item>
             <Item onSelect={() => go("/dashboards")}>
               Ops dashboards
+            </Item>
+            <Item onSelect={() => go("/ops")}>
+              Ops Trace
             </Item>
             <Item onSelect={() => go("/runs?status=awaiting_approval")}>
               Pending approvals ({pending.length})

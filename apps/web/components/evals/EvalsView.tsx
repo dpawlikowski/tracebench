@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, EmptyState, Spinner } from "@tracebench/ui";
+import { Button, EmptyState, SkeletonTableRows, Spinner } from "@tracebench/ui";
 import { EvalScorecard } from "@/components/evals/EvalScorecard";
 import { useEvals } from "@/lib/hooks/use-evals";
 
@@ -19,7 +19,12 @@ export function EvalsView() {
           Opt into live Jev via <code className="font-mono text-[13px]">JEV_ADAPTER=live</code>.
         </p>
       </div>
-      {isLoading && <Spinner label="Loading eval suite" />}
+      {isLoading && (
+        <div className="space-y-3" data-testid="evals-loading">
+          <Spinner label="Loading eval suite" />
+          <SkeletonTableRows rows={4} cols={3} />
+        </div>
+      )}
       {isError && (
         <EmptyState
           tone="error"

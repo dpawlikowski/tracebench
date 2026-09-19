@@ -29,6 +29,7 @@ const nav = [
   { href: "/runs", label: "Runs", short: "Runs", tour: "nav-runs" },
   { href: "/evals", label: "Evals", short: "Evals", tour: "nav-evals" },
   { href: "/dashboards", label: "Boards", short: "Boards", tour: "nav-boards" },
+  { href: "/ops", label: "Ops", short: "Ops", tour: "nav-ops" },
   { href: "/policy", label: "Policy", short: "Policy", tour: "nav-policy" },
   { href: "/help", label: "Help", short: "Help", tour: "nav-help" },
   { href: "/story", label: "Story", short: "Story", tour: "nav-story" },
@@ -59,7 +60,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <header
-        className="sticky top-0 z-40 flex items-center gap-3 border-b border-tb-border bg-tb-bg/95 px-3 backdrop-blur-0"
+        className="sticky top-0 z-40 flex items-center gap-3 border-b border-tb-border bg-tb-bg px-3"
         style={{ paddingBlock: "var(--tb-header-py, 0.625rem)" }}
         data-tour="app-header"
       >
@@ -74,7 +75,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </button>
         <Link
           href="/"
-          className="shrink-0 font-semibold tracking-tight text-tb-text no-underline hover:text-tb-accent"
+          className="shrink-0 font-semibold tracking-tight text-tb-text no-underline transition-colors duration-150 hover:text-tb-accent"
           data-tour="nav-overview"
         >
           Tracebench
@@ -107,7 +108,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 className={cn(
                   "tb-interactive rounded-sm px-2.5 py-1 text-[13px] no-underline",
                   active
-                    ? "bg-tb-bg-hover font-semibold text-tb-text"
+                    ? "bg-tb-bg-hover font-semibold text-tb-text shadow-[inset_0_-1px_0_0_var(--tb-accent)]"
                     : "text-tb-text-muted hover:bg-tb-bg-hover hover:text-tb-text",
                 )}
               >

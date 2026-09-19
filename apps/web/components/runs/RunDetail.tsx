@@ -12,6 +12,7 @@ import { ApprovalGate } from "@/components/approvals/ApprovalGate";
 import { RunLogs } from "@/components/logs/RunLogs";
 import { ChildRunsPanel } from "@/components/runs/ChildRunsPanel";
 import { HelpTip } from "@/components/help/HelpTip";
+import { OpsTracePanel } from "@/components/ops/OpsTracePanel";
 import { decisionSummary, formatTime, formatUsd, statusTone } from "@/lib/format";
 import { runFlowMachine, visibleIdSet } from "@/lib/machines/run-flow";
 import { queryKeys } from "@/lib/query-keys";
@@ -225,6 +226,7 @@ export function RunDetail({ initialRun }: { initialRun: AgentRun }) {
           <AuditLog events={run.auditLog} />
           </div>
           <RunLogs run={run} isReplaying={replaying} />
+          <OpsTracePanel run={run} />
         </div>
         <MetricsRail run={run} />
       </div>

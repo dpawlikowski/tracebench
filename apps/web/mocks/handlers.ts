@@ -63,7 +63,7 @@ const storybookReport = EvalSuiteReportSchema.parse({
 });
 
 function jsonOk<T>(schema: { parse: (d: unknown) => T }, data: unknown) {
-  return HttpResponse.json(schema.parse(data));
+  return HttpResponse.json(schema.parse(data) as object);
 }
 
 export const handlers = [

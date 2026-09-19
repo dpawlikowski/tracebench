@@ -23,6 +23,9 @@ const config: StorybookConfig = {
   },
   staticDirs: ["../public"],
   async viteFinal(config) {
+    // GitHub Pages project site: https://dpawlikowski.github.io/tracebench/
+    const base = process.env.STORYBOOK_BASE_PATH;
+    if (base) config.base = base.endsWith("/") ? base : `${base}/`;
     config.resolve ??= {};
     config.resolve.alias = {
       ...config.resolve.alias,

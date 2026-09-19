@@ -2,12 +2,12 @@ import type { AgentRef, AgentRun } from "@tracebench/schemas";
 
 /** Stable palette — text + soft bg; never color-only (always pair with label). */
 const PALETTE = [
-  { fg: "#5b9fd4", bg: "rgba(91, 159, 212, 0.18)" },
-  { fg: "#3dba7e", bg: "rgba(61, 186, 126, 0.18)" },
-  { fg: "#d4a017", bg: "rgba(212, 160, 23, 0.18)" },
-  { fg: "#7c9cff", bg: "rgba(124, 156, 255, 0.18)" },
-  { fg: "#e05d5d", bg: "rgba(224, 93, 93, 0.18)" },
-  { fg: "#c084fc", bg: "rgba(192, 132, 252, 0.18)" },
+  { fg: "#B8FF3D", bg: "rgba(184, 255, 61, 0.12)" },
+  { fg: "#4ADE80", bg: "rgba(74, 222, 128, 0.15)" },
+  { fg: "#FBBF24", bg: "rgba(251, 191, 36, 0.15)" },
+  { fg: "#A1A1AA", bg: "rgba(161, 161, 170, 0.15)" },
+  { fg: "#FF5C5C", bg: "rgba(255, 92, 92, 0.15)" },
+  { fg: "#E4E4E7", bg: "rgba(228, 228, 231, 0.12)" },
 ] as const;
 
 export type AgentTone = (typeof PALETTE)[number];

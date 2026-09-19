@@ -7,14 +7,14 @@ import { useReducedMotion } from "@/lib/prefs";
 type Kind = TimelineEvent["kind"];
 
 const KIND_COLOR: Record<Kind, string> = {
-  thought: "#5c6b82",
-  tool: "#5b9fd4",
-  approval: "#d4a017",
-  outcome: "#3dba7e",
-  agent_spawn: "#7c9cff",
-  agent_message: "#3dba7e",
-  agent_await: "#d4a017",
-  agent_join: "#5b9fd4",
+  thought: "#63636B",
+  tool: "#B8FF3D",
+  approval: "#FBBF24",
+  outcome: "#4ADE80",
+  agent_spawn: "#A1A1AA",
+  agent_message: "#4ADE80",
+  agent_await: "#FBBF24",
+  agent_join: "#B8FF3D",
 };
 
 /**
@@ -82,7 +82,7 @@ export function ShapeOfRun({
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, cssW, cssH);
 
-    ctx.fillStyle = "#1a2330";
+    ctx.fillStyle = "#141416";
     ctx.fillRect(0, cssH / 2 - 1, cssW, 2);
 
     const viewSpan = 1 / zoom;

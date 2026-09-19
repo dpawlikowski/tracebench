@@ -144,3 +144,7 @@ API: `GET /api/runs`, `GET /api/runs/[id]`, `GET /api/runs/[id]/stream`, `POST /
 ## Author
 
 Dominik Pawlikowski — portfolio MVP, Demo Mode by default.
+
+## GitHub Pages
+
+Storybook UI kit: [dpawlikowski.github.io/tracebench](https://dpawlikowski.github.io/tracebench/) — see [docs/github-pages.md](./docs/github-pages.md). Full Demo Mode app → Vercel / local `pnpm dev`.

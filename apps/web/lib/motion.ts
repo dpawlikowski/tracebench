@@ -1,13 +1,14 @@
 /**
- * Shared Motion tokens — no bounce springs.
- * Prefer transform/opacity; honor prefers-reduced-motion hard.
+ * Shared Motion tokens — Phosphor Instrument.
+ * No bounce springs. Prefer transform/opacity; honor prefers-reduced-motion hard.
  */
 export const motionTokens = {
   duration: {
     instant: 0.01,
     fast: 0.12,
-    base: 0.18,
-    slow: 0.28,
+    base: 0.16,
+    slow: 0.18,
+    enter: 0.42,
   },
   ease: {
     out: [0.16, 1, 0.3, 1] as const,
@@ -33,7 +34,7 @@ export function fadeSlide(opts: FadeSlideOpts = {}) {
     };
   }
   return {
-    initial: { opacity: 0, y: 4 },
+    initial: { opacity: 0, y: 6 },
     animate: { opacity: 1, y: 0 },
     transition: {
       duration: motionTokens.duration.base,
@@ -41,4 +42,9 @@ export function fadeSlide(opts: FadeSlideOpts = {}) {
       delay: opts.delay ?? 0,
     },
   };
+}
+
+export function pressScale(reduced?: boolean) {
+  if (reduced) return {};
+  return { whileTap: { scale: 0.98 } };
 }

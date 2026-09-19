@@ -8,7 +8,7 @@ const preview: Preview = {
     layout: "padded",
     backgrounds: {
       default: "tracebench-dark",
-      values: [{ name: "tracebench-dark", value: "#0b0f14" }],
+      values: [{ name: "tracebench-dark", value: "#070708" }],
     },
     nextjs: {
       appDirectory: true,

@@ -38,3 +38,29 @@ export async function fetchEvals(): Promise<{
   if (!res.ok) throw new Error("Failed to load evals");
   return (await res.json()) as { report: EvalSuiteReport; cases: EvalCase[] };
 }
+
+export async function fetchOpsSummaries(): Promise<{
+  kind: string;
+  runs: import("@tracebench/agent-runtime").OpsRunSpanSummary[];
+}> {
+  const res = await fetch("/api/ops/runs");
+  if (!res.ok) throw new Error("Failed to load ops summaries");
+  return (await res.json()) as {
+    kind: string;
+    runs: import("@tracebench/agent-runtime").OpsRunSpanSummary[];
+  };
+}
+
+export async function fetchOpsSpans(runId: string): Promise<{
+  kind: string;
+  runId: string;
+  spans: import("@tracebench/agent-runtime").OpsSpan[];
+}> {
+  const res = await fetch(`/api/ops/runs/${runId}`);
+  if (!res.ok) throw new Error("Failed to load ops spans");
+  return (await res.json()) as {
+    kind: string;
+    runId: string;
+    spans: import("@tracebench/agent-runtime").OpsSpan[];
+  };
+}
