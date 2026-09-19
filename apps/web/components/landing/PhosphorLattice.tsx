@@ -110,18 +110,26 @@ export function PhosphorLattice({
       }
 
       for (const p of particles) {
-        const pull = 0.04 + a * 0.12;
-        p.vx += (p.tx - p.x) * pull;
-        p.vy += (p.ty - p.y) * pull;
-        // residual chaos when a low
-        if (a < 0.85) {
-          p.vx += (Math.random() - 0.5) * (1 - a) * 0.6;
-          p.vy += (Math.random() - 0.5) * (1 - a) * 0.6;
+        if (a >= 0.98) {
+          // Snap to lattice — avoids endless micro-jitter if parent rAF stalled mid-way then jumped
+          p.x = p.tx;
+          p.y = p.ty;
+          p.vx = 0;
+          p.vy = 0;
+        } else {
+          const pull = 0.04 + a * 0.12;
+          p.vx += (p.tx - p.x) * pull;
+          p.vy += (p.ty - p.y) * pull;
+          // residual chaos when a low
+          if (a < 0.85) {
+            p.vx += (Math.random() - 0.5) * (1 - a) * 0.6;
+            p.vy += (Math.random() - 0.5) * (1 - a) * 0.6;
+          }
+          p.vx *= 0.82;
+          p.vy *= 0.82;
+          p.x += p.vx;
+          p.y += p.vy;
         }
-        p.vx *= 0.82;
-        p.vy *= 0.82;
-        p.x += p.vx;
-        p.y += p.vy;
         const glow = a > 0.7 && Math.hypot(p.x - p.tx, p.y - p.ty) < 2;
         ctx!.fillStyle = glow
           ? "rgba(184,255,61,0.95)"

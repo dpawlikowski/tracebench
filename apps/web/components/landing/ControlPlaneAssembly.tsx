@@ -33,22 +33,34 @@ export function ControlPlaneAssembly({ className, progress, compact }: Props) {
   }, []);
 
   useEffect(() => {
-    if (progress !== undefined || reduced) {
-      if (reduced) setAuto(1);
+    if (progress !== undefined) return;
+    if (reduced) {
+      setAuto(1);
       return;
     }
     let raf = 0;
+    let cancelled = false;
     const start = performance.now();
-    const dur = 1100;
+    const dur = 1200;
     const tick = (now: number) => {
+      if (cancelled) return;
       const t = Math.min(1, (now - start) / dur);
       // ease-out cubic
       const e = 1 - Math.pow(1 - t, 3);
       setAuto(e);
       if (t < 1) raf = requestAnimationFrame(tick);
+      else setAuto(1);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    // Hard guarantee: some Windows/Chrome modes throttle rAF hard and leave us mid-tween
+    const fallback = window.setTimeout(() => {
+      if (!cancelled) setAuto(1);
+    }, dur + 80);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      window.clearTimeout(fallback);
+    };
   }, [progress, reduced]);
 
   const a = progress !== undefined ? Math.min(1, Math.max(0, progress)) : auto;

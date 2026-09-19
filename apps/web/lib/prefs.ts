@@ -72,8 +72,15 @@ export function usePrefs() {
   return { ...prefs, setDensity, setNavCollapsed, toggleNav, toggleDensity };
 }
 
-/** Reduced-motion preference. */
+/** Read prefers-reduced-motion (client only). */
+export function getPrefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/** Reduced-motion preference (updates live with the media query). */
 export function useReducedMotion(): boolean {
+  // false on SSR + first paint to avoid hydration mismatch; sync ASAP in effect
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
