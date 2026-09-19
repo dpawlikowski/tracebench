@@ -12,3 +12,7 @@ test-results
 !.env.example
 reports
 .stryker-tmp
+.wrangler
+apps/**/.wrangler
+**/.wrangler/**
+tsconfig.tsbuildinfo
