@@ -358,8 +358,15 @@ export function StoryExperience() {
             </h2>
           </div>
 
-          {/* Desktop sticky split */}
-          <div className="relative hidden md:block" style={{ height: reduced ? "auto" : "280vh" }}>
+          {/* Desktop sticky split — track height = 1 viewport + (n-1) beats; avoid orphan empty scroll */}
+          <div
+            className="relative hidden md:block"
+            style={{
+              height: reduced
+                ? "auto"
+                : `calc(100vh + ${(Math.max(1, PRODUCT_FRAMES.length - 1)) * 70}vh)`,
+            }}
+          >
             <div
               className={
                 reduced
@@ -474,7 +481,7 @@ export function StoryExperience() {
       {/* 8 · CTA */}
       <section
         id="story-cta"
-        className="relative border-t border-tb-border/60 px-6 py-28 md:px-10 lg:px-16"
+        className="relative border-t border-tb-border/60 px-6 pb-16 pt-24 md:px-10 lg:px-16"
       >
         <SectionReveal reduced={reduced} className="mx-auto max-w-[720px] text-center">
           <h2 className="tb-display m-0 text-[clamp(28px,4vw,40px)] text-tb-text">
