@@ -5,7 +5,7 @@ import { RestartTourButton } from "@/components/help/RestartTourButton";
 
 export default function HelpHubPage() {
   return (
-    <div className="mx-auto max-w-[860px] px-6 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
+    <div className="tb-page max-w-[860px]">
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="tb-section-label m-0 mb-2">Guides</p>

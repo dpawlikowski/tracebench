@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ArchitecturePage() {
   return (
-    <div className="mx-auto max-w-[800px] px-6 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
+    <div className="tb-page max-w-[800px]">
       <p className="tb-section-label m-0 mb-2">System</p>
       <h1 className="tb-title m-0">Architecture</h1>
       <p className="tb-subtitle mt-2">

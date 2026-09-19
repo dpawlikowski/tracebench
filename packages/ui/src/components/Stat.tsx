@@ -19,7 +19,9 @@ export function Stat({
       <span className="font-mono text-[22px] font-semibold leading-none tracking-tight text-tb-text tabular-nums">
         {value}
       </span>
-      {hint && <span className="text-[11px] leading-snug text-tb-text-muted">{hint}</span>}
+      {hint && (
+        <span className="text-[11px] leading-snug text-tb-text-muted">{hint}</span>
+      )}
     </div>
   );
 }

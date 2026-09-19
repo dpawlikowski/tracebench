@@ -60,7 +60,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <header
-        className="sticky top-0 z-40 flex items-center gap-3 border-b border-tb-border/80 bg-tb-bg/90 px-3 backdrop-blur-[8px]"
+        className="sticky top-0 z-40 flex items-center gap-2.5 border-b border-tb-border bg-tb-bg/92 px-3 backdrop-blur-[10px]"
         style={{ paddingBlock: "var(--tb-header-py, 0.625rem)" }}
         data-tour="app-header"
       >
@@ -75,9 +75,13 @@ export function AppShell({ children }: { children: ReactNode }) {
         </button>
         <Link
           href="/"
-          className="shrink-0 font-semibold tracking-tight text-tb-text no-underline transition-colors duration-150 hover:text-tb-text"
+          className="group flex shrink-0 items-center gap-2 font-semibold tracking-tight text-tb-text no-underline transition-colors duration-150 hover:text-tb-text"
           data-tour="nav-overview"
         >
+          <span
+            className="h-1.5 w-1.5 rounded-full bg-tb-accent opacity-90 group-hover:opacity-100"
+            aria-hidden
+          />
           Tracebench
         </Link>
         <nav
@@ -106,10 +110,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                   if (item.href === "/evals") void prefetchEvals(queryClient);
                 }}
                 className={cn(
-                  "tb-interactive relative rounded-md px-2.5 py-1.5 text-[13px] no-underline",
+                  "tb-interactive relative rounded-md px-2.5 py-1.5 text-[13px] tracking-tight no-underline",
                   active
-                    ? "bg-tb-bg-hover/80 font-medium text-tb-text after:absolute after:inset-x-2 after:bottom-0 after:h-[2px] after:rounded-full after:bg-tb-accent/80"
-                    : "text-tb-text-muted hover:bg-tb-bg-hover/60 hover:text-tb-text",
+                    ? "bg-tb-bg-hover font-medium text-tb-text after:absolute after:inset-x-2.5 after:bottom-0 after:h-px after:bg-tb-accent"
+                    : "text-tb-text-muted hover:bg-tb-bg-hover/70 hover:text-tb-text",
                 )}
               >
                 {navCollapsed ? item.short : item.label}
@@ -143,9 +147,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             type="button"
             data-testid="open-command-palette"
             onClick={() => openCommandPalette()}
-            className="tb-interactive hidden items-center gap-1 rounded-md border border-tb-border px-2 py-1 text-[11px] text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text sm:inline-flex"
+            className="tb-interactive hidden items-center gap-1.5 rounded-md border border-tb-border bg-tb-bg-sunken/60 px-2 py-1 text-[11px] text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text sm:inline-flex"
+            aria-label="Open command palette"
           >
-            ⌘K
+            <span className="text-tb-text-muted">Search</span>
+            <kbd className="rounded border border-tb-border bg-tb-bg-elevated px-1 font-mono text-[10px] text-tb-text-dim">
+              ⌘K
+            </kbd>
           </button>
           <div className="hidden text-[11px] text-tb-text-dim lg:block">
             <span className="tabular-nums">{formatUsd(burn)}</span> seeded
@@ -154,7 +162,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </header>
       <main className="flex-1">{children}</main>
       <footer
-        className="border-t border-tb-border/80 px-4 py-3.5 text-[11px] text-tb-text-dim"
+        className="border-t border-tb-border px-4 py-3.5 text-[11px] text-tb-text-dim"
         data-testid="app-footer"
       >
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-2">

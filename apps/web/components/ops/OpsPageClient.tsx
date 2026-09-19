@@ -15,15 +15,11 @@ export function OpsPageClient() {
   });
 
   return (
-    <div
-      className="mx-auto max-w-[1100px] px-5 pb-16 tb-animate-in"
-      style={{ paddingTop: "var(--tb-pad-y)" }}
-      data-testid="ops-page"
-    >
-      <div className="mb-5">
+    <div className="tb-page tb-animate-in" data-testid="ops-page">
+      <div className="tb-page-header">
         <p className="tb-section-label m-0 mb-2">Telemetry</p>
         <h1 className="tb-title m-0">Ops Trace</h1>
-        <p className="mt-1.5 max-w-[640px] text-tb-text-muted">
+        <p className="tb-subtitle mt-1.5 max-w-[640px]">
           Read-only GenAI-shaped spans from{" "}
           <code className="font-mono text-[13px]">FixtureOpsTelemetry</code> (Demo Mode).
           Same port later wires OTLP export or Cloudflare agent tracing — no Inngest/Trigger.

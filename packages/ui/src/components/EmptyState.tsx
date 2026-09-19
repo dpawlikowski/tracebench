@@ -26,10 +26,20 @@ export function EmptyState({
       )}
       data-testid="empty-state"
     >
-      <div className="h-1 w-8 rounded-full bg-tb-border" aria-hidden />
+      <div
+        className={cn(
+          "h-0.5 w-8 rounded-full",
+          tone === "default" && "bg-tb-border-strong",
+          tone === "error" && "bg-tb-danger/60",
+          tone === "permission" && "bg-tb-warning/60",
+        )}
+        aria-hidden
+      />
       <div className="text-sm font-medium tracking-tight text-tb-text">{title}</div>
       {description && (
-        <div className="max-w-md text-[13px] leading-relaxed text-tb-text-muted">{description}</div>
+        <div className="max-w-md text-[13px] leading-relaxed text-tb-text-muted">
+          {description}
+        </div>
       )}
       {action && <div className="mt-1">{action}</div>}
     </div>

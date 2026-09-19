@@ -115,8 +115,7 @@ export function RunDetail({ initialRun }: { initialRun: AgentRun }) {
 
   return (
     <div
-      className="mx-auto max-w-[1280px] px-5 pb-16"
-      style={{ paddingTop: "var(--tb-pad-y)" }}
+      className="tb-page max-w-[1280px]"
       data-tour={run.id === "run_live_approve" ? "run-live" : undefined}
     >
       <div

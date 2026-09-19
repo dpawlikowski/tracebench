@@ -41,14 +41,15 @@ export function RiskPolicyMatrix() {
   });
 
   return (
-    <div className="mx-auto max-w-[1100px] px-6 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
+    <div className="tb-page">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
+          <p className="tb-section-label m-0 mb-2">Governance</p>
           <div className="flex items-center gap-2">
-            <h1 className="m-0 text-[22px] tracking-tight">Risk policy matrix</h1>
+            <h1 className="tb-title m-0">Risk policy matrix</h1>
             <HelpTip title="Jev risk policy" body="Each OpsAgent tool is evaluated by the Jev adapter (mock by default). Actions: auto_allow, require_approval, or deny." href="/help/hitl-jev" />
           </div>
-          <p className="mt-1.5 max-w-2xl text-tb-text-muted">
+          <p className="tb-subtitle mt-1.5 max-w-2xl">
             TypeSafe <strong>Jev</strong> evaluates each OpsAgent tool (
             <code className="font-mono text-[12px]">choice</code> /{" "}
             <code className="font-mono text-[12px]">boolean</code> /{" "}

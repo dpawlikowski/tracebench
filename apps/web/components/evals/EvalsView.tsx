@@ -8,10 +8,11 @@ export function EvalsView() {
   const { data, isLoading, isError, refetch } = useEvals();
 
   return (
-    <div className="mx-auto max-w-[1200px] px-6 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
-      <div className="mb-5">
-        <h1 className="m-0 text-[22px] tracking-tight">Eval / release gate</h1>
-        <p className="mt-1.5 text-tb-text-muted">
+    <div className="tb-page max-w-[1200px]">
+      <div className="tb-page-header">
+        <p className="tb-section-label m-0 mb-2">Release</p>
+        <h1 className="tb-title m-0">Eval / release gate</h1>
+        <p className="tb-subtitle mt-1.5">
           Golden set scored with <strong>mock-jev</strong> by default (zero keys). Intentional
           cost regressions are tagged{" "}
           <code className="font-mono text-[13px]">expect-fail</code>. Use{" "}

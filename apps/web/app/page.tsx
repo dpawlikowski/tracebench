@@ -108,7 +108,62 @@ export default function LandingPage() {
         </MaskReveal>
       </section>
 
-      {/* 2–3 · Problem → Product proof (capabilities) */}
+      {/* Problem → solution contrast (Synapse-style) */}
+      <section
+        id="landing-contrast-section"
+        className="relative z-[1] mx-auto max-w-[1180px] scroll-mt-20 px-6 pb-14"
+        data-testid="landing-contrast"
+      >
+        <p className="tb-section-label mb-4">The gap</p>
+        <div className="grid gap-px overflow-hidden rounded-lg border border-tb-border bg-tb-border md:grid-cols-2">
+          <div className="bg-tb-bg-elevated p-5 md:p-6">
+            <div className="mb-3 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-tb-danger" aria-hidden />
+              <span className="text-[12px] font-medium tracking-tight text-tb-text-dim">
+                Without a plane
+              </span>
+            </div>
+            <h2 className="m-0 text-[18px] font-semibold tracking-tight text-tb-text">
+              Chat transcripts as the ops surface
+            </h2>
+            <ul className="mt-4 mb-0 list-none space-y-2.5 p-0 text-[13px] leading-relaxed text-tb-text-muted">
+              <li className="border-l-2 border-tb-danger/40 pl-3">
+                Irreversible tools fire from prompts — no risk tier, no pause.
+              </li>
+              <li className="border-l-2 border-tb-danger/40 pl-3">
+                Burn and latency hide in invoices and APM, not beside the call.
+              </li>
+              <li className="border-l-2 border-tb-danger/40 pl-3">
+                Audit = Slack archaeology when something goes wrong.
+              </li>
+            </ul>
+          </div>
+          <div className="bg-tb-bg-elevated p-5 md:p-6">
+            <div className="mb-3 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-tb-accent" aria-hidden />
+              <span className="text-[12px] font-medium tracking-tight text-tb-text-dim">
+                With Tracebench
+              </span>
+            </div>
+            <h2 className="m-0 text-[18px] font-semibold tracking-tight text-tb-text">
+              A HITL control plane
+            </h2>
+            <ul className="mt-4 mb-0 list-none space-y-2.5 p-0 text-[13px] leading-relaxed text-tb-text-muted">
+              <li className="border-l-2 border-tb-accent/50 pl-3">
+                Timeline spine + risk-tiered approvals for money and config.
+              </li>
+              <li className="border-l-2 border-tb-accent/50 pl-3">
+                Cost and eval gates sit in the same instrument as the run.
+              </li>
+              <li className="border-l-2 border-tb-accent/50 pl-3">
+                Event log + audit trail — evidence is structured by default.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Capabilities */}
       <section
         id="landing-capabilities-section"
         className="relative z-[1] mx-auto max-w-[1180px] scroll-mt-20 px-6 pb-14"

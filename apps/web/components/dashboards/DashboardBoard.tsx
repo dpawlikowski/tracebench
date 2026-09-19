@@ -270,11 +270,12 @@ export function DashboardBoard() {
   }));
 
   return (
-    <div className="mx-auto max-w-[1280px] px-5 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
+    <div className="tb-page max-w-[1280px]">
       <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="mb-1.5 flex flex-wrap items-center gap-2">
-            <h1 className="m-0 text-[22px] tracking-tight">Ops dashboards</h1>
+            <p className="tb-section-label m-0 mb-2">Boards</p>
+            <h1 className="tb-title m-0">Ops dashboards</h1>
             <span data-testid="dash-scope-chip">
               <Badge
                 tone={preset === "fleet_release" ? "accent" : "warning"}
@@ -284,7 +285,7 @@ export function DashboardBoard() {
               </Badge>
             </span>
           </div>
-          <p className="mt-1.5 max-w-[640px] text-tb-text-muted">
+          <p className="tb-subtitle mt-1.5 max-w-[640px]">
             Drag, resize, and minimize widgets. Edit mode saves to{" "}
             <code className="font-mono text-[12px]">localStorage</code>.
           </p>
