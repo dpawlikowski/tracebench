@@ -19,3 +19,17 @@ Phosphor Instrument, calmed:
 
 ## Done when
 Landing/story/shell/runs/ops/help feel like one expensive product; CPA reaches 100% with visible HITL settle on Windows Chrome; typecheck green; live on Vercel.
+
+## Interaction pass (2026-09-20)
+
+Purposeful interactivity on `/` and `/story` (teach → preview → demo):
+
+- **Control Plane**: clickable layers + caption + Replay assemble
+- **Capability tiles**: expand detail + deep-link Demo Mode
+- **Proof chips**: jump section / open demo routes
+- **WorkFrame**: before/after scrub (chaos → HITL)
+- **Story breaks/pillars/metrics**: one-at-a-time deep dive
+- **Sticky frames**: ←→ keyboard, lightbox → real demo routes
+- **Progress rail**: labeled chapter jumps with active chrome
+
+Sticky track height remains frame-count based (no empty scroll void).

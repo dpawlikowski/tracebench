@@ -1,29 +1,43 @@
 import Link from "next/link";
-import { Button, Badge } from "@tracebench/ui";
+import { Button } from "@tracebench/ui";
 import { GrainOverlay } from "@/components/landing/GrainOverlay";
 import { ControlPlaneAssembly } from "@/components/landing/ControlPlaneAssembly";
 import { MagneticCta } from "@/components/landing/MagneticCta";
 import { MaskReveal } from "@/components/landing/MaskReveal";
 import { WorkFrame } from "@/components/landing/WorkFrame";
+import { CapabilityCards, type Capability } from "@/components/landing/CapabilityCards";
+import { ProofStrip, type ProofChip } from "@/components/landing/ProofStrip";
 
-const PROOF = [
-  { k: "Demo Mode", v: "zero API keys" },
-  { k: "HITL", v: "risk-tiered gates" },
-  { k: "Evals", v: "mock-jev release gate" },
+const PROOF: readonly ProofChip[] = [
+  { k: "Demo Mode", v: "zero API keys", kind: "route", target: "/runs" },
+  { k: "HITL", v: "risk-tiered gates", kind: "section", target: "landing-capabilities-section" },
+  { k: "Evals", v: "mock-jev release gate", kind: "route", target: "/evals" },
 ] as const;
 
-const CAPABILITIES = [
+const CAPABILITIES: readonly Capability[] = [
   {
     t: "Timeline",
     d: "Shape-of-run spine with replay, scrub, and mono event truth — not a chat dump.",
+    detail:
+      "Every thought, tool call, and approval projects from an event log. Scrub the spine on the live demo run.",
+    href: "/runs/run_live_approve",
+    cta: "Open live timeline",
   },
   {
     t: "HITL",
     d: "XState approval modal for irreversible tools. Keyboard-first. Audit-ready.",
+    detail:
+      "High-risk wire_transfer pauses for a human. Esc denies, ⌘Enter approves — both append to audit.",
+    href: "/runs/run_live_approve",
+    cta: "Try an approval",
   },
   {
     t: "Eval gate",
     d: "Score before ship. Cost and latency sit beside the decision, not in a spreadsheet.",
+    detail:
+      "Golden-set scorecard with mock-jev. Promote only when the gate is green — or tag expect-fail.",
+    href: "/evals",
+    cta: "Open scorecard",
   },
 ] as const;
 
@@ -33,8 +47,8 @@ export default function LandingPage() {
       <GrainOverlay />
       <div className="tb-grid-atmosphere" aria-hidden />
 
-      {/* Hero */}
-      <section className="relative z-[1] mx-auto grid max-w-[1180px] gap-10 px-6 pb-16 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-12 lg:pt-20">
+      {/* 1 · Hook */}
+      <section className="relative z-[1] mx-auto grid max-w-[1180px] gap-10 px-6 pb-14 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-12 lg:pt-20">
         <div>
           <MaskReveal>
             <p className="tb-section-label m-0">Agent Ops Workbench</p>
@@ -82,98 +96,71 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          {/* Proof strip */}
-          <div className="flex flex-wrap gap-2" data-testid="landing-proof-strip">
-            {PROOF.map((p) => (
-              <span
-                key={p.k}
-                className="inline-flex items-center gap-2 rounded-md border border-tb-border bg-tb-bg-elevated px-2.5 py-1.5 text-[12px] text-tb-text-muted"
-              >
-                <span className="font-medium text-tb-text">{p.k}</span>
-                <span className="text-tb-text-dim">·</span>
-                <span>{p.v}</span>
-              </span>
-            ))}
-          </div>
+          {/* 5 · Trust strip (early) */}
+          <ProofStrip items={PROOF} />
         </div>
 
         <MaskReveal delayMs={180} className="relative">
-          <ControlPlaneAssembly />
+          <ControlPlaneAssembly interactive />
+          <p className="mt-3 text-[12px] text-tb-text-dim">
+            Click HITL, agents, or eval to inspect the plane — Replay reassembles.
+          </p>
         </MaskReveal>
       </section>
 
-      {/* Capability tiles — shared-edge */}
-      <section className="relative z-[1] mx-auto max-w-[1180px] px-6 pb-16">
+      {/* 2–3 · Problem → Product proof (capabilities) */}
+      <section
+        id="landing-capabilities-section"
+        className="relative z-[1] mx-auto max-w-[1180px] scroll-mt-20 px-6 pb-14"
+      >
         <div className="mb-4 flex items-end justify-between gap-4">
-          <p className="tb-section-label m-0">Capabilities</p>
+          <div>
+            <p className="tb-section-label m-0">Capabilities</p>
+            <p className="mb-0 mt-1 max-w-[420px] text-[13px] text-tb-text-muted">
+              Expand a tile to learn the surface, then jump into Demo Mode.
+            </p>
+          </div>
           <div className="h-px flex-1 bg-tb-border tb-hairline-sweep" aria-hidden />
         </div>
-        <div className="tb-tile-grid grid-cols-1 sm:grid-cols-3" data-testid="landing-capabilities">
-          {CAPABILITIES.map((c) => (
-            <div key={c.t} className="p-5 transition-colors duration-150 hover:bg-tb-bg-hover">
-              <h2 className="m-0 text-[15px] font-semibold tracking-tight">{c.t}</h2>
-              <p className="mb-0 mt-2 text-[13px] leading-relaxed text-tb-text-muted">{c.d}</p>
-            </div>
-          ))}
-        </div>
+        <CapabilityCards items={CAPABILITIES} />
       </section>
 
-      {/* Work frame */}
-      <section className="relative z-[1] mx-auto max-w-[1180px] px-6 pb-16">
-        <p className="tb-section-label mb-4">In the workbench</p>
-        <WorkFrame>
-          <div className="border-b border-tb-border bg-tb-bg px-4 py-2.5 font-mono text-[11px] text-tb-text-dim">
-            run_live_approve · awaiting_approval · wire_transfer
-          </div>
-          <div className="grid gap-0 md:grid-cols-[1.2fr_0.8fr]">
-            <div className="space-y-2 border-b border-tb-border p-4 md:border-b-0 md:border-r">
-              {[
-                { t: "thought", c: "Verify beneficiary + amount against policy" },
-                { t: "tool", c: "wire_transfer · $12,400 · high risk" },
-                { t: "approval", c: "HITL gate · Jev escalated" },
-              ].map((row) => (
-                <div
-                  key={row.t}
-                  className="flex items-start gap-3 rounded-md border border-tb-border bg-tb-bg-sunken px-3 py-2"
-                >
-                  <Badge tone={row.t === "approval" ? "warning" : row.t === "tool" ? "accent" : "neutral"}>
-                    {row.t}
-                  </Badge>
-                  <span className="font-mono text-[12px] text-tb-text-muted">{row.c}</span>
-                </div>
-              ))}
-            </div>
-            <div className="space-y-3 p-4">
-              <div className="text-[12px] font-medium tracking-tight text-tb-text-dim">
-                Cost / latency
-              </div>
-              <div className="font-mono text-[28px] font-semibold tracking-tight tabular-nums">
-                $0.22
-              </div>
-              <div className="h-10 rounded-md border border-dashed border-tb-border bg-tb-accent-soft/50" />
-              <div className="text-[12px] text-tb-text-muted">
-                Instrument chrome — dense ops, calm decisions.
-              </div>
-            </div>
-          </div>
-        </WorkFrame>
+      {/* Product proof — before/after workbench */}
+      <section
+        id="landing-workbench-section"
+        className="relative z-[1] mx-auto max-w-[1180px] scroll-mt-20 px-6 pb-14"
+      >
+        <p className="tb-section-label mb-2">In the workbench</p>
+        <p className="mb-4 max-w-[480px] text-[13px] text-tb-text-muted">
+          Scrub left/right (or click) to compare ungoverned chaos with a HITL-gated run.
+        </p>
+        <WorkFrame />
       </section>
 
-      {/* Story teaser + CTA band */}
+      {/* Handoff to story + CTA */}
       <section className="relative z-[1] mx-auto max-w-[1180px] px-6 pb-24">
         <div
-          className="mb-8 rounded-lg border border-tb-border bg-tb-bg-elevated p-5"
+          className="mb-8 rounded-lg border border-tb-border bg-tb-bg-elevated p-5 transition-colors hover:border-tb-border-strong"
           data-testid="landing-story-teaser"
         >
-          <div className="mb-1 text-sm font-semibold tracking-tight text-tb-text">Why Tracebench</div>
-          <p className="m-0 mb-2 max-w-[560px] text-[13px] leading-relaxed text-tb-text-muted">
-            A cinematic business narrative: ungoverned agents → control plane → illustrative
-            outcomes → Demo Mode. Ops routes stay here; the story lives at{" "}
+          <div className="mb-1 text-sm font-semibold tracking-tight text-tb-text">
+            Why Tracebench
+          </div>
+          <p className="m-0 mb-3 max-w-[560px] text-[13px] leading-relaxed text-tb-text-muted">
+            A cinematic case study: ungoverned agents → control plane → illustrative outcomes →
+            Demo Mode. Ops density stays in the app; the narrative lives on{" "}
             <Link href="/story" className="font-medium text-tb-accent no-underline hover:underline">
               /story
             </Link>
             .
           </p>
+          <MagneticCta>
+            <Link href="/story" className="no-underline hover:no-underline">
+              <Button variant="secondary" size="md" data-testid="landing-story-teaser-cta">
+                Enter the story →
+              </Button>
+            </Link>
+          </MagneticCta>
         </div>
 
         <div className="flex flex-col items-start justify-between gap-6 rounded-lg border border-tb-border bg-tb-bg-elevated p-6 sm:flex-row sm:items-center">

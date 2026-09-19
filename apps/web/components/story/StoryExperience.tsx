@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -16,7 +15,7 @@ import {
   useTransform,
   useInView,
 } from "motion/react";
-import { Button, Badge, Card } from "@tracebench/ui";
+import { Button, Badge, Card, cn } from "@tracebench/ui";
 import { GrainOverlay } from "@/components/landing/GrainOverlay";
 import { ControlPlaneAssembly } from "@/components/landing/ControlPlaneAssembly";
 import { MagneticCta } from "@/components/landing/MagneticCta";
@@ -77,6 +76,12 @@ export function StoryExperience() {
   const reduced = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<StorySectionId>("hero");
+  const [activeBreak, setActiveBreak] = useState<string | null>(null);
+  const [activePillar, setActivePillar] = useState<string | null>(null);
+  const [activeMetric, setActiveMetric] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<(typeof PRODUCT_FRAMES)[number] | null>(
+    null,
+  );
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -98,18 +103,62 @@ export function StoryExperience() {
     return unsub;
   }, [smoothProgress, scrollYProgress, reduced]);
 
-  // Sticky how-teams chapter scroll
   const howRef = useRef<HTMLDivElement>(null);
+  const howInView = useInView(howRef, { amount: 0.15 });
   const { scrollYProgress: howProgress } = useScroll({
     target: howRef,
     offset: ["start start", "end end"],
   });
-  const frameIndex = useTransform(howProgress, [0, 0.2, 0.4, 0.6, 0.8, 1], [0, 1, 2, 3, 4, 4]);
+  const frameIndex = useTransform(
+    howProgress,
+    [0, 0.2, 0.4, 0.6, 0.8, 1],
+    [0, 1, 2, 3, 4, 4],
+  );
   const [frame, setFrame] = useState(0);
   useEffect(() => {
     const unsub = frameIndex.on("change", (v) => setFrame(Math.round(v)));
     return unsub;
   }, [frameIndex]);
+
+  const jumpToFrame = useCallback(
+    (i: number) => {
+      const clamped = Math.max(0, Math.min(PRODUCT_FRAMES.length - 1, i));
+      if (reduced) {
+        setFrame(clamped);
+        return;
+      }
+      const el = howRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const top = window.scrollY + rect.top;
+      const span = el.offsetHeight - window.innerHeight;
+      const t = clamped / Math.max(1, PRODUCT_FRAMES.length - 1);
+      window.scrollTo({
+        top: top + span * t,
+        behavior: "smooth",
+      });
+    },
+    [reduced],
+  );
+
+  // Keyboard ←/→ when how-teams section is in view
+  useEffect(() => {
+    if (!howInView) return;
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable)
+        return;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        jumpToFrame(frame + 1);
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        jumpToFrame(frame - 1);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [howInView, frame, jumpToFrame]);
 
   useEffect(() => {
     const nodes = STORY_SECTIONS.map((s) => document.getElementById(`story-${s.id}`)).filter(
@@ -133,10 +182,26 @@ export function StoryExperience() {
     return () => io.disconnect();
   }, []);
 
-  const jump = useCallback((id: StorySectionId) => {
-    const el = document.getElementById(`story-${id}`);
-    el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
-  }, [reduced]);
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightbox]);
+
+  const jump = useCallback(
+    (id: StorySectionId) => {
+      const el = document.getElementById(`story-${id}`);
+      el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    },
+    [reduced],
+  );
 
   return (
     <div
@@ -158,7 +223,10 @@ export function StoryExperience() {
         className="relative flex min-h-[88vh] flex-col justify-center overflow-hidden px-6 pb-20 pt-16 md:px-10 lg:px-16"
       >
         <div className="tb-grid-atmosphere opacity-25" aria-hidden />
-        <SectionReveal reduced={reduced} className="relative z-[1] mx-auto grid w-full max-w-[1100px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <SectionReveal
+          reduced={reduced}
+          className="relative z-[1] mx-auto grid w-full max-w-[1100px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center"
+        >
           <div>
             <p className="tb-section-label m-0">Business story</p>
             <h1 className="tb-display mb-5 mt-4 max-w-[820px] text-[clamp(34px,5.5vw,58px)] text-tb-text">
@@ -185,7 +253,15 @@ export function StoryExperience() {
               </button>
             </div>
           </div>
-          <ControlPlaneAssembly progress={reduced ? 1 : Math.min(1, progress * 2.2)} />
+          <div>
+            <ControlPlaneAssembly
+              progress={reduced ? 1 : Math.min(1, progress * 2.2)}
+              interactive
+            />
+            <p className="mt-2 text-[12px] text-tb-text-dim">
+              Click layers to inspect roles as the plane assembles.
+            </p>
+          </div>
         </SectionReveal>
       </section>
 
@@ -194,11 +270,12 @@ export function StoryExperience() {
         id="story-blind-spot"
         className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
       >
-        <SectionReveal reduced={reduced} className="mx-auto grid max-w-[980px] gap-10 md:grid-cols-[1.1fr_0.9fr]">
+        <SectionReveal
+          reduced={reduced}
+          className="mx-auto grid max-w-[980px] gap-10 md:grid-cols-[1.1fr_0.9fr]"
+        >
           <div>
-            <p className="tb-section-label m-0">
-              01 · The blind spot
-            </p>
+            <p className="tb-section-label m-0">01 · The blind spot</p>
             <h2 className="mt-3 tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               Agents already touch money and config. Most teams still lack a control room.
             </h2>
@@ -211,9 +288,7 @@ export function StoryExperience() {
           <Card padding={20} className="border-tb-border/80 bg-tb-bg-elevated/60">
             <div className="mb-3 flex items-center gap-2">
               <Badge tone="danger">ungoverned</Badge>
-              <span className="text-[11px] tracking-tight text-tb-text-dim">
-                without a plane
-              </span>
+              <span className="text-[11px] tracking-tight text-tb-text-dim">without a plane</span>
             </div>
             <ul className="m-0 list-none space-y-3 p-0 text-[13px] leading-relaxed text-tb-text-muted">
               <li className="border-l-2 border-risk-high/50 pl-3">
@@ -230,43 +305,86 @@ export function StoryExperience() {
         </SectionReveal>
       </section>
 
-      {/* 3 · What breaks */}
+      {/* 3 · What breaks — interactive select */}
       <section
         id="story-what-breaks"
         className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
           <SectionReveal reduced={reduced}>
-            <p className="tb-section-label m-0">
-              02 · What breaks
-            </p>
+            <p className="tb-section-label m-0">02 · What breaks</p>
             <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               The cost of ungoverned agents is not theoretical.
             </h2>
+            <p className="mt-2 text-[13px] text-tb-text-dim">
+              Select a failure mode to see how Tracebench answers it.
+            </p>
           </SectionReveal>
-          <div className="mt-10 grid gap-3 sm:grid-cols-2">
-            {BREAKS.map((b, i) => (
-              <SectionReveal key={b.title} reduced={reduced} delay={reduced ? 0 : i * 0.05}>
-                <Card padding={18} className="h-full border-tb-border/80">
-                  <h3 className="m-0 text-[15px] font-semibold">{b.title}</h3>
-                  <p className="mb-0 mt-2 text-[13px] leading-relaxed text-tb-text-muted">{b.body}</p>
-                </Card>
-              </SectionReveal>
-            ))}
+          <div className="mt-10 grid gap-3 sm:grid-cols-2" data-testid="story-breaks">
+            {BREAKS.map((b, i) => {
+              const open = activeBreak === b.id;
+              return (
+                <SectionReveal key={b.id} reduced={reduced} delay={reduced ? 0 : i * 0.05}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={open}
+                    data-testid={`story-break-${b.id}`}
+                    onClick={() => setActiveBreak(open ? null : b.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setActiveBreak(open ? null : b.id);
+                      }
+                    }}
+                    className={cn(
+                      "h-full w-full cursor-pointer rounded-md border p-[18px] text-left outline-none transition-[border-color,background-color,transform] duration-150",
+                      open
+                        ? "border-tb-accent/50 bg-tb-accent-soft/20"
+                        : "border-tb-border/80 bg-tb-bg-elevated hover:border-tb-border-strong hover:bg-tb-bg-hover",
+                      !reduced && "hover:-translate-y-0.5",
+                    )}
+                  >
+                    <h3 className="m-0 text-[15px] font-semibold">{b.title}</h3>
+                    <p className="mb-0 mt-2 text-[13px] leading-relaxed text-tb-text-muted">
+                      {b.body}
+                    </p>
+                    <div
+                      className={cn(
+                        "grid transition-[grid-template-rows,opacity] duration-200",
+                        open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                      )}
+                      style={{ transitionDuration: reduced ? "0ms" : undefined }}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="mb-0 mt-3 border-t border-tb-border pt-3 text-[12px] leading-relaxed text-tb-text">
+                          {b.deep}
+                        </p>
+                        <Link
+                          href={b.href}
+                          onClick={(e) => e.stopPropagation()}
+                          className="mt-3 inline-flex text-[12px] font-medium text-tb-accent no-underline hover:underline"
+                        >
+                          See it in Demo Mode →
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </SectionReveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 4 · Answer */}
+      {/* 4 · Answer — interactive pillars */}
       <section
         id="story-answer"
         className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
           <SectionReveal reduced={reduced}>
-            <p className="tb-section-label m-0 text-tb-accent">
-              03 · The Tracebench answer
-            </p>
+            <p className="tb-section-label m-0 text-tb-accent">03 · The Tracebench answer</p>
             <h2 className="mt-3 max-w-[720px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               A control plane — not another chat wrapper.
             </h2>
@@ -274,97 +392,156 @@ export function StoryExperience() {
               Event log as truth. Jev for risk policy. HITL for irreversible tools. Evals before
               ship. A2A and boards so multi-agent work stays inspectable.
             </p>
+            <p className="mt-2 text-[13px] text-tb-text-dim">
+              Select one pillar — only one deep dive at a time.
+            </p>
           </SectionReveal>
-          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {ANSWER_PILLARS.map((p, i) => (
-              <SectionReveal key={p.title} reduced={reduced} delay={reduced ? 0 : i * 0.04}>
-                <div className="h-full border border-tb-border bg-tb-bg-elevated p-4 transition-colors duration-150 hover:bg-tb-bg-hover">
-                  <div className="mb-2 font-mono text-[11px] text-tb-accent tabular-nums">
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-                  <h3 className="m-0 text-[14px] font-semibold">{p.title}</h3>
-                  <p className="mb-0 mt-2 text-[12px] leading-relaxed text-tb-text-muted">{p.body}</p>
-                </div>
-              </SectionReveal>
-            ))}
+          <div
+            className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+            data-testid="story-pillars"
+          >
+            {ANSWER_PILLARS.map((p, i) => {
+              const open = activePillar === p.id;
+              return (
+                <SectionReveal key={p.id} reduced={reduced} delay={reduced ? 0 : i * 0.04}>
+                  <button
+                    type="button"
+                    aria-expanded={open}
+                    data-testid={`story-pillar-${p.id}`}
+                    onClick={() => setActivePillar(open ? null : p.id)}
+                    className={cn(
+                      "flex h-full w-full flex-col border p-4 text-left outline-none transition-colors duration-150",
+                      open
+                        ? "border-tb-accent/50 bg-tb-accent-soft/15"
+                        : "border-tb-border bg-tb-bg-elevated hover:bg-tb-bg-hover",
+                    )}
+                  >
+                    <div className="mb-2 font-mono text-[11px] text-tb-accent tabular-nums">
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <h3 className="m-0 text-[14px] font-semibold">{p.title}</h3>
+                    <p className="mb-0 mt-2 text-[12px] leading-relaxed text-tb-text-muted">
+                      {p.body}
+                    </p>
+                    <div
+                      className={cn(
+                        "grid transition-[grid-template-rows,opacity] duration-200",
+                        open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                      )}
+                      style={{ transitionDuration: reduced ? "0ms" : undefined }}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="mb-0 mt-3 border-t border-tb-border pt-3 text-[12px] leading-relaxed text-tb-text">
+                          {p.deep}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                </SectionReveal>
+              );
+            })}
           </div>
           <SectionReveal reduced={reduced} className="mt-10" delay={reduced ? 0 : 0.08}>
             <p className="tb-section-label mb-3">Control plane assembly</p>
-            <ControlPlaneAssembly compact />
+            <ControlPlaneAssembly compact interactive />
           </SectionReveal>
         </div>
       </section>
 
-      {/* 5 · Outcomes */}
+      {/* 5 · Outcomes — metric definition on focus/hover */}
       <section
         id="story-outcomes"
         className="relative border-t border-tb-border/60 px-6 py-24 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[980px]">
           <SectionReveal reduced={reduced}>
-            <p className="tb-section-label m-0">
-              04 · Business outcomes
-            </p>
+            <p className="tb-section-label m-0">04 · Business outcomes</p>
             <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               What governance buys — in numbers teams recognize.
             </h2>
             <p className="mt-3 text-[13px] text-tb-text-dim" data-testid="story-metrics-footnote">
               * {ILLUSTRATIVE_FOOTNOTE}
             </p>
+            <p className="mt-1 text-[13px] text-tb-text-dim">
+              Focus or tap a metric to see what it means inside Tracebench.
+            </p>
           </SectionReveal>
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {METRICS.map((m, i) => (
-              <SectionReveal key={m.id} reduced={reduced} delay={reduced ? 0 : i * 0.05}>
-                <div data-testid={`story-metric-${m.id}`} className="h-full">
-                <Card
-                  padding={20}
-                  className="h-full border-tb-border bg-tb-bg-elevated shadow-none"
-                >
-                  <div className="text-[clamp(28px,4vw,40px)] font-bold tracking-tight text-tb-text">
-                    <MetricCounter
-                      value={m.value}
-                      prefix={"prefix" in m ? m.prefix : ""}
-                      suffix={m.suffix}
-                      forceStatic={reduced}
-                    />
-                  </div>
-                  <div className="mt-1 font-mono text-[11px] text-tb-accent">{m.range}</div>
-                  <div className="mt-3 text-[14px] font-semibold">{m.label}</div>
-                  <p className="mb-0 mt-2 text-[12px] leading-relaxed text-tb-text-muted">{m.detail}</p>
-                  <p className="mb-0 mt-3 text-[10px] uppercase tracking-wider text-tb-text-dim">
-                    Illustrative
-                  </p>
-                </Card>
-                </div>
-              </SectionReveal>
-            ))}
+            {METRICS.map((m, i) => {
+              const open = activeMetric === m.id;
+              return (
+                <SectionReveal key={m.id} reduced={reduced} delay={reduced ? 0 : i * 0.05}>
+                  <button
+                    type="button"
+                    aria-expanded={open}
+                    data-testid={`story-metric-${m.id}`}
+                    onClick={() => setActiveMetric(open ? null : m.id)}
+                    onFocus={() => setActiveMetric(m.id)}
+                    className={cn(
+                      "h-full w-full rounded-md border p-5 text-left outline-none transition-colors duration-150",
+                      open
+                        ? "border-tb-accent/45 bg-tb-bg-elevated"
+                        : "border-tb-border bg-tb-bg-elevated hover:border-tb-border-strong",
+                    )}
+                  >
+                    <div className="text-[clamp(28px,4vw,40px)] font-bold tracking-tight text-tb-text">
+                      <MetricCounter
+                        value={m.value}
+                        prefix={"prefix" in m ? m.prefix : ""}
+                        suffix={m.suffix}
+                        forceStatic={reduced}
+                      />
+                    </div>
+                    <div className="mt-1 font-mono text-[11px] text-tb-accent">{m.range}</div>
+                    <div className="mt-3 text-[14px] font-semibold">{m.label}</div>
+                    <p className="mb-0 mt-2 text-[12px] leading-relaxed text-tb-text-muted">
+                      {m.detail}
+                    </p>
+                    <div
+                      className={cn(
+                        "grid transition-[grid-template-rows,opacity] duration-200",
+                        open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                      )}
+                      style={{ transitionDuration: reduced ? "0ms" : undefined }}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="mb-0 mt-3 rounded border border-tb-accent/25 bg-tb-accent-soft/20 px-2.5 py-2 text-[11px] leading-relaxed text-tb-text">
+                          <span className="font-medium text-tb-accent">In Tracebench · </span>
+                          {m.definition}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="mb-0 mt-3 text-[10px] tracking-wider text-tb-text-dim">
+                      Illustrative
+                    </p>
+                  </button>
+                </SectionReveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 6 · How teams work — sticky */}
-      <section
-        id="story-how-teams"
-        ref={howRef}
-        className="relative border-t border-tb-border/60"
-      >
+      {/* 6 · How teams work — sticky + keyboard */}
+      <section id="story-how-teams" ref={howRef} className="relative border-t border-tb-border/60">
         <div className="mx-auto max-w-[1100px] px-6 md:px-10 lg:px-16">
           <div className="py-16 md:py-20">
-            <p className="tb-section-label m-0">
-              05 · How teams work
-            </p>
+            <p className="tb-section-label m-0">05 · How teams work</p>
             <h2 className="mt-3 max-w-[640px] tb-display text-[clamp(24px,3.5vw,36px)] text-tb-text">
               Sticky ops loop — copy on the left, product on the right.
             </h2>
+            <p className="mt-2 text-[13px] text-tb-text-dim">
+              Click frames, or use ← → when this chapter is in view. Click the image to open the
+              real Demo Mode route.
+            </p>
           </div>
 
-          {/* Desktop sticky split — track height = 1 viewport + (n-1) beats; avoid orphan empty scroll */}
           <div
             className="relative hidden md:block"
             style={{
               height: reduced
                 ? "auto"
-                : `calc(100vh + ${(Math.max(1, PRODUCT_FRAMES.length - 1)) * 70}vh)`,
+                : `calc(100vh + ${Math.max(1, PRODUCT_FRAMES.length - 1) * 70}vh)`,
             }}
           >
             <div
@@ -375,9 +552,12 @@ export function StoryExperience() {
               }
             >
               <div className="flex flex-col justify-center pr-4">
-                <Badge tone="accent" className="mb-4 w-fit">
-                  Frame {frame + 1} / {PRODUCT_FRAMES.length}
-                </Badge>
+                <div className="mb-4 flex flex-wrap items-center gap-2">
+                  <Badge tone="accent" className="w-fit">
+                    Frame {frame + 1} / {PRODUCT_FRAMES.length}
+                  </Badge>
+                  <span className="text-[11px] text-tb-text-dim">← → to scrub</span>
+                </div>
                 <h3 className="m-0 text-[22px] font-semibold tracking-tight leading-snug">
                   {PRODUCT_FRAMES[frame]?.chapter}
                 </h3>
@@ -389,49 +569,59 @@ export function StoryExperience() {
                     <li key={f.src}>
                       <button
                         type="button"
-                        onClick={() => {
-                          if (reduced) {
-                            setFrame(i);
-                            return;
-                          }
-                          const el = howRef.current;
-                          if (!el) return;
-                          const rect = el.getBoundingClientRect();
-                          const top = window.scrollY + rect.top;
-                          const span = el.offsetHeight - window.innerHeight;
-                          const t = i / Math.max(1, PRODUCT_FRAMES.length - 1);
-                          window.scrollTo({
-                            top: top + span * t,
-                            behavior: "smooth",
-                          });
-                        }}
-                        className={`block w-full rounded-sm border px-3 py-2 text-left text-[12px] transition-colors ${
+                        onClick={() => jumpToFrame(i)}
+                        className={cn(
+                          "block w-full rounded-sm border px-3 py-2 text-left text-[12px] transition-colors",
                           i === frame
                             ? "border-tb-accent/50 bg-tb-accent-soft text-tb-text"
-                            : "border-transparent text-tb-text-dim hover:border-tb-border hover:text-tb-text-muted"
-                        }`}
+                            : "border-transparent text-tb-text-dim hover:border-tb-border hover:text-tb-text-muted",
+                        )}
+                        data-testid={`story-frame-nav-${i}`}
                       >
                         {f.caption.split(" — ")[0]}
                       </button>
                     </li>
                   ))}
                 </ol>
+                <div className="mt-6 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => jumpToFrame(frame - 1)}
+                    disabled={frame <= 0}
+                    className="rounded-md border border-tb-border px-3 py-1.5 text-[12px] text-tb-text-muted disabled:opacity-40 hover:border-tb-border-strong hover:text-tb-text"
+                    aria-label="Previous frame"
+                  >
+                    ← Prev
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => jumpToFrame(frame + 1)}
+                    disabled={frame >= PRODUCT_FRAMES.length - 1}
+                    className="rounded-md border border-tb-border px-3 py-1.5 text-[12px] text-tb-text-muted disabled:opacity-40 hover:border-tb-border-strong hover:text-tb-text"
+                    aria-label="Next frame"
+                  >
+                    Next →
+                  </button>
+                </div>
               </div>
               <div className="flex items-center">
-                <ProductFrame frame={PRODUCT_FRAMES[frame]!} reduced={reduced} />
+                <ProductFrame
+                  frame={PRODUCT_FRAMES[frame]!}
+                  reduced={reduced}
+                  onOpen={() => setLightbox(PRODUCT_FRAMES[frame]!)}
+                />
               </div>
             </div>
             {!reduced && <div aria-hidden className="h-px" />}
           </div>
 
-          {/* Mobile: stacked */}
           <div className="flex flex-col gap-10 pb-20 md:hidden">
             {PRODUCT_FRAMES.map((f) => (
               <div key={f.src}>
                 <h3 className="m-0 text-[18px] font-semibold">{f.chapter}</h3>
                 <p className="mt-2 text-[13px] text-tb-text-muted">{f.caption}</p>
                 <div className="mt-4">
-                  <ProductFrame frame={f} reduced />
+                  <ProductFrame frame={f} reduced onOpen={() => setLightbox(f)} />
                 </div>
               </div>
             ))}
@@ -449,10 +639,8 @@ export function StoryExperience() {
           className="mx-auto flex max-w-[980px] flex-col gap-8 md:flex-row md:items-center md:justify-between"
         >
           <div className="max-w-[520px]">
-            <p className="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tb-success">
-              06 · Proof strip
-            </p>
-            <h2 className="mt-3 text-[clamp(24px,3.5vw,34px)] font-bold tracking-tight leading-tight">
+            <p className="tb-section-label m-0 text-tb-success">06 · Proof strip</p>
+            <h2 className="mt-3 tb-display text-[clamp(24px,3.5vw,34px)] text-tb-text">
               Demo Mode. Zero keys. Fixtures that fail honestly.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-tb-text-muted">
@@ -488,8 +676,8 @@ export function StoryExperience() {
             Open the control room.
           </h2>
           <p className="mx-auto mt-4 max-w-[480px] text-[15px] leading-relaxed text-tb-text-muted">
-            Start with the live approval demo, skim the FAQ, or read the architecture — then
-            decide if your agents deserve a plane.
+            Start with the live approval demo, skim the FAQ, or read the architecture — then decide
+            if your agents deserve a plane.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <MagneticCta>
@@ -499,16 +687,27 @@ export function StoryExperience() {
                 </Button>
               </Link>
             </MagneticCta>
-            <Link href="/help" className="no-underline hover:no-underline">
-              <Button variant="secondary" size="lg">
-                FAQ / Help
-              </Button>
-            </Link>
-            <Link href="/architecture" className="no-underline hover:no-underline">
-              <Button variant="ghost" size="lg">
-                Architecture
-              </Button>
-            </Link>
+            <MagneticCta strength={4}>
+              <Link href="/help" className="no-underline hover:no-underline">
+                <Button variant="secondary" size="lg" data-testid="story-cta-help">
+                  FAQ / Help
+                </Button>
+              </Link>
+            </MagneticCta>
+            <MagneticCta strength={4}>
+              <Link href="/architecture" className="no-underline hover:no-underline">
+                <Button variant="ghost" size="lg" data-testid="story-cta-arch">
+                  Architecture
+                </Button>
+              </Link>
+            </MagneticCta>
+            <MagneticCta strength={4}>
+              <Link href="/evals" className="no-underline hover:no-underline">
+                <Button variant="ghost" size="lg" data-testid="story-cta-evals">
+                  Eval gate
+                </Button>
+              </Link>
+            </MagneticCta>
           </div>
           <p className="mt-10 text-[11px] leading-relaxed text-tb-text-dim">
             * {ILLUSTRATIVE_FOOTNOTE}
@@ -521,6 +720,47 @@ export function StoryExperience() {
           </Link>
         </SectionReveal>
       </section>
+
+      {lightbox && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.alt}
+          data-testid="story-frame-lightbox"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-[2px]"
+          onClick={() => setLightbox(null)}
+        >
+          <div
+            className="relative max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg border border-tb-border-strong bg-tb-bg-elevated shadow-[var(--tb-shadow-modal)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative aspect-[16/10] w-full bg-tb-bg">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={lightbox.src}
+                alt={lightbox.alt}
+                className="absolute inset-0 h-full w-full object-contain object-top"
+              />
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-tb-border px-4 py-3">
+              <div>
+                <div className="text-[13px] font-medium text-tb-text">{lightbox.caption}</div>
+                <div className="text-[12px] text-tb-text-muted">{lightbox.chapter}</div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Link href={lightbox.href} className="no-underline hover:no-underline">
+                  <Button variant="primary" size="md" data-testid="story-lightbox-demo">
+                    {lightbox.routeLabel}
+                  </Button>
+                </Link>
+                <Button variant="ghost" size="md" onClick={() => setLightbox(null)}>
+                  Close
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -528,9 +768,11 @@ export function StoryExperience() {
 function ProductFrame({
   frame,
   reduced,
+  onOpen,
 }: {
   frame: (typeof PRODUCT_FRAMES)[number];
   reduced: boolean;
+  onOpen: () => void;
 }) {
   return (
     <motion.figure
@@ -543,7 +785,13 @@ function ProductFrame({
         ease: motionTokens.ease.out,
       }}
     >
-      <div className="relative aspect-[16/10] w-full bg-tb-bg">
+      <button
+        type="button"
+        onClick={onOpen}
+        className="relative block aspect-[16/10] w-full cursor-zoom-in bg-tb-bg outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-tb-accent/50"
+        aria-label={`Enlarge: ${frame.alt}. Opens preview with link to ${frame.routeLabel}.`}
+        data-testid="story-product-frame"
+      >
         {/* eslint-disable-next-line @next/next/no-img-element -- static public/story assets */}
         <img
           src={frame.src}
@@ -552,9 +800,16 @@ function ProductFrame({
           loading="lazy"
           decoding="async"
         />
-      </div>
-      <figcaption className="border-t border-tb-border px-3 py-2 text-[11px] text-tb-text-muted">
-        {frame.caption}
+      </button>
+      <figcaption className="flex items-center justify-between gap-2 border-t border-tb-border px-3 py-2 text-[11px] text-tb-text-muted">
+        <span>{frame.caption}</span>
+        <Link
+          href={frame.href}
+          className="shrink-0 font-medium text-tb-accent no-underline hover:underline"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {frame.routeLabel} →
+        </Link>
       </figcaption>
     </motion.figure>
   );

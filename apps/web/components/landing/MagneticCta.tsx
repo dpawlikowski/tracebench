@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useReducedMotion } from "@/lib/prefs";
 
-/** Desktop magnetic hover — max 8px pull. Off on touch / reduced-motion. */
+/** Desktop magnetic hover — max 8px pull. Press scale. Off on touch / reduced-motion. */
 export function MagneticCta({
   children,
   className,
@@ -21,6 +21,23 @@ export function MagneticCta({
 }) {
   const reduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
+  const pull = useRef({ x: 0, y: 0 });
+
+  const apply = useCallback(
+    (press = false) => {
+      const el = ref.current;
+      if (!el) return;
+      if (reduced) {
+        el.style.transform = press ? "scale(0.98)" : "scale(1)";
+        return;
+      }
+      const { x, y } = pull.current;
+      el.style.transform = press
+        ? `translate(${x}px, ${y}px) scale(0.98)`
+        : `translate(${x}px, ${y}px) scale(1)`;
+    },
+    [reduced],
+  );
 
   const onMove = useCallback(
     (e: MouseEvent) => {
@@ -32,20 +49,26 @@ export function MagneticCta({
       const dx = e.clientX - (r.left + r.width / 2);
       const dy = e.clientY - (r.top + r.height / 2);
       const max = Math.min(8, strength);
-      const nx = Math.max(-max, Math.min(max, (dx / r.width) * max * 2));
-      const ny = Math.max(-max, Math.min(max, (dy / r.height) * max * 2));
-      el.style.transform = `translate(${nx}px, ${ny}px)`;
+      pull.current = {
+        x: Math.max(-max, Math.min(max, (dx / r.width) * max * 2)),
+        y: Math.max(-max, Math.min(max, (dy / r.height) * max * 2)),
+      };
+      apply(false);
     },
-    [reduced, strength],
+    [reduced, strength, apply],
   );
 
   const onLeave = useCallback(() => {
-    if (ref.current) ref.current.style.transform = "translate(0, 0)";
-  }, []);
+    pull.current = { x: 0, y: 0 };
+    apply(false);
+  }, [apply]);
 
   const style: CSSProperties = {
-    transition: reduced ? undefined : "transform 120ms cubic-bezier(0.16,1,0.3,1)",
+    transition: reduced
+      ? "transform 80ms linear"
+      : "transform 120ms cubic-bezier(0.16,1,0.3,1)",
     display: "inline-block",
+    willChange: "transform",
   };
 
   return (
@@ -55,6 +78,11 @@ export function MagneticCta({
       style={style}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
+      onMouseDown={() => apply(true)}
+      onMouseUp={() => apply(false)}
+      onTouchStart={() => apply(true)}
+      onTouchEnd={() => apply(false)}
+      data-testid="magnetic-cta"
     >
       {children}
     </div>
