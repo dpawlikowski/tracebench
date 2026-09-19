@@ -313,8 +313,8 @@ button {
   inset: 0;
   z-index: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 20%, transparent 75%);
 }
@@ -324,7 +324,7 @@ button {
   position: absolute;
   inset: -20%;
   z-index: 0;
-  opacity: 0.02;
+  opacity: 0.015;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   background-size: 180px 180px;
   mix-blend-mode: overlay;
@@ -398,18 +398,7 @@ button {
   background: transparent;
 }
 
-/* Control Plane Assembly — CSS 3D */
-.tb-cpa-stage {
-  perspective: 1100px;
-  perspective-origin: 50% 40%;
-}
-.tb-cpa-scene {
-  transform-style: preserve-3d;
-  position: relative;
-}
-.tb-cpa-layer {
-  transform-style: preserve-3d;
-}
+/* Control Plane Assembly is flat 2D (motion/react) — no preserve-3d */
 
 @media (prefers-reduced-motion: reduce) {
   *,

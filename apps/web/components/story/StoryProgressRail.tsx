@@ -45,7 +45,7 @@ export function StoryProgressRail({ active, progress, reduced, onJump }: Props) 
             >
               <span
                 className={cn(
-                  "text-[10px] font-medium uppercase tracking-[0.12em] opacity-0 transition-opacity group-hover:opacity-100",
+                  "text-[10px] font-medium tracking-tight opacity-0 transition-opacity group-hover:opacity-100",
                   isActive && "opacity-100",
                 )}
               >

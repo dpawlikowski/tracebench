@@ -51,7 +51,7 @@ export default function LandingPage() {
             </p>
           </MaskReveal>
           <p
-            className="mb-8 font-mono text-[13px] text-tb-text-dim tabular-nums"
+            className="mb-8 text-[13px] text-tb-text-dim tabular-nums"
             data-testid="landing-microcopy"
           >
             1 awaiting · $0.22 burn · Jev escalated 2
@@ -152,7 +152,7 @@ export default function LandingPage() {
               </div>
               <div className="h-10 rounded-md border border-dashed border-tb-border bg-tb-accent-soft/50" />
               <div className="text-[12px] text-tb-text-muted">
-                Phosphor instrument chrome — dense ops, calm decisions.
+                Instrument chrome — dense ops, calm decisions.
               </div>
             </div>
           </div>

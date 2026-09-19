@@ -157,10 +157,10 @@ export function StoryExperience() {
         id="story-hero"
         className="relative flex min-h-[88vh] flex-col justify-center overflow-hidden px-6 pb-20 pt-16 md:px-10 lg:px-16"
       >
-        <div className="tb-grid-atmosphere opacity-70" aria-hidden />
+        <div className="tb-grid-atmosphere opacity-25" aria-hidden />
         <SectionReveal reduced={reduced} className="relative z-[1] mx-auto grid w-full max-w-[1100px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <p className="tb-section-label m-0 text-tb-accent">Business story · Tracebench</p>
+            <p className="tb-section-label m-0">Business story</p>
             <h1 className="tb-display mb-5 mt-4 max-w-[820px] text-[clamp(34px,5.5vw,58px)] text-tb-text">
               Ship agents that touch money — without flying blind.
             </h1>
@@ -179,7 +179,7 @@ export function StoryExperience() {
               <button
                 type="button"
                 onClick={() => jump("blind-spot")}
-                className="tb-interactive rounded-sm border border-tb-border bg-transparent px-4 py-2.5 text-sm font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
+                className="tb-interactive rounded-md border border-tb-border bg-transparent px-4 py-2.5 text-sm font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
               >
                 Read the story ↓
               </button>
@@ -211,7 +211,7 @@ export function StoryExperience() {
           <Card padding={20} className="border-tb-border/80 bg-tb-bg-elevated/60">
             <div className="mb-3 flex items-center gap-2">
               <Badge tone="danger">ungoverned</Badge>
-              <span className="text-[11px] uppercase tracking-wider text-tb-text-dim">
+              <span className="text-[11px] tracking-tight text-tb-text-dim">
                 without a plane
               </span>
             </div>
