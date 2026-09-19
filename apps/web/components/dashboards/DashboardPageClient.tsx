@@ -12,7 +12,7 @@ const DashboardBoard = dynamic(
         className="mx-auto max-w-[1280px] space-y-3 px-5 py-16"
         data-testid="dashboard-loading"
       >
-        <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-tb-text-dim">Loading boards…</p>
+        <p className="text-[13px] text-tb-text-dim">Loading boards…</p>
       </div>
     ),
   },

@@ -17,24 +17,24 @@ export function Panel({
   return (
     <section
       className={cn(
-        "flex min-h-0 flex-col rounded-md border border-tb-border bg-tb-bg-elevated shadow-none",
+        "flex min-h-0 flex-col rounded-lg border border-tb-border bg-tb-bg-elevated shadow-none",
         className,
       )}
       style={style}
     >
       {(title || action) && (
         <header
-          className="flex items-center justify-between gap-2 border-b border-tb-border px-3.5"
+          className="flex items-center justify-between gap-2 border-b border-tb-border px-4"
           style={{ paddingBlock: "var(--tb-panel-head-py, 0.625rem)" }}
         >
-          <h2 className="m-0 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-tb-text-dim">
+          <h2 className="m-0 text-[13px] font-medium tracking-tight text-tb-text-muted">
             {title}
           </h2>
           {action}
         </header>
       )}
       <div
-        className="min-h-0 flex-1 overflow-auto px-3.5"
+        className="min-h-0 flex-1 overflow-auto px-4"
         style={{ paddingBlock: "var(--tb-panel-pad, 1rem)" }}
       >
         {children}

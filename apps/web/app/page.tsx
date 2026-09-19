@@ -37,7 +37,7 @@ export default function LandingPage() {
       <section className="relative z-[1] mx-auto grid max-w-[1180px] gap-10 px-6 pb-16 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-12 lg:pt-20">
         <div>
           <MaskReveal>
-            <p className="tb-section-label m-0 text-tb-accent">Agent Ops Workbench</p>
+            <p className="tb-section-label m-0">Agent Ops Workbench</p>
           </MaskReveal>
           <MaskReveal delayMs={60}>
             <h1 className="tb-display mb-5 mt-4 max-w-[640px] text-[clamp(36px,5.5vw,64px)] text-tb-text">
@@ -87,9 +87,9 @@ export default function LandingPage() {
             {PROOF.map((p) => (
               <span
                 key={p.k}
-                className="inline-flex items-center gap-2 rounded-sm border border-tb-border bg-tb-bg-elevated px-2.5 py-1.5 font-mono text-[11px] text-tb-text-muted"
+                className="inline-flex items-center gap-2 rounded-md border border-tb-border bg-tb-bg-elevated px-2.5 py-1.5 text-[12px] text-tb-text-muted"
               >
-                <span className="text-tb-accent">{p.k}</span>
+                <span className="font-medium text-tb-text">{p.k}</span>
                 <span className="text-tb-text-dim">·</span>
                 <span>{p.v}</span>
               </span>
@@ -134,7 +134,7 @@ export default function LandingPage() {
               ].map((row) => (
                 <div
                   key={row.t}
-                  className="flex items-start gap-3 rounded-sm border border-tb-border bg-tb-bg-sunken px-3 py-2"
+                  className="flex items-start gap-3 rounded-md border border-tb-border bg-tb-bg-sunken px-3 py-2"
                 >
                   <Badge tone={row.t === "approval" ? "warning" : row.t === "tool" ? "accent" : "neutral"}>
                     {row.t}
@@ -144,13 +144,13 @@ export default function LandingPage() {
               ))}
             </div>
             <div className="space-y-3 p-4">
-              <div className="font-mono text-[11px] uppercase tracking-[0.08em] text-tb-text-dim">
+              <div className="text-[12px] font-medium tracking-tight text-tb-text-dim">
                 Cost / latency
               </div>
               <div className="font-mono text-[28px] font-semibold tracking-tight tabular-nums">
                 $0.22
               </div>
-              <div className="h-10 rounded-sm border border-dashed border-tb-border bg-tb-accent-soft/40" />
+              <div className="h-10 rounded-md border border-dashed border-tb-border bg-tb-accent-soft/50" />
               <div className="text-[12px] text-tb-text-muted">
                 Phosphor instrument chrome — dense ops, calm decisions.
               </div>
@@ -162,7 +162,7 @@ export default function LandingPage() {
       {/* Story teaser + CTA band */}
       <section className="relative z-[1] mx-auto max-w-[1180px] px-6 pb-24">
         <div
-          className="mb-8 rounded-md border border-tb-border bg-tb-bg-elevated p-5"
+          className="mb-8 rounded-lg border border-tb-border bg-tb-bg-elevated p-5"
           data-testid="landing-story-teaser"
         >
           <div className="mb-1 text-sm font-semibold tracking-tight text-tb-text">Why Tracebench</div>
@@ -176,7 +176,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="flex flex-col items-start justify-between gap-6 border border-tb-border bg-tb-bg-elevated p-6 sm:flex-row sm:items-center">
+        <div className="flex flex-col items-start justify-between gap-6 rounded-lg border border-tb-border bg-tb-bg-elevated p-6 sm:flex-row sm:items-center">
           <div>
             <p className="tb-section-label m-0">Start in Demo Mode</p>
             <h2 className="tb-display m-0 mt-2 text-[clamp(22px,3vw,32px)]">

@@ -2,7 +2,7 @@ import type { AgentRef, AgentRun } from "@tracebench/schemas";
 
 /** Stable palette — text + soft bg; never color-only (always pair with label). */
 const PALETTE = [
-  { fg: "#B8FF3D", bg: "rgba(184, 255, 61, 0.12)" },
+  { fg: "#B4F03C", bg: "rgba(180, 240, 60, 0.12)" },
   { fg: "#4ADE80", bg: "rgba(74, 222, 128, 0.15)" },
   { fg: "#FBBF24", bg: "rgba(251, 191, 36, 0.15)" },
   { fg: "#A1A1AA", bg: "rgba(161, 161, 170, 0.15)" },

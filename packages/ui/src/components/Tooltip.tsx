@@ -34,7 +34,7 @@ export function Tooltip({
           id={id}
           role="tooltip"
           className={cn(
-            "pointer-events-none absolute left-1/2 z-[50] w-max max-w-[280px] -translate-x-1/2 rounded-sm border border-tb-border-strong bg-tb-bg-elevated px-2 py-1 text-[11px] leading-snug text-tb-text shadow-none",
+            "pointer-events-none absolute left-1/2 z-[50] w-max max-w-[280px] -translate-x-1/2 rounded-md border border-tb-border-strong bg-tb-bg-elevated px-2.5 py-1.5 text-[12px] leading-snug text-tb-text shadow-[var(--tb-shadow-modal)]",
             side === "top" ? "bottom-[calc(100%+6px)]" : "top-[calc(100%+6px)]",
           )}
         >

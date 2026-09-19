@@ -27,7 +27,7 @@ const Sparkline = dynamic(
   },
 );
 
-const COLORS = ["#B8FF3D", "#4ADE80", "#FBBF24", "#FF5C5C", "#A1A1AA", "#A1A1AA"];
+const COLORS = ["#B4F03C", "#4ADE80", "#FBBF24", "#FF5C5C", "#A1A1AA", "#A1A1AA"];
 
 export function WidgetShell({
   id,
@@ -127,7 +127,7 @@ export function SparkKpiWidget({
   value,
   hint,
   series,
-  color = "#B8FF3D",
+  color = "#B4F03C",
   loading,
   href,
 }: {
@@ -165,17 +165,17 @@ export function ToolMixWidget({
         <BarChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
           <XAxis
             dataKey="name"
-            tick={{ fill: "#63636B", fontSize: 10 }}
+            tick={{ fill: "#71717A", fontSize: 10 }}
             interval={0}
             angle={-20}
             textAnchor="end"
             height={48}
           />
-          <YAxis tick={{ fill: "#63636B", fontSize: 10 }} width={28} allowDecimals={false} />
+          <YAxis tick={{ fill: "#71717A", fontSize: 10 }} width={28} allowDecimals={false} />
           <Tooltip
-            contentStyle={{ background: "#0E0E10", border: "1px solid rgba(255,255,255,0.12)", fontSize: 12 }}
+            contentStyle={{ background: "#111113", border: "1px solid rgba(255,255,255,0.12)", fontSize: 12 }}
           />
-          <Bar dataKey="count" fill="#B8FF3D" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="count" fill="#B4F03C" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </WidgetShell>

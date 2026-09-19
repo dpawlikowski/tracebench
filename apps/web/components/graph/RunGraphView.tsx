@@ -155,7 +155,7 @@ export function RunGraphView({
             <MiniMap
               nodeColor={(n) => {
                 const k = (n.data as GraphNodeData)?.kind;
-                if (k === "agent") return "#B8FF3D";
+                if (k === "agent") return "#B4F03C";
                 if (k === "event") return "#4ADE80";
                 return "#A1A1AA";
               }}
@@ -170,15 +170,15 @@ export function RunGraphView({
 
 function nodeStyle(kind: GraphNodeData["kind"]): React.CSSProperties {
   const base: React.CSSProperties = {
-    background: "#0E0E10",
-    color: "#F4F4F5",
+    background: "#111113",
+    color: "#FAFAFA",
     border: "1px solid rgba(255,255,255,0.12)",
     borderRadius: 4,
     padding: "8px 12px",
     fontSize: 12,
     minWidth: 140,
   };
-  if (kind === "agent") return { ...base, borderColor: "#B8FF3D" };
+  if (kind === "agent") return { ...base, borderColor: "#B4F03C" };
   if (kind === "event") return { ...base, borderColor: "#4ADE80", minWidth: 100 };
   return base;
 }
@@ -186,7 +186,7 @@ function nodeStyle(kind: GraphNodeData["kind"]): React.CSSProperties {
 function edgeStroke(kind: string): string {
   if (kind === "message") return "#4ADE80";
   if (kind === "await") return "#FBBF24";
-  if (kind === "join") return "#B8FF3D";
+  if (kind === "join") return "#B4F03C";
   if (kind === "spawn") return "#A1A1AA";
-  return "#63636B";
+  return "#71717A";
 }

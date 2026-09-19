@@ -28,7 +28,7 @@ export function AppToaster() {
       }}
       style={
         reduced
-          ? ({ ["--normal-bg" as string]: "#0E0E10" } as React.CSSProperties)
+          ? ({ ["--normal-bg" as string]: "#111113" } as React.CSSProperties)
           : undefined
       }
     />

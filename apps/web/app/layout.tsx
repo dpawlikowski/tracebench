@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 /** Inline before paint — density + dark bg to avoid flash. */
-const PREFS_BOOT = `(function(){try{var d=localStorage.getItem('tb.density');var n=localStorage.getItem('tb.navCollapsed');document.documentElement.dataset.density=d==='dense'?'dense':'comfortable';document.documentElement.dataset.nav=n==='1'?'collapsed':'expanded';document.documentElement.style.colorScheme='dark';document.documentElement.style.background='#070708';}catch(e){}})();`;
+const PREFS_BOOT = `(function(){try{var d=localStorage.getItem('tb.density');var n=localStorage.getItem('tb.navCollapsed');document.documentElement.dataset.density=d==='dense'?'dense':'comfortable';document.documentElement.dataset.nav=n==='1'?'collapsed':'expanded';document.documentElement.style.colorScheme='dark';document.documentElement.style.background='#09090b';}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <meta name="color-scheme" content="dark" />
-        <meta name="theme-color" content="#070708" />
+        <meta name="theme-color" content="#09090b" />
         <script dangerouslySetInnerHTML={{ __html: PREFS_BOOT }} />
       </head>
       <body

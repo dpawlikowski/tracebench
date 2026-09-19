@@ -67,7 +67,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <button
           type="button"
           onClick={toggleNav}
-          className="tb-interactive rounded-sm border border-tb-border px-2 py-1 text-[11px] text-tb-text-dim hover:text-tb-text"
+          className="tb-interactive rounded-md border border-tb-border px-2 py-1 text-[11px] text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text"
           aria-label={navCollapsed ? "Expand nav" : "Collapse nav"}
           title="Collapse nav"
         >
@@ -75,7 +75,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </button>
         <Link
           href="/"
-          className="shrink-0 font-semibold tracking-tight text-tb-text no-underline transition-colors duration-150 hover:text-tb-accent"
+          className="shrink-0 font-semibold tracking-tight text-tb-text no-underline transition-colors duration-150 hover:text-tb-text"
           data-tour="nav-overview"
         >
           Tracebench
@@ -106,9 +106,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                   if (item.href === "/evals") void prefetchEvals(queryClient);
                 }}
                 className={cn(
-                  "tb-interactive rounded-sm px-2.5 py-1 text-[13px] no-underline",
+                  "tb-interactive rounded-md px-2.5 py-1.5 text-[13px] no-underline",
                   active
-                    ? "bg-tb-bg-hover font-semibold text-tb-text shadow-[inset_0_-1px_0_0_var(--tb-accent)]"
+                    ? "bg-tb-bg-hover font-medium text-tb-text shadow-[inset_0_-2px_0_0_color-mix(in_srgb,var(--tb-accent)_70%,transparent)]"
                     : "text-tb-text-muted hover:bg-tb-bg-hover hover:text-tb-text",
                 )}
               >
@@ -133,7 +133,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             type="button"
             data-testid="density-toggle"
             onClick={() => setDensity(density === "dense" ? "comfortable" : "dense")}
-            className="tb-interactive rounded-sm border border-tb-border px-2 py-1 text-[11px] font-medium text-tb-text-muted hover:text-tb-text"
+            className="tb-interactive rounded-md border border-tb-border px-2 py-1 text-[11px] font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
             aria-pressed={density === "dense"}
             title="Toggle comfortable / dense"
           >
@@ -143,7 +143,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             type="button"
             data-testid="open-command-palette"
             onClick={() => openCommandPalette()}
-            className="tb-interactive hidden items-center gap-1 rounded-sm border border-tb-border px-2 py-1 font-mono text-[11px] text-tb-text-dim hover:text-tb-text sm:inline-flex"
+            className="tb-interactive hidden items-center gap-1 rounded-md border border-tb-border px-2 py-1 text-[11px] text-tb-text-dim hover:border-tb-border-strong hover:text-tb-text sm:inline-flex"
           >
             ⌘K
           </button>
@@ -160,13 +160,13 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-2">
           <span>Tracebench · Agent Ops Workbench</span>
           <nav className="flex flex-wrap gap-3" aria-label="Footer">
-            <Link href="/story" className="text-tb-text-muted no-underline hover:text-tb-accent">
+            <Link href="/story" className="text-tb-text-muted no-underline hover:text-tb-text">
               Why Tracebench
             </Link>
-            <Link href="/help/demo-mode" className="text-tb-text-muted no-underline hover:text-tb-accent">
+            <Link href="/help/demo-mode" className="text-tb-text-muted no-underline hover:text-tb-text">
               Demo Mode
             </Link>
-            <Link href="/architecture" className="text-tb-text-muted no-underline hover:text-tb-accent">
+            <Link href="/architecture" className="text-tb-text-muted no-underline hover:text-tb-text">
               Architecture
             </Link>
           </nav>

@@ -12,7 +12,7 @@ import { useReducedMotion } from "@/lib/prefs";
 export function Sparkline({
   series,
   label,
-  color = "#B8FF3D",
+  color = "#B4F03C",
   height = 48,
 }: {
   series: number[];

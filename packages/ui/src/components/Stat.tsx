@@ -12,8 +12,8 @@ export function Stat({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-0.5", className)}>
-      <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-tb-text-dim">
+    <div className={cn("flex flex-col gap-1", className)}>
+      <span className="text-[12px] font-medium tracking-tight text-tb-text-dim">
         {label}
       </span>
       <span className="font-mono text-[22px] font-semibold leading-none tracking-tight text-tb-text tabular-nums">

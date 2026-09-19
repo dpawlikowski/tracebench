@@ -95,7 +95,7 @@ export function PhosphorLattice({
 
       // faint links when assembled
       if (a > 0.35) {
-        ctx!.strokeStyle = `rgba(184,255,61,${0.06 * a})`;
+        ctx!.strokeStyle = `rgba(180,240,60,${0.06 * a})`;
         ctx!.lineWidth = 1;
         for (let i = 0; i < particles.length; i++) {
           const p = particles[i]!;
@@ -132,8 +132,8 @@ export function PhosphorLattice({
         }
         const glow = a > 0.7 && Math.hypot(p.x - p.tx, p.y - p.ty) < 2;
         ctx!.fillStyle = glow
-          ? "rgba(184,255,61,0.95)"
-          : `rgba(184,255,61,${0.35 + a * 0.45})`;
+          ? "rgba(180,240,60,0.95)"
+          : `rgba(180,240,60,${0.35 + a * 0.45})`;
         ctx!.beginPath();
         ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx!.fill();

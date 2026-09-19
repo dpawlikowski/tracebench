@@ -103,7 +103,7 @@ export function CommandPalette() {
     >
       <Command
         label="Command palette"
-        className="tb-modal-panel mx-auto w-full max-w-[520px] overflow-hidden rounded-md border border-tb-border-strong bg-tb-bg-elevated shadow-[var(--tb-shadow-modal)]"
+        className="tb-modal-panel mx-auto w-full max-w-[520px] overflow-hidden rounded-lg border border-tb-border-strong bg-tb-bg-elevated shadow-[var(--tb-shadow-modal)]"
         onClick={(e) => e.stopPropagation()}
         data-testid="command-palette"
       >
@@ -231,7 +231,7 @@ export function CommandPalette() {
         </Command.List>
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-tb-border px-3 py-2 text-[11px] text-tb-text-dim">
           <span>↑↓ navigate · ↵ select · Esc close · ⌘Enter approve in modal · R replay</span>
-          <kbd className="rounded-sm border border-tb-border bg-tb-bg px-1.5 py-0.5 font-mono text-[10px]">
+          <kbd className="rounded-md border border-tb-border bg-tb-bg px-1.5 py-0.5 font-mono text-[10px]">
             ⌘K
           </kbd>
         </div>
@@ -244,7 +244,7 @@ function Group({ heading, children }: { heading: string; children: React.ReactNo
   return (
     <Command.Group
       heading={heading}
-      className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-tb-text-dim"
+      className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[12px] [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:tracking-tight [&_[cmdk-group-heading]]:text-tb-text-dim"
     >
       {children}
     </Command.Group>
@@ -263,11 +263,11 @@ function Item({
   return (
     <Command.Item
       onSelect={onSelect}
-      className="flex cursor-pointer items-center justify-between gap-2 rounded-sm px-2 py-2 text-[13px] text-tb-text aria-selected:bg-tb-bg-hover data-[selected=true]:bg-tb-bg-hover"
+      className="flex cursor-pointer items-center justify-between gap-2 rounded-md px-2 py-2 text-[13px] text-tb-text aria-selected:bg-tb-bg-hover data-[selected=true]:bg-tb-bg-hover"
     >
       <span className="min-w-0 truncate">{children}</span>
       {hint && (
-        <kbd className="shrink-0 rounded-sm border border-tb-border bg-tb-bg px-1.5 py-0.5 font-mono text-[10px] text-tb-text-dim">
+        <kbd className="shrink-0 rounded-md border border-tb-border bg-tb-bg px-1.5 py-0.5 font-mono text-[10px] text-tb-text-dim">
           {hint}
         </kbd>
       )}

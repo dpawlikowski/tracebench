@@ -103,16 +103,16 @@ export function RunsList() {
             <table className="w-full border-collapse text-[13px]" data-testid="runs-table">
               <thead>
                 <tr className="text-left text-tb-text-dim">
-                  <th className="px-3 py-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="px-3 py-2 text-[12px] font-medium tracking-tight text-tb-text-dim">
                     Run
                   </th>
-                  <th className="hidden px-3 py-2 text-[11px] font-semibold uppercase tracking-wider sm:table-cell">
+                  <th className="hidden px-3 py-2 text-[12px] font-medium tracking-tight text-tb-text-dim sm:table-cell">
                     Status
                   </th>
-                  <th className="hidden px-3 py-2 text-[11px] font-semibold uppercase tracking-wider md:table-cell">
+                  <th className="hidden px-3 py-2 text-[12px] font-medium tracking-tight text-tb-text-dim md:table-cell">
                     Cost / latency
                   </th>
-                  <th className="hidden px-3 py-2 text-[11px] font-semibold uppercase tracking-wider lg:table-cell">
+                  <th className="hidden px-3 py-2 text-[12px] font-medium tracking-tight text-tb-text-dim lg:table-cell">
                     Created
                   </th>
                 </tr>
@@ -140,7 +140,7 @@ const RunRow = memo(function RunRow({ run }: { run: RunSummary }) {
 
   return (
     <tr
-      className="border-t border-tb-border transition-colors duration-150 hover:bg-tb-bg-hover/40"
+      className="border-t border-tb-border transition-colors duration-150 hover:bg-tb-bg-hover/60"
       data-tour={run.id === "run_live_approve" ? "run-live" : undefined}
     >
       <td className="px-3 align-top" style={{ paddingBlock: "var(--tb-row-py)" }}>

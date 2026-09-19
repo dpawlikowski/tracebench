@@ -3,18 +3,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/cn";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
+  "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium tracking-tight",
   {
     variants: {
       tone: {
-        neutral: "border-tb-border bg-tb-bg-hover text-tb-text-muted",
-        accent: "border-tb-accent bg-tb-accent-soft text-tb-accent",
-        success: "border-tb-success bg-tb-success-soft text-tb-success",
-        warning: "border-tb-warning bg-tb-warning-soft text-tb-warning",
-        danger: "border-tb-danger bg-tb-danger-soft text-tb-danger",
-        low: "border-risk-low bg-risk-low-soft text-risk-low",
-        medium: "border-risk-medium bg-risk-medium-soft text-risk-medium",
-        high: "border-risk-high bg-risk-high-soft text-risk-high",
+        neutral: "border-tb-border bg-tb-bg-hover/80 text-tb-text-muted",
+        accent: "border-tb-accent/30 bg-tb-accent-soft text-tb-accent",
+        success: "border-tb-success/35 bg-tb-success-soft text-tb-success",
+        warning: "border-tb-warning/35 bg-tb-warning-soft text-tb-warning",
+        danger: "border-tb-danger/35 bg-tb-danger-soft text-tb-danger",
+        low: "border-risk-low/30 bg-risk-low-soft text-risk-low",
+        medium: "border-risk-medium/35 bg-risk-medium-soft text-risk-medium",
+        high: "border-risk-high/35 bg-risk-high-soft text-risk-high",
       },
     },
     defaultVariants: {

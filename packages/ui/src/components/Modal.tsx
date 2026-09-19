@@ -120,7 +120,7 @@ export function Modal({
         data-testid="approval-modal"
         onClick={(e) => e.stopPropagation()}
         className={cn(
-          "tb-modal-panel w-[min(480px,100%)] rounded-md border bg-tb-bg-elevated p-5 shadow-[var(--tb-shadow-modal)]",
+          "tb-modal-panel w-[min(480px,100%)] rounded-lg border bg-tb-bg-elevated p-5 shadow-[var(--tb-shadow-modal)]",
           danger ? "border-risk-high/55" : "border-tb-border-strong",
         )}
       >
@@ -156,7 +156,7 @@ export function Modal({
             </Button>
           )}
         </div>
-        <p className="mb-0 mt-3 font-mono text-[11px] text-tb-text-dim">
+        <p className="mb-0 mt-3 text-[11px] text-tb-text-dim">
           Esc cancel · ⌘/Ctrl+Enter approve · Tab cycles
         </p>
       </div>

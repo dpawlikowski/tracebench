@@ -29,7 +29,7 @@ export function OpsPageClient() {
           Same port later wires OTLP export or Cloudflare agent tracing — no Inngest/Trigger.
         </p>
         {data?.kind && (
-          <p className="mt-2 font-mono text-[11px] text-tb-text-dim">
+          <p className="mt-2 text-[11px] text-tb-text-dim">
             OPS_TELEMETRY · {data.kind}
           </p>
         )}
@@ -50,7 +50,7 @@ export function OpsPageClient() {
             action={
               <button
                 type="button"
-                className="tb-interactive rounded-sm border border-tb-border px-3 py-1.5 text-[13px]"
+                className="tb-interactive rounded-md border border-tb-border px-3 py-1.5 text-[13px]"
                 onClick={() => void refetch()}
               >
                 Retry
@@ -65,7 +65,7 @@ export function OpsPageClient() {
           <div className="tb-table-wrap">
             <table className="w-full border-collapse text-left text-[13px]">
               <thead>
-                <tr className="border-b border-tb-border font-mono text-[10px] uppercase tracking-[0.08em] text-tb-text-dim">
+                <tr className="border-b border-tb-border text-[12px] font-medium tracking-tight text-tb-text-dim">
                   <th className="px-2 py-2 font-medium">Run</th>
                   <th className="px-2 py-2 font-medium">Status</th>
                   <th className="px-2 py-2 font-medium tabular-nums">Spans</th>
@@ -99,7 +99,7 @@ export function OpsPageClient() {
                           n > 0 ? (
                             <span
                               key={name}
-                              className="rounded-sm border border-tb-border bg-tb-bg-sunken px-1.5 py-0.5"
+                              className="rounded-md border border-tb-border bg-tb-bg-sunken px-1.5 py-0.5"
                             >
                               {name}:{n}
                             </span>

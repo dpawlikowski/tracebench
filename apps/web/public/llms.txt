@@ -4,7 +4,7 @@
 
 Portfolio Demo Mode (default): AGENT_TRANSPORT=fixture, JEV_ADAPTER=mock, EVAL_SCORER=mock-jev, OPS_TELEMETRY=fixture — ZERO API keys. No multi-tenant/auth.
 
-UI: Phosphor Instrument (near-black + #B8FF3D, Geist, hairlines, radius 2–6).
+UI: Phosphor Instrument (near-black + #B4F03C, Geist, hairlines, radius 4–8).
 Marketing: / + /story boutique rebuild; Control Plane Assembly (CSS 3D + optional Canvas lattice, no Three.js).
 
 Architecture: hexagonal lite, event-sourced domain, AgentTransport (fixture|cloudflare), JevAdapter, OpsTelemetry. UI observes; LLM agent loops in apps/agent-worker are not implemented yet (DO persist/HITL/SSE scaffold only).

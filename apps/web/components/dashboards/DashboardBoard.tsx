@@ -107,7 +107,7 @@ export function DashboardBoard() {
             value={formatUsd(metrics.totalCost)}
             hint={`${metrics.runCount} runs`}
             series={sparks.cost}
-            color="#B8FF3D"
+            color="#B4F03C"
             href="/runs"
           />
         );

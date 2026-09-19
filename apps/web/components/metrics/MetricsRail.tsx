@@ -45,7 +45,7 @@ export function MetricsRail({ run }: { run: AgentRun }) {
     >
       <div data-testid="metrics-rail" className="grid gap-4">
         <Stat label="Total cost" value={formatUsd(m.totalCostUsd)} />
-        <Sparkline series={cost} label="Cost burn" color="#B8FF3D" />
+        <Sparkline series={cost} label="Cost burn" color="#B4F03C" />
         <Stat label="Wall latency" value={formatMs(m.totalLatencyMs)} />
         <Sparkline series={latency} label="Latency accum" color="#4ADE80" />
         <Stat label="Tokens in / out" value={`${m.tokensIn} / ${m.tokensOut}`} />
