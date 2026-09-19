@@ -57,8 +57,11 @@ We also need a versioned realtime contract so SSE clients do not break when the 
 | Full CQRS + Redis/Kafka | Overkill for a zero-key portfolio demo. |
 | Unversioned SSE forever | Cheap now, tax later when heartbeats/errors appear. |
 
-## Follow-ups (not this ADR)
+## Follow-ups
 
-- Phase B: XState approval actor + TanStack Query stream hydration.
-- **Done (A+):** Cloudflare Agents `RunAgent` DO + `packages/agent-runtime` ports (`docs/cloudflare-agents.md`).
+- ✅ Phase B: XState approval actor + TanStack Query stream hydration.
+- ✅ Cloudflare Agents `RunAgent` DO + `packages/agent-runtime` ports (`docs/cloudflare-agents.md`) — scaffold persist/HITL/SSE; not LLM loops yet.
+- ✅ OpsTelemetry port (ADR 0004) + `/ops`.
 - Promote `scripts/check-boundaries.mjs` to `@nx/enforce-module-boundaries` when ESLint flat config lands.
+
+Docs map: [INDEX.md](../INDEX.md)

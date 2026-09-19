@@ -18,6 +18,13 @@ const preview: Preview = {
     },
     msw: {
       handlers,
+      // GitHub Pages project site lives under /tracebench/
+      serviceWorker: {
+        url:
+          (typeof process !== "undefined" && process.env.STORYBOOK_BASE_PATH
+            ? process.env.STORYBOOK_BASE_PATH.replace(/\/$/, "")
+            : "") + "/mockServiceWorker.js",
+      },
     },
     controls: {
       matchers: {

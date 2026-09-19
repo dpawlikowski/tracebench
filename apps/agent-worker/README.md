@@ -1,6 +1,12 @@
 # Tracebench agent-worker
 
+**As of 2026-09-20.** Docs map: [`docs/INDEX.md`](../../docs/INDEX.md).
+
 Cloudflare **Agents** (Durable Objects) runtime for Tracebench runs.
+
+**Honesty:** this is a **scaffold** for DO persist / HITL / SSE — **not** LLM agent loops yet. Real multi-LLM orchestration would live here later; the Next UI only observes via `AgentTransport`.
+
+Default product path stays **fixture Demo Mode** (`AGENT_TRANSPORT=fixture`) — no Cloudflare account or API keys required.
 
 - One `RunAgent` DO instance per `runId`
 - Domain events in DO **SQLite** (`domain_events`)
@@ -54,4 +60,4 @@ pnpm --filter @tracebench/agent-worker exec wrangler login   # once
 pnpm --filter @tracebench/agent-worker deploy
 ```
 
-See also: [`docs/cloudflare-agents.md`](../../docs/cloudflare-agents.md).
+See also: [`docs/cloudflare-agents.md`](../../docs/cloudflare-agents.md) · ports overview in [`ARCHITECTURE.md`](../../ARCHITECTURE.md).

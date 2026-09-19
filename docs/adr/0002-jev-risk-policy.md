@@ -1,16 +1,18 @@
 # ADR 0002 — Jev-backed tool risk policy (mock-first)
 
-## Status
-Accepted (2026-09-19)
+- **Status:** Accepted
+- **Date:** 2026-09-19
 
 ## Context
+
 Tracebench gates irreversible OpsAgent tools with HITL. Static catalog flags (`risk`, `irreversible`, `requiresApproval`) are necessary but blunt — they cannot express “this particular call looks routine” vs “ambiguous / elevated”.
 
 TypeSafe **Jev** (via AI SDK `experimental_evaluate`, model `typesafe-ai/jev`) returns typed `choice` / `boolean` / `score` answers with calibrated probabilities and, for choice/score, confidence in `providerMetadata.typesafe.confidence`.
 
-Live Jev requires Vercel AI Gateway OIDC (`vercel env pull`). The portfolio demo must stay **zero-key**.
+Live Jev requires Vercel AI Gateway OIDC (`vercel env pull`). Portfolio Demo Mode must stay **zero-key** (`JEV_ADAPTER=mock` default; no multi-tenant/auth).
 
 ## Decision
+
 1. Introduce a `JevAdapter` port with two adapters:
    - **`MockJevAdapter` (DEFAULT)** — deterministic answers from catalog risk; no network.
    - **`LiveJevAdapter` (optional)** — `experimental_evaluate({ model: "typesafe-ai/jev", ... })`; opt-in via `JEV_ADAPTER=live`.
@@ -19,6 +21,7 @@ Live Jev requires Vercel AI Gateway OIDC (`vercel env pull`). The portfolio demo
 4. Unit-test branching with `Experimental_EvaluationMockModelV4` from `ai/test` (no Gateway).
 
 ## Consequences
+
 - Demo / CI / Playwright stay keyless via mock adapter.
 - Live path is a thin swap behind the same port when OIDC is present.
 - Risk policy matrix UI (`/policy`) makes the gate visible for interview talk-track.

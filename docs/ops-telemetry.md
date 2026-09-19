@@ -1,6 +1,10 @@
 # Ops Telemetry
 
-Light, extensible ops tracing for Tracebench. **Not** Inngest/Trigger — orchestration stays on Cloudflare Agents; this port only **projects** GenAI-shaped spans for a read-only Ops Trace UI.
+**As of 2026-09-20.** Docs map: [INDEX.md](./INDEX.md).
+
+Light, extensible ops tracing for Tracebench. **Not** Inngest/Trigger — orchestration stays on Cloudflare Agents (when opted in); this port only **projects** GenAI-shaped spans for a read-only Ops Trace UI.
+
+**Default:** `OPS_TELEMETRY=fixture` (Demo Mode, zero keys). UI observes; it does not drive LLM loops.
 
 ## ADR
 
@@ -34,14 +38,14 @@ const rows = await tel.listRunSummaries();
 
 ## UI
 
-- Run detail → **Ops Trace** panel (mono labels, Phosphor)
+- Run detail → **Ops Trace** panel (mono labels, Phosphor Instrument)
 - `/ops` → recent fixture runs with span counts by name
 - APIs: `GET /api/ops/runs`, `GET /api/ops/runs/[id]`
 
 ## Extending later
 
 1. **OTLP** — implement `OtlpOpsTelemetry` that exports the same `OpsSpan` shape (no UI rewrite).
-2. **Cloudflare Agents** — wrap AI SDK / Workers Observability spans into `OpsSpan` and select via `OPS_TELEMETRY=cloudflare`.
+2. **Cloudflare Agents** — wrap AI SDK / Workers Observability spans into `OpsSpan` and select via `OPS_TELEMETRY=cloudflare` (after LLM loops exist in the worker).
 3. Keep domain event sourcing as source of truth; telemetry **projects**, it does not replace reduce/fold.
 
 No real OTLP exporter is required for the zero-key demo.

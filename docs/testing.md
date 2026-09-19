@@ -27,6 +27,8 @@
          └─────────────────────────────────────┘
 ```
 
+Demo Mode defaults for all CI-local paths: `AGENT_TRANSPORT=fixture`, `JEV_ADAPTER=mock`, `EVAL_SCORER=mock-jev`, `OPS_TELEMETRY=fixture`.
+
 ## Commands
 
 | Script | What |
@@ -40,7 +42,11 @@
 | `pnpm health` | `curl -i` readiness helper (dev server must be up) |
 | `pnpm demo:check` | Asserts Demo Mode (`fixture` + `mock`) healthy |
 | `pnpm storybook` | Storybook 10 UI on `:6006` |
+| `pnpm build:storybook` | Static Storybook build |
+| `pnpm pages:build` | Pages-ready Storybook (`STORYBOOK_BASE_PATH=/tracebench/`) |
 | `pnpm checkly:test` | Optional MaC dry-run (needs Checkly login) |
+
+Public Storybook: https://dpawlikowski.github.io/tracebench/ — see `docs/github-pages.md`. Full app is not on Pages.
 
 ## Contract tests (Zod + MSW)
 
@@ -69,15 +75,13 @@ pnpm exec stryker run --dryRunOnly  # smoke: instrument + initial tests only
 # HTML report → reports/mutation/mutation.html
 ```
 
-First ship: `thresholds.break: null`, checkers disabled, Vitest plugin loaded via `plugins: ['@stryker-mutator/vitest-runner']`.
-
-
 ## Storybook stack (2026)
 
 - **Storybook 10** + `@storybook/nextjs-vite`
 - **`@storybook/addon-vitest`** — browser mode = Playwright Chromium
-- **MSW 2** + `msw-storybook-addon` — shared handlers (`*/api/runs`, evals, health, approve)
+- **MSW 2** + `msw-storybook-addon` — shared handlers
 - **`@storybook/addon-a11y`**
+- UI kit: Phosphor Instrument tokens
 
 ### Gotchas
 
@@ -99,4 +103,4 @@ curl -i 'http://127.0.0.1:3000/api/health?force=down'   # → 503
 
 ## Checkly
 
-See [`__checks__/README.md`](../__checks__/README.md). Account optional; scaffold validates as TypeScript in-repo.
+See [`__checks__/README.md`](../__checks__/README.md). Account optional; scaffold validates as TypeScript in-repo. Point at Vercel after Stage E deploy.

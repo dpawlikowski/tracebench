@@ -2,24 +2,43 @@
 
 > Agent Ops Workbench — HITL control room for AI agents (Dominik Pawlikowski).
 
-Demo Mode (default): AGENT_TRANSPORT=fixture, JEV_ADAPTER=mock, EVAL_SCORER=mock-jev — ZERO API keys.
+Portfolio Demo Mode (default): AGENT_TRANSPORT=fixture, JEV_ADAPTER=mock, EVAL_SCORER=mock-jev, OPS_TELEMETRY=fixture — ZERO API keys. No multi-tenant/auth.
+
+UI: Phosphor Instrument (near-black + #B8FF3D, Geist, hairlines, radius 2–6).
+Marketing: / + /story boutique rebuild; Control Plane Assembly (CSS 3D + optional Canvas lattice, no Three.js).
+
+Architecture: hexagonal lite, event-sourced domain, AgentTransport (fixture|cloudflare), JevAdapter, OpsTelemetry. UI observes; LLM agent loops in apps/agent-worker are not implemented yet (DO persist/HITL/SSE scaffold only).
 
 ## Surfaces
 
-- / — Landing
+- / — Marketing landing + Demo Mode CTA
+- /story — Boutique scroll narrative
 - /runs — Seeded runs (incl. run_live_approve, run_pipeline_ops)
-- /runs/[id] — Timeline, HITL, audit, logs (A2A filter)
-- /runs/[id]/graph — Read-only xyflow observe graph
+- /runs/[id] — Timeline, HITL, audit, logs (A2A), Ops Trace panel
+- /runs/[id]/graph — Read-only xyflow observe graph (useChildRuns)
 - /evals — mock-jev release gate
-- /dashboards — Ops boards (localStorage layout)
+- /dashboards — Ops boards (localStorage layout; useRunsDetails)
+- /ops — Ops Trace fleet (fixture GenAI-shaped spans)
 - /policy — Jev risk matrix
 - /help — Hub + demo-mode + failure-gallery
+- /help/faq — FAQ screenshots
 - /architecture — Diagram + invariants
 - /api/health — Readiness; demoMode.kind=demo|hybrid|live; 503 on critical fail
 
+## Public
+
+- GitHub: https://github.com/dpawlikowski/tracebench (code on main)
+- Storybook Pages only: https://dpawlikowski.github.io/tracebench/
+- Full app: local pnpm dev or Vercel (Stage E — still pending)
+
 ## Docs
 
+- docs/INDEX.md — documentation map
 - docs/DEMO_SCRIPT.md — 90s click path
-- docs/PRODUCT_PLAN.md — roadmap
+- docs/PRODUCT_PLAN.md — roadmap / Stage A–E
+- docs/CASE_STUDY_DRAFT.md — site case study draft
+- docs/DESIGN_SYSTEM_V2.md — Phosphor Instrument
+- docs/MARKETING_MOTION_V2.md — marketing motion
+- docs/ops-telemetry.md — OpsTelemetry port
 - docs/testing.md — pyramid
-- docs/adr/ — events, Jev, multi-agent
+- docs/adr/ — events, Jev, multi-agent, OpsTelemetry
