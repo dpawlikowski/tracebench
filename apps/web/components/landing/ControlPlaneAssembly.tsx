@@ -38,28 +38,25 @@ export function ControlPlaneAssembly({ className, progress, compact }: Props) {
       setAuto(1);
       return;
     }
-    let raf = 0;
+    // Timer-driven assemble (not rAF): on some Windows Chrome profiles canvas rAF
+    // keeps running while React setState-from-rAF stalls — dots move, HITL stays at 0%.
     let cancelled = false;
-    const start = performance.now();
+    const timers: number[] = [];
+    const n = 8;
     const dur = 1200;
-    const tick = (now: number) => {
-      if (cancelled) return;
-      const t = Math.min(1, (now - start) / dur);
-      // ease-out cubic
-      const e = 1 - Math.pow(1 - t, 3);
-      setAuto(e);
-      if (t < 1) raf = requestAnimationFrame(tick);
-      else setAuto(1);
-    };
-    raf = requestAnimationFrame(tick);
-    // Hard guarantee: some Windows/Chrome modes throttle rAF hard and leave us mid-tween
-    const fallback = window.setTimeout(() => {
-      if (!cancelled) setAuto(1);
-    }, dur + 80);
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      const eased = 1 - Math.pow(1 - t, 3);
+      const delay = Math.round(t * dur);
+      timers.push(
+        window.setTimeout(() => {
+          if (!cancelled) setAuto(eased);
+        }, delay),
+      );
+    }
     return () => {
       cancelled = true;
-      cancelAnimationFrame(raf);
-      window.clearTimeout(fallback);
+      for (const id of timers) window.clearTimeout(id);
     };
   }, [progress, reduced]);
 
