@@ -12,7 +12,7 @@ Repo: https://github.com/dpawlikowski/tracebench
 
 ## What does *not* run on Pages
 
-The full Next app (Demo Mode APIs, SSE, HITL, Ops Trace) needs a Node host — use **Vercel** (Stage E — still pending) or local:
+The full Next app (Demo Mode APIs, SSE, HITL, Ops Trace) runs on **Vercel**: https://tracebench.vercel.app — or locally:
 
 ```bash
 pnpm build && pnpm start

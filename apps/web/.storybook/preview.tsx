@@ -18,12 +18,9 @@ const preview: Preview = {
     },
     msw: {
       handlers,
-      // GitHub Pages project site lives under /tracebench/
+      // Respect Storybook/Vite base (e.g. /tracebench/ on GitHub Pages)
       serviceWorker: {
-        url:
-          (typeof process !== "undefined" && process.env.STORYBOOK_BASE_PATH
-            ? process.env.STORYBOOK_BASE_PATH.replace(/\/$/, "")
-            : "") + "/mockServiceWorker.js",
+        url: `${import.meta.env.BASE_URL}mockServiceWorker.js`,
       },
     },
     controls: {

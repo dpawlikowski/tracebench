@@ -18,7 +18,7 @@ Senior FE portfolio showpiece for **Dominik Pawlikowski**.
 | Docs map | [docs/INDEX.md](./docs/INDEX.md) |
 | GitHub (`main`) | https://github.com/dpawlikowski/tracebench |
 | Storybook (Pages only) | https://dpawlikowski.github.io/tracebench/ |
-| Full Demo Mode app | Local `pnpm dev` · **Vercel still pending** (Stage E) |
+| Full Demo Mode app | https://tracebench.vercel.app |
 
 ---
 
@@ -172,7 +172,7 @@ API: `GET /api/runs`, `GET /api/runs/[id]`, `GET /api/runs/[id]/stream`, `POST /
 - Approval store is in-memory (fixture); worker DO SQLite is opt-in
 - Mutation break threshold deferred until a baseline score exists
 - Worker: DO persist / HITL / SSE scaffold — **not** LLM agent loops yet
-- **Stage E (partial):** GitHub + Pages Storybook shipped; **Vercel deploy still pending**; site case study + CI badges open
+- **Stage E (partial):** GitHub + Pages Storybook + **Vercel Demo Mode live** (https://tracebench.vercel.app); site case study on dpawlikowski.pl + CI badges still open
 
 ---
 

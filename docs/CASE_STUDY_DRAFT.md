@@ -67,7 +67,7 @@ Artifact: `docs/screenshots/demo-mode.gif` (also `apps/web/public/demo-mode.gif`
 |---------|--------|
 | GitHub `main` | https://github.com/dpawlikowski/tracebench |
 | Storybook (Pages) | https://dpawlikowski.github.io/tracebench/ |
-| Full app on Vercel | **Still pending** (Stage E) |
+| Full app on Vercel | https://tracebench.vercel.app |
 | This case study on dpawlikowski.pl | Draft — link both ways when live |
 
 ## Limitations
@@ -79,7 +79,7 @@ Artifact: `docs/screenshots/demo-mode.gif` (also `apps/web/public/demo-mode.gif`
 
 ## Next (Stage E remainder)
 
-Vercel Demo Mode URL · site case study both ways · CI badges. Checkly against prod after Vercel.
+Site case study both ways on dpawlikowski.pl · CI badges · Checkly against https://tracebench.vercel.app.
 
 ---
 
