@@ -8,8 +8,9 @@ export const metadata = {
 export default function ArchitecturePage() {
   return (
     <div className="mx-auto max-w-[800px] px-6 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
-      <h1 className="m-0 text-[22px] tracking-tight">Architecture</h1>
-      <p className="mt-2 text-tb-text-muted">
+      <p className="tb-section-label m-0 mb-2">System</p>
+      <h1 className="tb-title m-0">Architecture</h1>
+      <p className="tb-subtitle mt-2">
         Control plane for irreversible agent work — event log is truth; UI is a projection.
         ADRs:{" "}
         <Link href="/help/transports-health" className="text-tb-accent">
@@ -42,7 +43,7 @@ flowchart LR
   LJ[Live Jev] -. opt-in .-> C
 `}</pre>
 
-      <h2 className="mt-8 text-sm uppercase tracking-wider text-tb-text-muted">Invariants</h2>
+      <h2 className="tb-section-label mt-8">Invariants</h2>
       <ul className="mt-2 list-disc space-y-2 pl-5 text-[14px] text-tb-text">
         <li>Approvals are commands → events → reduce (never mutate UI-only state as source of truth).</li>
         <li>Multi-agent = nested AgentRuns + AgentMessage events; graph never invents edges.</li>

@@ -15,7 +15,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-lg border border-tb-border bg-tb-bg-elevated shadow-none",
+        "rounded-lg border border-tb-border bg-tb-bg-elevated shadow-none transition-[border-color,background-color] duration-150",
         className,
       )}
       style={{ padding, ...style }}

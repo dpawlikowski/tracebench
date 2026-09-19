@@ -60,7 +60,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <header
-        className="sticky top-0 z-40 flex items-center gap-3 border-b border-tb-border bg-tb-bg px-3"
+        className="sticky top-0 z-40 flex items-center gap-3 border-b border-tb-border/80 bg-tb-bg/90 px-3 backdrop-blur-[8px]"
         style={{ paddingBlock: "var(--tb-header-py, 0.625rem)" }}
         data-tour="app-header"
       >
@@ -106,10 +106,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                   if (item.href === "/evals") void prefetchEvals(queryClient);
                 }}
                 className={cn(
-                  "tb-interactive rounded-md px-2.5 py-1.5 text-[13px] no-underline",
+                  "tb-interactive relative rounded-md px-2.5 py-1.5 text-[13px] no-underline",
                   active
-                    ? "bg-tb-bg-hover font-medium text-tb-text shadow-[inset_0_-2px_0_0_color-mix(in_srgb,var(--tb-accent)_70%,transparent)]"
-                    : "text-tb-text-muted hover:bg-tb-bg-hover hover:text-tb-text",
+                    ? "bg-tb-bg-hover/80 font-medium text-tb-text after:absolute after:inset-x-2 after:bottom-0 after:h-[2px] after:rounded-full after:bg-tb-accent/80"
+                    : "text-tb-text-muted hover:bg-tb-bg-hover/60 hover:text-tb-text",
                 )}
               >
                 {navCollapsed ? item.short : item.label}
@@ -154,7 +154,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </header>
       <main className="flex-1">{children}</main>
       <footer
-        className="border-t border-tb-border px-4 py-3 text-[11px] text-tb-text-dim"
+        className="border-t border-tb-border/80 px-4 py-3.5 text-[11px] text-tb-text-dim"
         data-testid="app-footer"
       >
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-2">

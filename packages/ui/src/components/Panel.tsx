@@ -17,7 +17,7 @@ export function Panel({
   return (
     <section
       className={cn(
-        "flex min-h-0 flex-col rounded-lg border border-tb-border bg-tb-bg-elevated shadow-none",
+        "flex min-h-0 flex-col overflow-hidden rounded-lg border border-tb-border bg-tb-bg-elevated shadow-none",
         className,
       )}
       style={style}
@@ -27,7 +27,7 @@ export function Panel({
           className="flex items-center justify-between gap-2 border-b border-tb-border px-4"
           style={{ paddingBlock: "var(--tb-panel-head-py, 0.625rem)" }}
         >
-          <h2 className="m-0 text-[13px] font-medium tracking-tight text-tb-text-muted">
+          <h2 className="m-0 text-[12px] font-medium tracking-tight text-tb-text-dim">
             {title}
           </h2>
           {action}

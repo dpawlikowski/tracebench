@@ -33,3 +33,11 @@ Purposeful interactivity on `/` and `/story` (teach → preview → demo):
 - **Progress rail**: labeled chapter jumps with active chrome
 
 Sticky track height remains frame-count based (no empty scroll void).
+
+
+## Visual density pass (2026-09-20 cont.)
+
+- **Control Plane**: %-based diamond slots; compact-safe; scroll progress floored ≥82% assembled (never chaos desert); flat 2D only
+- **Story Start (`#story-cta`)**: journey recap + next-step cards + primary CTA (dense closing chapter)
+- **Story hero**: proof chips + secondary CTAs; denser editorial stack
+- **System**: page chrome utilities (`.tb-page`, `.tb-title`), selection/scrollbars, elevated Button/Panel/EmptyState/Stat; quieter AppShell active underline

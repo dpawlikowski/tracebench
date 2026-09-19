@@ -22,7 +22,7 @@ export function OpsPageClient() {
     >
       <div className="mb-5">
         <p className="tb-section-label m-0 mb-2">Telemetry</p>
-        <h1 className="m-0 text-[22px] tracking-tight">Ops Trace</h1>
+        <h1 className="tb-title m-0">Ops Trace</h1>
         <p className="mt-1.5 max-w-[640px] text-tb-text-muted">
           Read-only GenAI-shaped spans from{" "}
           <code className="font-mono text-[13px]">FixtureOpsTelemetry</code> (Demo Mode).

@@ -8,8 +8,9 @@ export default function HelpHubPage() {
     <div className="mx-auto max-w-[860px] px-6 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="m-0 text-[22px] tracking-tight">Help</h1>
-          <p className="mt-1.5 text-tb-text-muted">
+          <p className="tb-section-label m-0 mb-2">Guides</p>
+          <h1 className="tb-title m-0">Help</h1>
+          <p className="tb-subtitle mt-1.5">
             Short guides for the Agent Ops workbench. Prefer ⌘K to search articles or restart the
             product tour.
           </p>

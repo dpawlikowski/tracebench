@@ -220,7 +220,7 @@ export function StoryExperience() {
       {/* 1 · Hero */}
       <section
         id="story-hero"
-        className="relative flex min-h-[88vh] flex-col justify-center overflow-hidden px-6 pb-20 pt-16 md:px-10 lg:px-16"
+        className="relative flex min-h-[min(88vh,900px)] flex-col justify-center overflow-hidden px-6 pb-16 pt-14 md:px-10 lg:px-16"
       >
         <div className="tb-grid-atmosphere opacity-25" aria-hidden />
         <SectionReveal
@@ -228,15 +228,21 @@ export function StoryExperience() {
           className="relative z-[1] mx-auto grid w-full max-w-[1100px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center"
         >
           <div>
-            <p className="tb-section-label m-0">Business story</p>
-            <h1 className="tb-display mb-5 mt-4 max-w-[820px] text-[clamp(34px,5.5vw,58px)] text-tb-text">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <p className="tb-section-label m-0">Business story</p>
+              <Badge tone="accent">HITL · evals · audit</Badge>
+            </div>
+            <h1 className="tb-display mb-4 mt-2 max-w-[820px] text-[clamp(34px,5.5vw,58px)] text-tb-text">
               Ship agents that touch money — without flying blind.
             </h1>
-            <p className="mb-8 max-w-[560px] text-[16px] leading-relaxed text-tb-text-muted">
+            <p className="mb-3 max-w-[560px] text-[16px] leading-relaxed text-tb-text-muted">
               Tracebench is the HITL control plane for tool-calling agents: timeline, risk-tiered
               approvals, audit, cost, and eval gates. Chat is secondary. Governance is the product.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <p className="mb-6 text-[13px] text-tb-text-dim tabular-nums">
+              Demo Mode · zero API keys · risk-tiered gates · mock-jev release gate
+            </p>
+            <div className="mb-6 flex flex-wrap gap-3">
               <MagneticCta>
                 <Link href="/runs/run_live_approve" className="no-underline hover:no-underline">
                   <Button variant="primary" size="lg" data-testid="story-hero-demo">
@@ -247,10 +253,31 @@ export function StoryExperience() {
               <button
                 type="button"
                 onClick={() => jump("blind-spot")}
-                className="tb-interactive rounded-md border border-tb-border bg-transparent px-4 py-2.5 text-sm font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
+                className="tb-interactive rounded-md border border-tb-border bg-tb-bg-elevated px-4 py-2.5 text-sm font-medium text-tb-text-muted hover:border-tb-border-strong hover:text-tb-text"
               >
                 Read the story ↓
               </button>
+              <Link href="/evals" className="no-underline hover:no-underline">
+                <Button variant="ghost" size="lg">
+                  Eval gate
+                </Button>
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-2" aria-label="Proof">
+              {[
+                ["Timeline", "shape-of-run"],
+                ["HITL", "risk gates"],
+                ["Evals", "pre-ship"],
+              ].map(([k, v]) => (
+                <span
+                  key={k}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-tb-border/80 bg-tb-bg-elevated/70 px-2.5 py-1 text-[12px] text-tb-text-muted"
+                >
+                  <span className="font-medium text-tb-text">{k}</span>
+                  <span className="text-tb-text-dim">·</span>
+                  <span>{v}</span>
+                </span>
+              ))}
             </div>
           </div>
           <div>
@@ -735,7 +762,7 @@ export function StoryExperience() {
                 data-testid={card.testid}
                 className="group flex flex-col rounded-md border border-tb-border bg-tb-bg-elevated/80 p-4 text-left no-underline transition-colors hover:border-tb-border-strong hover:bg-tb-bg-elevated"
               >
-                <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-tb-text-dim">
+                <span className="text-[11px] font-medium tracking-tight text-tb-text-dim">
                   {card.kicker}
                 </span>
                 <span className="mt-2 text-[15px] font-semibold tracking-tight text-tb-text group-hover:text-tb-accent">

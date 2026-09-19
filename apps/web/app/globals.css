@@ -422,6 +422,108 @@ button {
   }
 }
 
+
+/* —— Type scale + page chrome —— */
+.tb-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+.tb-subtitle {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--tb-text-muted);
+}
+.tb-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--tb-text-dim);
+}
+.tb-page {
+  margin-inline: auto;
+  max-width: 1100px;
+  padding-inline: 1.5rem;
+  padding-bottom: 4rem;
+  padding-top: var(--tb-pad-y, 1rem);
+}
+.tb-page-header {
+  margin-bottom: 1.25rem;
+}
+.tb-page-header h1 {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+/* Selection + scrollbars */
+::selection {
+  background: color-mix(in srgb, var(--tb-accent) 28%, transparent);
+  color: var(--tb-text);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* Form controls */
+.tb-input,
+input.tb-input,
+textarea.tb-input,
+select.tb-input {
+  width: 100%;
+  border-radius: var(--tb-radius-md);
+  border: 1px solid var(--tb-border);
+  background: var(--tb-bg-sunken);
+  color: var(--tb-text);
+  padding: 0.5rem 0.75rem;
+  font-size: 13px;
+  font-family: inherit;
+  transition: border-color 120ms var(--tb-ease-out), background-color 120ms var(--tb-ease-out);
+}
+.tb-input:hover {
+  border-color: var(--tb-border-strong);
+}
+.tb-input:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--tb-accent) 70%, transparent);
+  outline-offset: 1px;
+  border-color: color-mix(in srgb, var(--tb-accent) 45%, var(--tb-border));
+}
+.tb-input::placeholder {
+  color: var(--tb-text-dim);
+}
+
+/* Chip / filter row */
+.tb-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Accent hairline divider */
+.tb-divider {
+  height: 1px;
+  background: var(--tb-border);
+  border: 0;
+}
+
 /* Dashboard board */
 .tb-dash-board .react-grid-item {
   overflow: hidden;

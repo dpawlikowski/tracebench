@@ -33,10 +33,11 @@ export function RunsList() {
   }, [runs, status]);
 
   return (
-    <div className="mx-auto max-w-[1100px] px-6 pb-16" style={{ paddingTop: "var(--tb-pad-y)" }}>
-      <div className="mb-5">
-        <h1 className="m-0 text-[22px] font-semibold tracking-tight">Agent runs</h1>
-        <p className="mt-1.5 text-tb-text-muted">
+    <div className="tb-page">
+      <div className="tb-page-header">
+        <p className="tb-section-label m-0 mb-2">Fleet</p>
+        <h1 className="tb-title">Agent runs</h1>
+        <p className="tb-subtitle mt-1.5">
           Seeded OpsAgent sessions — open any run to replay the timeline. Filter via URL for
           shareable recruiter links.
         </p>
